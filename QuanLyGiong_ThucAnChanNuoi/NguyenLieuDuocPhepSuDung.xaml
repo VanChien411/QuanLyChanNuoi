@@ -1,0 +1,82 @@
+﻿<Window x:Class="QuanLyGiong_ThucAnChanNuoi.NguyenLieuDuocPhepSuDung"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuanLyGiong_ThucAnChanNuoi"
+        mc:Ignorable="d"
+        WindowState="Maximized"
+        Title="NguyenLieuDuocPhepSuDung" Height="450" Width="800">
+    <Grid Margin="10">
+        <!-- Tiêu đề -->
+        <TextBlock Text="Quản lý danh mục nguyên liệu làm thức ăn chăn nuôi"
+            FontSize="20" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,0,0,20"/>
+
+        <!-- Layout chính -->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!-- Tìm kiếm -->
+                <RowDefinition Height="*"/>
+                <!-- DataGrid -->
+                <RowDefinition Height="Auto"/>
+                <!-- Buttons -->
+            </Grid.RowDefinitions>
+
+            <!-- Tìm kiếm -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <Grid Width="300" Margin="0,0,10,0">
+                    <!-- Placeholder -->
+                    <TextBlock x:Name="PlaceholderTextBlock" Text="Nhập từ khóa tìm kiếm..."
+            VerticalAlignment="Center" Foreground="Gray"
+            Margin="5,0,0,0" IsHitTestVisible="False"/>
+
+                    <!-- TextBox -->
+                    <TextBox x:Name="SearchTextBox"
+          VerticalAlignment="Center"
+          TextChanged="SearchTextBox_TextChanged"/>
+                </Grid>
+                <Button Content="Tìm kiếm" Width="100" Click="SearchButton_Click"/>
+            </StackPanel>
+
+            <!-- DataGrid -->
+            <DataGrid x:Name="DistrictDataGrid" AutoGenerateColumns="False" IsReadOnly="True"
+               Grid.Row="1" SelectionMode="Single" Margin="0,0,0,10">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Mã nguyên liệu" Binding="{Binding MaNguyenLieu}" Width="150"/>
+                    <DataGridTextColumn Header="Tên nguyên liệu" Binding="{Binding TenNguyenLieu}" Width="300"/>
+                    <DataGridTextColumn Header="Nhóm nguyên liệu" Binding="{Binding NhomNguyenLieu}" Width="200"/>
+                    <DataGridTextColumn Header="Ghi chú" Binding="{Binding GhiChu}" Width="300"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!-- Action Buttons -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2">
+                <!-- Form Input -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <StackPanel Orientation="Vertical" Margin="10">
+                        <TextBlock Text="Mã nguyên liệu:"/>
+                        <TextBox x:Name="DistrictNameTextBox" Width="100"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="10">
+                        <TextBlock Text="Tên nguyên liệu:"/>
+                        <TextBox x:Name="ProvinceTextBox" Width="200"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="10">
+                        <TextBlock Text="Nhóm nguyên liệu:"/>
+                        <TextBox x:Name="PostalCodeTextBox" Width="150"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="10">
+                        <TextBlock Text="Ghi chú:"/>
+                        <TextBox x:Name="PostalCodeTextBox1" Width="150"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="Thêm mới" Width="100" Margin="10" Click="AddDistrictButton_Click"/>
+                    <Button Content="Sửa" Width="100" Margin="10" Click="EditDistrictButton_Click"/>
+                    <Button Content="Xóa" Width="100" Margin="10" Click="DeleteDistrictButton_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

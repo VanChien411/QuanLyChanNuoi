@@ -1,0 +1,190 @@
+﻿<Window x:Class="QuanLyGiong_ThucAnChanNuoi.UserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuanLyGiong_ThucAnChanNuoi"
+        mc:Ignorable="d"
+        WindowState="Maximized"
+        Title="UserWindow" Height="450" Width="800">
+    <Grid>
+        <TabControl>
+            <!-- Tab 1: Quản lý tài khoản cá nhân -->
+ 
+
+            <!-- Tab 2: Tra cứu dữ liệu -->
+            <TabItem Header="Tra cứu dữ liệu">
+                <TabControl>
+                    <!-- Sub-tab: Tra cứu giống vật nuôi -->
+                    <TabItem Header="Giống vật nuôi">
+                        <Grid Margin="10">
+                            <Grid.ColumnDefinitions>
+                                <!-- Phần bên trái -->
+                                <ColumnDefinition Width="2*"/>
+                                <!-- Phần bên phải -->
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Phần bên trái -->
+                            <Border Grid.Column="0" Background="White" CornerRadius="10" BorderBrush="#E0E0E0" BorderThickness="1" Padding="15" Margin="5">
+                                <StackPanel>
+                                    <TextBlock Text="Tra cứu thông tin" FontSize="20" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,20"/>
+
+                                    <!-- Thanh tìm kiếm -->
+                                    <DockPanel Margin="0,0,0,10">
+                                        <Grid>
+                                            <TextBox x:Name="SearchTextBox" Width="200" Height="30" Padding="5" VerticalAlignment="Center"
+                                                     DockPanel.Dock="Left" TextChanged="SearchTextBox_TextChanged" />
+                                            <TextBlock x:Name="PlaceholderText" Text="Nhập từ khóa tìm kiếm" Foreground="Gray"
+                                                     VerticalAlignment="Center" Margin="5,0,0,0" IsHitTestVisible="False"
+                                                     HorizontalAlignment="Left" Visibility="Visible"/>
+                                        </Grid>
+                                        <Button Content="Tìm kiếm" Width="100" Height="30" Margin="5,0,0,0" Click="SearchButton_Click"/>
+                                    </DockPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Phần bên phải -->
+                            <Border Grid.Column="1" Background="White" CornerRadius="10" BorderBrush="#E0E0E0" BorderThickness="1" Padding="15" Margin="5">
+                                <StackPanel>
+                                    <TextBlock Text="Kết quả tìm kiếm" FontSize="20" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,20"/>
+
+                                    <!-- Hiển thị thông tin dưới dạng bảng -->
+                                    <DataGrid x:Name="ResultsDataGrid" AutoGenerateColumns="False" IsReadOnly="True" Height="300"
+                      HeadersVisibility="Column" VerticalGridLinesBrush="#E0E0E0" AlternatingRowBackground="#F7F7F7">
+                                        <DataGrid.Columns>
+                                            <!-- Cột ID  THEM CO SO SAN XUAT, KHAO NGHIEM -->
+                                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                                            <!-- Cột Tên -->
+                                            <DataGridTextColumn Header="Tên" Binding="{Binding Name}" Width="150"/>
+                                            <!-- Cột Trạng thái -->
+                                            <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="100"/>
+
+                                            <DataGridTextColumn Header="Cơ sở sản xuất" Binding="{Binding Status}" Width="200"/>
+
+                                            <DataGridTextColumn Header="Cơ sở sản khảo nghiệm" Binding="{Binding Status}" Width="Auto"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                    </TabItem>
+
+                    <!-- Sub-tab: Tra cứu nguồn gen giống vật nuôi , COW SO, CA NHAN, THU THAP, BAO TON, KHAI THAC -->
+                    <TabItem Header="Nguồn gen giống vật nuôi">
+                        <Grid Margin="10">
+                            <Grid.ColumnDefinitions>
+                                <!-- Phần bên trái -->
+                                <ColumnDefinition Width="2*"/>
+                                <!-- Phần bên phải -->
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Phần bên trái -->
+                            <Border Grid.Column="0" Background="White" CornerRadius="10" BorderBrush="#E0E0E0" BorderThickness="1" Padding="15" Margin="5">
+                                <StackPanel>
+                                    <TextBlock Text="Tra cứu thông tin" FontSize="20" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,20"/>
+
+                                    <!-- Thanh tìm kiếm -->
+                                    <DockPanel Margin="0,0,0,10">
+                                        <Grid>
+                                            <TextBox x:Name="SearchTextBox1" Width="200" Height="30" Padding="5" VerticalAlignment="Center"
+                               DockPanel.Dock="Left" TextChanged="SearchTextBox_TextChanged" />
+                                            <TextBlock x:Name="PlaceholderText1" Text="Nhập từ khóa tìm kiếm" Foreground="Gray"
+                               VerticalAlignment="Center" Margin="5,0,0,0" IsHitTestVisible="False"
+                               HorizontalAlignment="Left" Visibility="Visible"/>
+                                        </Grid>
+                                        <Button Content="Tìm kiếm" Width="100" Height="30" Margin="5,0,0,0" Click="SearchButton_Click"/>
+                                    </DockPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Phần bên phải -->
+                            <Border Grid.Column="1" Background="White" CornerRadius="10" BorderBrush="#E0E0E0" BorderThickness="1" Padding="15" Margin="5">
+                                <StackPanel>
+                                    <TextBlock Text="Kết quả tìm kiếm" FontSize="20" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,20"/>
+
+                                    <!-- Hiển thị thông tin dưới dạng bảng -->
+                                    <DataGrid x:Name="ResultsDataGrid1" AutoGenerateColumns="False" IsReadOnly="True" Height="300"
+HeadersVisibility="Column" VerticalGridLinesBrush="#E0E0E0" AlternatingRowBackground="#F7F7F7">
+                                        <DataGrid.Columns>
+                                            <!-- Cột ID  THEM CO SO SAN XUAT, KHAO NGHIEM -->
+                                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                                            <!-- Cột Tên -->
+                                            <DataGridTextColumn Header="Tên" Binding="{Binding Name}" Width="150"/>
+                                            <!-- Cột Trạng thái -->
+                                            <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="100"/>
+
+                                            <DataGridTextColumn Header="Cơ sở sản xuất" Binding="{Binding Status}" Width="200"/>
+
+                                            <DataGridTextColumn Header="Cơ sở sản khảo nghiệm" Binding="{Binding Status}" Width="Auto"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </TabItem>
+
+                    <!-- Sub-tab: Tra cứu thức ăn chăn nuôi   CO SO SAN XUAT , MUA BAN, KHAO NGHIEM -->
+                    <TabItem Header="Thức ăn chăn nuôi">
+                       
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <!-- Phần bên trái -->
+                                    <ColumnDefinition Width="3*"/>
+                                    <!-- Phần bên phải -->
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Phần bên trái -->
+                            <Border Grid.Column="0" Background="White" CornerRadius="10" BorderBrush="#E0E0E0" BorderThickness="1" Padding="15" Margin="5">
+                                <StackPanel>
+                                    <TextBlock Text="Tra cứu thông tin" FontSize="20" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,20"/>
+
+                                    <!-- Thanh tìm kiếm -->
+                                    <DockPanel Margin="0,0,0,10">
+                                        <Grid>
+                                            <TextBox x:Name="SearchTextBox2" Width="200" Height="30" Padding="5" VerticalAlignment="Center"
+                          DockPanel.Dock="Left" TextChanged="SearchTextBox_TextChanged" />
+                                            <TextBlock x:Name="PlaceholderText2" Text="Nhập từ khóa tìm kiếm" Foreground="Gray"
+                          VerticalAlignment="Center" Margin="5,0,0,0" IsHitTestVisible="False"
+                          HorizontalAlignment="Left" Visibility="Visible"/>
+                                        </Grid>
+                                        <Button Content="Tìm kiếm" Width="100" Height="30" Margin="5,0,0,0" Click="SearchButton_Click"/>
+                                    </DockPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Phần bên phải -->
+                                <Border Grid.Column="1" Background="White" CornerRadius="10" BorderBrush="#E0E0E0" BorderThickness="1" Padding="15" Margin="5">
+                                    <StackPanel>
+                                        <TextBlock Text="Danh sách thông tin" FontSize="20" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,20"/>
+                                    <!-- Hiển thị thông tin dưới dạng bảng -->
+                                    <DataGrid x:Name="ResultsDataGrid2" AutoGenerateColumns="False" IsReadOnly="True" Height="300"
+     HeadersVisibility="Column" VerticalGridLinesBrush="#E0E0E0" AlternatingRowBackground="#F7F7F7">
+                                        <DataGrid.Columns>
+                                            <!-- Cột ID -->
+                                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
+                                            <!-- Cột Tên -->
+                                            <DataGridTextColumn Header="Tên" Binding="{Binding Name}" Width="*"/>
+                                            <!-- Cột Trạng thái -->
+                                            <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="Auto"/>
+                                            <DataGridTextColumn Header="Cơ sở sản xuất" Binding="{Binding SX}" Width="Auto"/>
+                                            <DataGridTextColumn Header="Mua Bán" Binding="{Binding MB}" Width="Auto"/>
+                                            <DataGridTextColumn Header="Khảo nghiệm" Binding="{Binding KN}" Width="Auto"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </StackPanel>
+                                </Border>
+                            </Grid>
+                        
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+
+            <!-- Tab 3: HOA CHAT , SAN PHAM SINH HOC. -->
+           
+        </TabControl>
+    </Grid>
+</Window>

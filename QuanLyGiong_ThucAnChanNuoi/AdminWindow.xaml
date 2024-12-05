@@ -1,0 +1,78 @@
+﻿<Window x:Class="QuanLyGiong_ThucAnChanNuoi.AdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuanLyGiong_ThucAnChanNuoi"
+        mc:Ignorable="d"
+        WindowState="Maximized"
+        Title="AdminWindow" Height="450" Width="800">
+    <Grid>
+        <TabControl>
+            <!-- Quản trị hệ thống -->
+            <TabItem Header="Quản trị hệ thống">
+                <TabControl>
+                    <!-- Quản lý đơn vị hành chính -->
+                    <TabItem Header="Quản lý đơn vị hành chính">
+                        <StackPanel Margin="10">
+                            
+                            <Button Content="Quản lý danh mục đơn vị hành chính cấp huyện" Width="500" Height="30" Margin="0,10,0,5" Click="Button_Click"/>
+                            <Button Content="Quản lý danh mục đơn vị hành chính cấp xã" Width="500" Height="30" Margin="0,5" Click="Button_Click_4"/>
+                        </StackPanel>
+                    </TabItem>
+
+                    <!-- Quản lý người dùng và phân quyền -->
+                    <TabItem Header="Quản lý người dùng và phân quyền">
+                        <StackPanel Margin="10">
+
+                            <Button Content="Phân quyền cho người dùng" Width="300" Height="30" Click="Button_Click_6"/>
+                            <Button Content="Quản lý người dùng" Width="300" Height="30" Margin="0,10,0,5" Click="Button_Click_5"/>
+                        </StackPanel>
+                    </TabItem>
+
+                    <!-- Quản lý hệ thống và bảo mật -->
+                    <TabItem Header="Quản lý hệ thống và bảo mật">
+                        <StackPanel Margin="10">
+                            
+                          
+                            <Button Content="Quản lý lịch sử truy cập" Width="300" Height="30" Margin="0,5" Click="Button_Click_7"/>
+                           
+                            <Button Content="Quản lý lịch sử tác động hệ thống" Width="300" Height="30" Margin="0,5" Click="Button_Click_8"/>
+                            
+                        </StackPanel>
+                    </TabItem>
+
+                    <!-- Báo cáo - Thống kê -->
+                    <TabItem Header="Báo cáo - Thống kê">
+                        <StackPanel Margin="10">
+                            <TextBlock Text="Báo cáo - Thống kê" FontSize="16" FontWeight="Bold"/>
+                            <Button Content="Báo cáo - thống kê người dùng" Width="300" Height="30" Margin="0,10,0,5"/>
+                            <Button Content="Báo cáo - thống kê lịch sử truy cập" Width="300" Height="30" Margin="0,5"/>
+                           
+                        </StackPanel>
+                    </TabItem>
+
+                    <!-- Quản lý thông tin tài khoản -->
+                    <TabItem Header="Quản lý thông tin tài khoản">
+                        <StackPanel Margin="10">
+                            <TextBlock Text="Quản lý Thông tin Tài khoản" FontSize="16" FontWeight="Bold"/>
+                            <Button Content="Quản lý thông tin tài khoản" Width="300" Height="30" Margin="0,10,0,5"/>
+                            <Button Content="Đăng xuất khỏi hệ thống" Width="300" Height="30" Margin="0,5"/>
+                        </StackPanel>
+                    </TabItem>
+
+                    <!-- Quản lý hướng dẫn sử dụng -->
+                    <TabItem Header="Quản lý hướng dẫn sử dụng">
+                        <StackPanel Margin="10">
+                            <TextBlock Text="Quản lý Hướng dẫn Sử dụng" FontSize="16" FontWeight="Bold"/>
+                            <Button Content="Cập nhật hướng dẫn sử dụng" Width="300" Height="30" Margin="0,10,0,5"/>
+                        </StackPanel>
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+
+            <!-- Quản lý cơ sở dữ liệu về chăn nuôi ///////////Xóa -->
+           
+        </TabControl>
+    </Grid>
+</Window>
