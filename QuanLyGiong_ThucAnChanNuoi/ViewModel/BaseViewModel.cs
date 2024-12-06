@@ -22,7 +22,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
     {
         private readonly Predicate<T> _canExecute;
         private readonly Action<T> _execute;
-
+     
         public RelayCommand(Predicate<T> canExecute, Action<T> execute)
         {
             if (execute == null)

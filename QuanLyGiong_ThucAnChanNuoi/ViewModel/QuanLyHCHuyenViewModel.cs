@@ -5,7 +5,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-
+using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 
@@ -13,13 +14,38 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
 {
     public  class QuanLyHCHuyenViewModel: INotifyPropertyChanged
     {
+        private int _idTinh = 1;
+        private int _idHuyen = 2;
+
         private string _newTen;
         private int _newTrucThuoc;
         private string _newMaBuuDien;
+        private string _newTinh;
 
+        private string _textComboBox;
+        private DonViHc _selectedItem;
         public ObservableCollection<DonViHc> DonViHcs { get; set; } = new ObservableCollection<DonViHc>();
+        public ObservableCollection<DonViHc> Tinhs { get; set; } = new ObservableCollection<DonViHc>();
 
-
+   
+        public string Text
+        {
+            get => _textComboBox;
+            set
+            {
+                _textComboBox = value;
+                OnPropertyChanged(nameof(Text)); // Notify UI to update binding
+            }
+        }
+        public DonViHc SelectedItem
+        {
+            get => _selectedItem;
+            set
+            {
+                _selectedItem = value;
+                OnPropertyChanged(nameof(SelectedItem));
+            }
+        }
         public string NewTen
         {
             get => _newTen;
@@ -48,19 +74,29 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 OnPropertyChanged(nameof(NewMaBuuDien));
             }
         }
-        public ICommand AddProductCommand { get; }
-
+        public string NewTinh
+        {
+            get => _newTinh;
+            set
+            {
+                _newTinh = value;
+                OnPropertyChanged(nameof(NewTinh));
+            }
+        }
+        public ICommand AddItemCommand { get; }
+        public ICommand SelectionChangedCommand { get; }
         public QuanLyHCHuyenViewModel()
         {
             Initialize();
-            AddProductCommand = new RelayCommand(AddProduct);
+            AddItemCommand = new RelayCommand(AddItem);
+            SelectionChangedCommand = new RelayCommandT<object>(OnSelectionChanged);
         }
-        private  void Initialize()
+        private void Initialize()
         {
             try
             {
                 // EnsureDatabaseCreated();
-                 Load();
+                LoadAsync();
             }
             catch (Exception ex)
             {
@@ -79,14 +115,19 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                  db.Database.EnsureCreated();
             }
         }
-        private  void Load()
+        private void LoadAsync()
         {
             try
             {
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
-                    var donViHcs =  db.DonViHcs.ToList();
+                    // Dùng AsNoTracking nếu chỉ đọc
+                    var donViHcs = db.DonViHcs.AsNoTracking().ToList();
                     DonViHcs = new ObservableCollection<DonViHc>(donViHcs);
+
+                    //CapHcId == 1 la thanh pho
+                    var tinhs =  db.DonViHcs.AsNoTracking().Where(x => x.CapHcId == _idTinh).ToList();
+                    Tinhs = new ObservableCollection<DonViHc>(tinhs);
                 }
             }
             catch (Exception ex)
@@ -95,21 +136,38 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             }
         }
 
-        private  void AddProduct()
+        private void AddItem()
         {
             try
             {
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
-                   //var donViHc = new DonViHc { Ten = NewTen, }
-                   // db.Products.Add(product);
-                   //  db.SaveChanges();
+                    int idTrucThuoc = -1;
+                    if(SelectedItem != null)
+                    {
+                        idTrucThuoc = SelectedItem.Id;
+                    }
+                    else if ( string.IsNullOrEmpty(_textComboBox) != true)
+                    {
+                        var newTrucThuoc = new DonViHc { Ten = _textComboBox, CapHcId = _idTinh };
+                        db.AddAsync(newTrucThuoc);
+                        db.SaveChangesAsync();
 
-                   // Products.Add(product);
+                        idTrucThuoc = newTrucThuoc.Id;
+                    }
+                    if(idTrucThuoc != -1 && !string.IsNullOrEmpty(NewTen))
+                    {
+                        var donViHc = new DonViHc { Ten = NewTen, TrucThuoc = idTrucThuoc, CapHcId = _idHuyen, MaBuuDien = NewMaBuuDien };
+                        db.AddAsync(donViHc);
+                        db.SaveChangesAsync();
 
-                   // // Clear inputs
-                   // NewProductName = string.Empty;
-                   // NewProductPrice = 0;
+                        DonViHcs.Add(donViHc);
+                        NewTen = string.Empty;
+                        Text = string.Empty;
+                        NewMaBuuDien = string.Empty;
+               
+                    }
+
                 }
             }
             catch (Exception ex)
@@ -117,7 +175,31 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 Console.WriteLine($"Lỗi khi thêm: {ex.Message}");
             }
         }
-
+        // Hàm xử lý sự kiện khi selection thay đổi
+        private void OnSelectionChanged(object selectedItem)
+        {
+            // Xử lý logic khi người dùng thay đổi lựa chọn
+            if (selectedItem != null)
+            {
+                // Ví dụ, in ra giá trị của item được chọn
+                Console.WriteLine($"Item selected: {selectedItem}");
+            }
+        }
+        private void myComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //if (myComboBox.SelectedItem != null)
+            //{
+            //    // Lấy giá trị của item được chọn
+            //    string selectedValue = (myComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+            //    MessageBox.Show($"Selected: {selectedValue}");
+            //}
+            //else
+            //{
+            //    // Lấy giá trị do người dùng nhập
+            //    string enteredValue = myComboBox.Text;
+            //    MessageBox.Show($"Entered: {enteredValue}");
+            //}
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)

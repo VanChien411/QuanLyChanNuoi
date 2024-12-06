@@ -77,6 +77,8 @@ namespace QuanLyGiong_ThucAnChanNuoi
         {
             MessageBox.Show("Xóa đơn vị hành chính thành công!");
         }
+
+       
     }
 
     // Định nghĩa lớp District
