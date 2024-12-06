@@ -4,13 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using QuanLyGiong_ThucAnChanNuoi.ViewModel;
 
 namespace QuanLyGiong_ThucAnChanNuoi
 {
@@ -22,12 +16,15 @@ namespace QuanLyGiong_ThucAnChanNuoi
         public QuanLyDonViHanhChinhCapHuyen()
         {
             InitializeComponent();
-            LoadData();
+            //LoadData();
+            DataContext = new QuanLyHCHuyenViewModel();
+
         }
 
         // Tải dữ liệu mẫu
         private void LoadData()
         {
+            
             _districts = new List<District>
             {
                 new District { Id = 1, Name = "Huyện A", Province = "Tỉnh X" },

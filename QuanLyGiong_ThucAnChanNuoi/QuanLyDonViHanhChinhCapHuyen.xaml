@@ -40,12 +40,13 @@
             </StackPanel>
 
             <!-- DataGrid -->
-            <DataGrid x:Name="DistrictDataGrid" AutoGenerateColumns="False" IsReadOnly="True"
+            <DataGrid x:Name="DistrictDataGrid" ItemsSource="{Binding DonViHcs}" AutoGenerateColumns="False" IsReadOnly="True"
                       Grid.Row="1" SelectionMode="Single" Margin="0,0,0,10">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="100"/>
-                    <DataGridTextColumn Header="Tên Huyện" Binding="{Binding Name}" Width="200"/>
-                    <DataGridTextColumn Header="Tỉnh/Thành phố" Binding="{Binding Province}" Width="200"/>
+                    <DataGridTextColumn Header="Tên Huyện" Binding="{Binding Ten}" Width="200"/>
+                    <DataGridTextColumn Header="Tỉnh/Thành phố" Binding="{Binding Ten}" Width="200"/>
+                    <DataGridTextColumn Header="Mã bưu điện" Binding="{Binding MaBuuDien}" Width="200"/>
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -59,7 +60,16 @@
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="10">
                         <TextBlock Text="Tỉnh/Thành phố:"/>
-                        <TextBox x:Name="ProvinceTextBox" Width="200"/>
+                        <ComboBox x:Name="ProvinceComboBox" 
+                              IsEditable="True" 
+                              Width="200" 
+                              Height="25" 
+                              VerticalAlignment="Center">           
+                            <ComboBoxItem Content="Option 1" />
+                            <ComboBoxItem Content="Option 2" />
+                            <ComboBoxItem Content="Option 3" />
+                        </ComboBox>
+                       
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="10">
                         <TextBlock Text="Mã bưu điện:"/>

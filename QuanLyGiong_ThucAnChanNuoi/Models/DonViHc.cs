@@ -18,7 +18,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
         [Required]
         [StringLength(50)]
         public string Ten { get; set; }
-
+        public string MaBuuDien { get; set; }
         public int Cap { get; set; }
 
         public int? TrucThuoc { get; set; }

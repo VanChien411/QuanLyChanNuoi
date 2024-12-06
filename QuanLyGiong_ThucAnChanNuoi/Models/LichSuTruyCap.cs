@@ -10,9 +10,12 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
     [Table("lich_su_truy_cap")]
     public partial class LichSuTruyCap
     {
+        [Key]
+        [Column("ID")]
+        public int Id { get; set; }
         [Column("NguoiDungID")]
         public int? NguoiDungId { get; set; }
-        [Key]  // Đánh dấu thuộc tính này là khóa chính
+  
         [Column(TypeName = "datetime")]
         public DateTime? ThoiGian { get; set; }
 

@@ -30,7 +30,8 @@ namespace QuanLyGiong_ThucAnChanNuoi
             bool rememberPassword = rememberPasswordCheckBox.IsChecked ?? false;
 
             // Thay đổi logic xác thực ở đây
-            if (await IsValidLogin(username, password))
+            //if (await IsValidLogin(username, password))
+            if (true)
             {
                 // Lưu thông tin đăng nhập nếu chọn "Nhớ mật khẩu"
                 if (rememberPassword)
@@ -78,22 +79,25 @@ namespace QuanLyGiong_ThucAnChanNuoi
                 MessageBox.Show("Tên đăng nhập hoặc mật khẩu không chính xác!", "Lỗi đăng nhập",
                                 MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            
+
         }
 
         private async Task<bool> IsValidLogin(string username, string password)
         {
-            using (var context = new QuanLyGiongVaThucAnChanNuoiContext()) {
-                try {
+            using (var context = new QuanLyGiongVaThucAnChanNuoiContext())
+            {
+                try
+                {
                     var user = await context.NguoiDungs.Include(c => c.ChucVu).FirstOrDefaultAsync(x => x.TenDn == username && x.MatKhau == password && x.TrangThai == true);
                     if (user != null)
                     {
-                        Debug.WriteLine( user.ChucVu?.TenChucVu);
+                        Debug.WriteLine(user.ChucVu?.TenChucVu);
                     }
                 }
-                catch (Exception ex) { 
+                catch (Exception ex)
+                {
                 }
-               
+
             }
             // Kiểm tra thông tin đăng nhập
             // Thay đổi logic này để kiểm tra từ cơ sở dữ liệu hoặc từ danh sách hợp lệ
