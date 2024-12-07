@@ -79,21 +79,21 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
             {
                 entity.HasKey(e => e.Id).HasName("PK__Cap_HC__3214EC278B6F0A11");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<ChucVu>(entity =>
             {
                 entity.HasKey(e => e.Id).HasName("PK__ChucVu__3214EC27BB75931F");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<CoSoHoaChatCam>(entity =>
             {
                 entity.HasKey(e => e.Id).HasName("PK__CoSo_Hoa__3214EC27C42CCD2A");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.HasOne(d => d.CoSoThucAn).WithMany(p => p.CoSoHoaChatCams)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -108,7 +108,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
             {
                 entity.HasKey(e => e.Id).HasName("PK__CoSo_Ngu__3214EC27FC6117A4");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.HasOne(d => d.CoSoThucAn).WithMany(p => p.CoSoNguyenLieuChoPheps)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -123,7 +123,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
             {
                 entity.HasKey(e => e.Id).HasName("PK__CoSoThuc__3214EC27CD16556B");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.HasOne(d => d.ThucAnChanNuoi).WithMany(p => p.CoSoThucAns)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -138,7 +138,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
             {
                 entity.HasKey(e => e.Id).HasName("PK__CoSoVatN__3214EC273E840717");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.HasOne(d => d.GiongVatNuoi).WithMany(p => p.CoSoVatNuois)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -153,20 +153,22 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
             {
                 entity.HasKey(e => e.Id).HasName("PK__DonVi_HC__3214EC27F82C804F");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.HasOne(d => d.CapHc).WithMany(p => p.DonViHcs)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__DonVi_HC__Cap_HC__3A81B327");
 
                 entity.HasOne(d => d.TrucThuocNavigation).WithMany(p => p.InverseTrucThuocNavigation).HasConstraintName("FK__DonVi_HC__TrucTh__398D8EEE");
+
+            
             });
 
             modelBuilder.Entity<GiayChungNhan>(entity =>
             {
                 entity.HasKey(e => e.Id).HasName("PK__GiayChun__3214EC2785E9692F");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
                 entity.Property(e => e.NoiCap).HasDefaultValueSql("(N'Cục chăn nuôi')");
 
                 entity.HasOne(d => d.CoSoThucAn).WithMany(p => p.GiayChungNhans)
@@ -178,7 +180,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
             {
                 entity.HasKey(e => e.Id).HasName("PK__GiongCan__3214EC277F25E256");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.HasOne(d => d.Giong).WithMany(p => p.GiongCanBaoTons)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -189,14 +191,14 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
             {
                 entity.HasKey(e => e.Id).HasName("PK__GiongVat__3214EC277F83271F");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<HoaChatCam>(entity =>
             {
                 entity.HasKey(e => e.Id).HasName("PK__HoaChatC__3214EC273ADD4859");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<LichSuTruyCap>(entity =>
@@ -219,7 +221,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
             {
                 entity.HasKey(e => e.Id).HasName("PK__NguoiDun__3214EC276E110FFC");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.HasOne(d => d.ChucVu).WithMany(p => p.NguoiDungs).HasConstraintName("FK__NguoiDung__ChucV__3F466844");
 
@@ -236,21 +238,21 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
             {
                 entity.HasKey(e => e.Id).HasName("PK__NguonGen__3214EC273522CF75");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<NguyenLieuChoPhep>(entity =>
             {
                 entity.HasKey(e => e.Id).HasName("PK__NguyenLi__3214EC27A332078C");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<Nhom>(entity =>
             {
                 entity.HasKey(e => e.Id).HasName("PK__Nhom__3214EC275D50EEAA");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
                 //Cấu hình mối quan hệ nhiều-nhiều giữa NguoiDung và PhanQuyen
                 entity.HasMany(d => d.PhanQuyenNhoms) // NguoiDung có nhiều PhanQuyen
                  .WithOne()  // Mối quan hệ một chiều ở phía PhanQuyen
@@ -289,14 +291,14 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
             {
                 entity.HasKey(e => e.Id).HasName("PK__ThucAnCh__3214EC27DC6CE5DB");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<ToChucCaNhan>(entity =>
             {
                 entity.HasKey(e => e.Id).HasName("PK__ToChucCa__3214EC27302ACB62");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
                 entity.Property(e => e.LoaiHinh).HasDefaultValueSql("(N'Tổ chức')");
             });
 
@@ -304,7 +306,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
             {
                 entity.HasKey(e => e.Id).HasName("PK__ToChucNg__3214EC271100F644");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.HasOne(d => d.NguonGen).WithMany(p => p.ToChucNguonGens)
                     .OnDelete(DeleteBehavior.ClientSetNull)

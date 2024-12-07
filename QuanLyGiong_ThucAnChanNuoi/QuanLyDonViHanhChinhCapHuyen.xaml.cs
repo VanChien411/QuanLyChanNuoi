@@ -46,20 +46,20 @@ namespace QuanLyGiong_ThucAnChanNuoi
         }
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            string keyword = SearchTextBox.Text.ToLower();
+            //string keyword = SearchTextBox.Text.ToLower();
 
-            // Lọc danh sách theo từ khóa
-            var filteredList = _districts.Where(d =>
-                d.Name.ToLower().Contains(keyword) ||
-                d.Province.ToLower().Contains(keyword)).ToList();
+            //// Lọc danh sách theo từ khóa
+            //var filteredList = _districts.Where(d =>
+            //    d.Name.ToLower().Contains(keyword) ||
+            //    d.Province.ToLower().Contains(keyword)).ToList();
 
-            // Cập nhật DataGrid
-            DistrictDataGrid.ItemsSource = filteredList;
+            //// Cập nhật DataGrid
+            //DistrictDataGrid.ItemsSource = filteredList;
 
-            if (filteredList.Count == 0)
-            {
-                MessageBox.Show("Không tìm thấy kết quả nào phù hợp.");
-            }
+            //if (filteredList.Count == 0)
+            //{
+            //    MessageBox.Show("Không tìm thấy kết quả nào phù hợp.");
+            //}
         }
 
         // Các phương thức thêm, sửa, xóa
@@ -78,7 +78,18 @@ namespace QuanLyGiong_ThucAnChanNuoi
             MessageBox.Show("Xóa đơn vị hành chính thành công!");
         }
 
-       
+        private void ProvinceComboBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            // Cho phép ký tự "." hoặc các ký tự hợp lệ khác
+            if (e.Text == "." || char.IsLetterOrDigit(e.Text[0]))
+            {
+                e.Handled = false;
+            }
+            else
+            {
+                e.Handled = true;
+            }
+        }
     }
 
     // Định nghĩa lớp District

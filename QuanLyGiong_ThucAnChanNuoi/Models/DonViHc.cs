@@ -39,6 +39,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
         [ForeignKey("TrucThuoc")]
         [InverseProperty("InverseTrucThuocNavigation")]
         public virtual DonViHc TrucThuocNavigation { get; set; }
+
     }
 }
 
