@@ -180,11 +180,11 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
                     var textSearch = NewTextSearch.ToLower();
-                    var donViHcs = db.DonViHcs.Include(c => c.TrucThuocNavigation)
+                    var donViHcs = await db.DonViHcs.Include(c => c.TrucThuocNavigation)
                         .Where(x => x.Ten.ToLower().Contains(textSearch)
                         || x.MaBuuDien.ToLower().Contains(textSearch)
                         || x.TrucThuocNavigation.Ten.ToLower().Contains(textSearch))
-                            .ToList();
+                            .ToListAsync();
 
                     LoadTableList(donViHcs);
 
