@@ -320,6 +320,7 @@
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\QuanLyHCHuyenViewModel.cs" />
+    <Compile Include="ViewModel\QuanLyHCXaViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Page Include="AdminWindow.xaml">
       <SubType>Designer</SubType>

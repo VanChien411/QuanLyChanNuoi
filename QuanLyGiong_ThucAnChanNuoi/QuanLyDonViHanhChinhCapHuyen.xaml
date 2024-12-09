@@ -79,23 +79,23 @@
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="10">
                         <TextBlock Text="Tỉnh/Thành phố:"/>
-                        <ComboBox x:Name="ProvinceComboBox" 
-                              IsEditable="True" 
-                              Width="200" 
-                              Height="25" 
-                              VerticalAlignment="Center" 
-                              Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" 
-                              ItemsSource="{Binding Tinhs}" 
-                              SelectedItem="{Binding SelectedItem}" 
+                    <ComboBox x:Name="ProvinceComboBox" 
+                            IsEditable="True" 
+                            Width="200" 
+                            Height="25" 
+                            VerticalAlignment="Center" 
+                            Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" 
+                            ItemsSource="{Binding Tinhs}" 
+                            SelectedItem="{Binding SelectedItem}" 
                             
-                              DisplayMemberPath="Ten" PreviewTextInput="ProvinceComboBox_PreviewTextInput">      
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="SelectionChanged">
-                                    <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}"
-                                   CommandParameter="{Binding SelectedItem}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </ComboBox>
+                            DisplayMemberPath="Ten" PreviewTextInput="ProvinceComboBox_PreviewTextInput">      
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}"
+                                CommandParameter="{Binding SelectedItem}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
 
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="10">

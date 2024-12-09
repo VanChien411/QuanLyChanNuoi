@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuanLyGiong_ThucAnChanNuoi.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,8 @@ namespace QuanLyGiong_ThucAnChanNuoi
         public QuanLyDonViHanhChinhCapXa()
         {
             InitializeComponent();
-            LoadData();
+            //LoadData();
+            DataContext = new QuanLyHCXaViewModel();
         }
         // Tải dữ liệu mẫu
         private void LoadData()

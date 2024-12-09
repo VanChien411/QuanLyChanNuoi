@@ -5,18 +5,17 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-
 
 namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
 {
-    public class QuanLyHCHuyenViewModel : INotifyPropertyChanged
+    public class QuanLyHCXaViewModel : INotifyPropertyChanged
     {
-        private int _idTinh = 1;
         private int _idHuyen = 2;
+        private int _idXa = 3;
 
         private string _newDistrictName;
         private int _newTrucThuoc;
@@ -29,8 +28,8 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
         private DonViHc _districtSelected;
 
         public ObservableCollection<DonViHc> DonViHcs { get; set; } = new ObservableCollection<DonViHc>();
+        public ObservableCollection<DonViHc> Xas { get; set; } = new ObservableCollection<DonViHc>();
         public ObservableCollection<DonViHc> Huyens { get; set; } = new ObservableCollection<DonViHc>();
-        public ObservableCollection<DonViHc> Tinhs { get; set; } = new ObservableCollection<DonViHc>();
 
 
         public string NewTextSearch
@@ -48,8 +47,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             set
             {
                 _textComboBox = value;
-                if (_selectedItem?.Ten != value)
-                {
+                if (_selectedItem?.Ten != value) { 
                     SelectedItem = null;
                 }
                 OnPropertyChanged(nameof(Text)); // Notify UI to update binding
@@ -135,7 +133,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
         public ICommand SelectionChangedCommand { get; }
 
 
-        public QuanLyHCHuyenViewModel()
+        public QuanLyHCXaViewModel()
         {
             Initialize();
             AddItemCommand = new RelayCommand(AddItem);
@@ -166,14 +164,14 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 {
                     // Dùng AsNoTracking nếu chỉ đọc
                     //CapHcId == 1 la thanh pho cho select
-                    var tinhs = db.DonViHcs.AsNoTracking().Where(x => x.CapHcId == _idTinh).ToList();
-                    Tinhs = new ObservableCollection<DonViHc>(tinhs);
-
-                    var huyens = GetDonViHcs();
+                    var huyens = db.DonViHcs.AsNoTracking().Where(x => x.CapHcId == _idHuyen).ToList();
                     Huyens = new ObservableCollection<DonViHc>(huyens);
 
+                    var xas = GetDonViHcs();
+                    Xas = new ObservableCollection<DonViHc>(xas);
+
                     //Gan gia tri cho table list
-                    DonViHcs = new ObservableCollection<DonViHc>(Huyens);
+                    DonViHcs = new ObservableCollection<DonViHc>(xas);
                 }
             }
             catch (Exception ex)
@@ -188,8 +186,8 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             {
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
-                  
-                    var donViHcs = db.DonViHcs.AsNoTracking().Include(c => c.TrucThuocNavigation).Where(x => x.CapHcId == _idHuyen).ToList();
+
+                    var donViHcs = db.DonViHcs.AsNoTracking().Include(c => c.TrucThuocNavigation).Where(x => x.CapHcId == _idXa).ToList();
                     return donViHcs;
                 }
             }
@@ -203,7 +201,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
         {
             try
             {
-        
+
                 var textSearch = NewTextSearch.ToLower();
                 // Sử dụng && để kiểm tra x.MaBuuDien != null trước khi gọi ToLower().Contains().
 
@@ -243,7 +241,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                         var newTrucThuoc = new DonViHc
                         {
                             Ten = _textComboBox,
-                            CapHcId = _idTinh
+                            CapHcId = _idHuyen
                         };
 
                         // Thêm vào DbContext
@@ -257,7 +255,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                     }
                     if (!string.IsNullOrEmpty(NewDistrictName))
                     {
-                        var donViHc = new DonViHc { Ten = NewDistrictName, TrucThuoc = idTrucThuoc, CapHcId = _idHuyen, MaBuuDien = NewMaBuuDien };
+                        var donViHc = new DonViHc { Ten = NewDistrictName, TrucThuoc = idTrucThuoc, CapHcId = _idXa, MaBuuDien = NewMaBuuDien };
                         await db.AddAsync(donViHc);
                         await db.SaveChangesAsync();
 
@@ -301,7 +299,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                             var newTrucThuoc = new DonViHc
                             {
                                 Ten = _textComboBox,
-                                CapHcId = _idTinh
+                                CapHcId = _idHuyen
                             };
 
                             // Thêm vào DbContext
@@ -386,33 +384,31 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 DonViHcs.Add(item);
             }
         }
-        private void LoadSelect()
-        {
-
+        private void LoadSelect() {
+            LoadXaselect();
             LoadHuyenSelect();
-            LoadTinhSelect();
         }
-        private void LoadHuyenSelect()
+        private void LoadXaselect()
         {
             var donViHcs = GetDonViHcs();
-            Huyens.Clear();
-            foreach(var item in donViHcs)
+            Xas.Clear();
+            foreach (var item in donViHcs)
             {
-                Huyens.Add(item);
+                Xas.Add(item);
             }
         }
-        private void LoadTinhSelect()
+        private void LoadHuyenSelect()
         {
             try
             {
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
 
-                    var donViHcs = db.DonViHcs.AsNoTracking().Include(c => c.TrucThuocNavigation).Where(x => x.CapHcId == _idTinh).ToList();
-                    Tinhs.Clear();
+                    var donViHcs = db.DonViHcs.AsNoTracking().Include(c => c.TrucThuocNavigation).Where(x => x.CapHcId == _idHuyen).ToList();
+                    Huyens.Clear();
                     foreach (var item in donViHcs)
                     {
-                        Tinhs.Add(item);
+                        Huyens.Add(item);
                     }
                 }
             }
@@ -446,7 +442,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 }
             }
         }
-        
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
