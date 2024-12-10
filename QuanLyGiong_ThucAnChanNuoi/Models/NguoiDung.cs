@@ -54,6 +54,8 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
 
         // Mối quan hệ nhiều-nhiều qua bảng trung gian
         public virtual ICollection<PhanQuyenNguoiDung> PhanQuyenNguoiDungs { get; set; }
+
+        public string TrangThaiHienThi => TrangThai.HasValue && TrangThai.Value ? "Mở" : "Khóa";
     }
 }
 

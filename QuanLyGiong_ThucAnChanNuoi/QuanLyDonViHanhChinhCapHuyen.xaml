@@ -38,7 +38,7 @@
                              
                  TextChanged="SearchTextBox_TextChanged"/>
                 </Grid>
-                <Button Content="Tìm kiếm" Width="100" Click="SearchButton_Click" Command="{Binding SearchCommand}"/>
+                <Button Content="Tìm kiếm" Width="100" Command="{Binding SearchCommand}"/>
             </StackPanel>
 
             <!-- DataGrid -->
