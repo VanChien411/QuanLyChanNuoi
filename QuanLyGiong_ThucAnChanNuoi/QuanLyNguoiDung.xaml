@@ -85,7 +85,7 @@
                             Height="25" 
                             VerticalAlignment="Center" 
                             ItemsSource="{Binding ChucVus}" 
-                            SelectedItem="{Binding ChucVuSelectedItem}" 
+                            SelectedItem="{Binding ChucVuSelectedItem, Mode=TwoWay}" 
                           
                             DisplayMemberPath="TenChucVu" >
                             <i:Interaction.Triggers>
@@ -104,7 +104,7 @@
                             Height="25" 
                             VerticalAlignment="Center" 
                             ItemsSource="{Binding TrangThais}" 
-                            SelectedItem="{Binding StatusSelectedItem}" 
+                            SelectedItem="{Binding StatusSelectedItem, Mode=TwoWay}" 
                           
                             DisplayMemberPath="Name" >
                             <i:Interaction.Triggers>
@@ -117,9 +117,9 @@
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-              
-                    <Button Content="Sửa" Width="100" Margin="10" Click="EditDistrictButton_Click"/>
-                    <Button Content="Xóa" Width="100" Margin="10" Click="DeleteDistrictButton_Click"/>
+
+                    <Button Content="Sửa" Width="100" Margin="10" Command="{Binding EditItemCommand}"/>
+                    <Button Content="Xóa" Width="100" Margin="10" Command="{Binding DeleteItemCommand}"/>
                 </StackPanel>
             </StackPanel>
         </Grid>

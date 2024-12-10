@@ -202,7 +202,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             try
             {
 
-                var textSearch = NewTextSearch.ToLower();
+                var textSearch = NewTextSearch?.ToLower() ?? "";
                 // Sử dụng && để kiểm tra x.MaBuuDien != null trước khi gọi ToLower().Contains().
 
                 var donViHcs = GetDonViHcs()

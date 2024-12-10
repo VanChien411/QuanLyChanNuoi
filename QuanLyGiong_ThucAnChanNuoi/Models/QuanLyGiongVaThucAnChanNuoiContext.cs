@@ -213,7 +213,27 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
             });
             modelBuilder.Entity<PhanQuyenNguoiDung>(entity =>
             {
+                entity.ToTable("phan_quyen_nguoi_dung");
+
                 entity.HasKey(e => new { e.NguoiDungId, e.MaQuyen });
+
+                entity.Property(e => e.NguoiDungId)
+                    .HasColumnName("NguoiDungID")
+                    .IsRequired();
+
+                entity.Property(e => e.MaQuyen)
+                    .HasColumnName("ma_quyen")
+                    .IsRequired();
+
+                entity.HasOne(e => e.NguoiDung)
+                    .WithMany(d => d.PhanQuyenNguoiDungs)
+                    .HasForeignKey(e => e.NguoiDungId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(e => e.PhanQuyen)
+                    .WithMany(p => p.PhanQuyenNguoiDungs)
+                    .HasForeignKey(e => e.MaQuyen)
+                    .OnDelete(DeleteBehavior.Cascade);
 
 
             });
@@ -227,11 +247,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
 
                 entity.HasOne(d => d.DonViHc).WithMany(p => p.NguoiDungs).HasConstraintName("FK__NguoiDung__DonVi__403A8C7D");
 
-                //Cấu hình mối quan hệ nhiều-nhiều giữa NguoiDung và PhanQuyen
-                entity.HasMany(d => d.PhanQuyenNguoiDungs) // NguoiDung có nhiều PhanQuyen
-                 .WithOne()  // Mối quan hệ một chiều ở phía PhanQuyen
-                 .HasForeignKey(pq => pq.NguoiDungId) // NguoiDungId trong bảng trung gian
-                 .HasConstraintName("FK__PhanQuyenNguoiDung__NguoiDungId");
+             
             });
 
             modelBuilder.Entity<NguonGen>(entity =>
@@ -264,14 +280,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
             modelBuilder.Entity<PhanQuyen>(entity =>
             {
                 entity.HasKey(e => e.MaQuyen).HasName("PK__phan_quy__1D4B7ED4EB4AE75E");
-                entity.HasMany(p => p.PhanQuyenNguoiDungs) // PhanQuyen có nhiều NguoiDung
-                   .WithOne()  // Mối quan hệ một chiều ở phía NguoiDung
-                   .HasForeignKey(pq => pq.MaQuyen) // MaQuyen trong bảng trung gian
-                   .HasConstraintName("FK__PhanQuyenNguoiDung__MaQuyen");
-                entity.HasMany(p => p.PhanQuyenNhoms) // PhanQuyen có nhiều NguoiDung
-                .WithOne()  // Mối quan hệ một chiều ở phía NguoiDung
-                .HasForeignKey(pq => pq.MaQuyen) // MaQuyen trong bảng trung gian
-                .HasConstraintName("FK__PhanQuyenNhom__MaQuyen");
+              
             });
 
             modelBuilder.Entity<ThanhVienNhom>(entity =>

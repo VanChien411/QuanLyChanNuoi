@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
 {
@@ -24,15 +25,16 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 StatusValue = statusValue;
             }
         }
-        private string _newDistrictName;
+      
         private int _newId;
         private string _newFullName;
         private string _newEmail;
         private string _newTextSearch;
 
-        //private string _textComboBox;
-        //private NguoiDung _selectedItem;
-        //private NguoiDung _districtSelected;
+        private NguoiDung _rowSelectedItem;
+        private ChucVu _chucVuSelectedItem;
+        private Status _statusSelectedItem;
+
 
         public ObservableCollection<NguoiDung> NguoiDungs { get; set; } = new ObservableCollection<NguoiDung>();
         public ObservableCollection<ChucVu> ChucVus { get; set; } = new ObservableCollection<ChucVu>();
@@ -52,7 +54,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 OnPropertyChanged(nameof(NewTextSearch)); // Notify UI to update binding
             }
         }
-        private NguoiDung _rowSelectedItem;
+   
         public NguoiDung RowSelectedItem
         {
             get => _rowSelectedItem;
@@ -62,17 +64,20 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 OnPropertyChanged(nameof(RowSelectedItem));
             }
         }
-        private ChucVu _chucVuSelectedItem;
+ 
         public ChucVu ChucVuSelectedItem
         {
             get => _chucVuSelectedItem;
             set
             {
-                _chucVuSelectedItem = value;
-                OnPropertyChanged(nameof(ChucVuSelectedItem));
+                if (_chucVuSelectedItem != value) // Chỉ thay đổi khi giá trị khác
+                {
+                    _chucVuSelectedItem = value;
+                    OnPropertyChanged(nameof(ChucVuSelectedItem)); // Thông báo UI
+                }
             }
         }
-        private Status _statusSelectedItem;
+   
         public Status StatusSelectedItem
         {
             get => _statusSelectedItem;
@@ -131,8 +136,6 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             ChucVuSelectedCommand = new RelayCommandT<ChucVu>(OnChucVuSelected);
             StatusSelectedCommand = new RelayCommandT<Status>(OnStatusSelected);
 
-            //DistrictSelectionChangedCommand = new RelayCommandT<object>(OnDistrictSelectionChanged);
-            //SelectionChangedCommand = new RelayCommandT<object>(OnSelectionChanged);
         }
         private void Initialize()
         {
@@ -172,20 +175,28 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
         }
         private void OnRowSelected(NguoiDung selectedItem)
         {
-            RowSelectedItem = selectedItem;
-            // Thực hiện hành động với SelectedItem
+            if(selectedItem != null)
+            {
+                RowSelectedItem = selectedItem;
+                // Thực hiện hành động với SelectedItem
+                NewId = selectedItem.Id;
+                NewFullName = selectedItem.HoTen;
+                NewEmail = selectedItem.Email;
+     
+                ChucVuSelectedItem = ChucVus.FirstOrDefault(c => c.Id == selectedItem?.ChucVu?.Id);
+                StatusSelectedItem = TrangThais.FirstOrDefault(c => c.StatusValue == selectedItem?.TrangThai);
+            }
+          
         }
         private void OnChucVuSelected(ChucVu selectedItem)
         {
-            ChucVuSelectedItem = selectedItem;
-            // Thực hiện hành động với SelectedItem
+           
         }
        
         private void OnStatusSelected(Status selectedItem)
         {
-            StatusSelectedItem = selectedItem;
-            // Thực hiện hành động với SelectedItem
-    
+            
+
         }
         private List<NguoiDung> GetNguoiDungs()
         {
@@ -209,7 +220,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             try
             {
 
-                var textSearch = NewTextSearch.ToLower();
+                var textSearch = NewTextSearch?.ToLower()?? "";
                 // Sử dụng && để kiểm tra x.MaBuuDien != null trước khi gọi ToLower().Contains().
 
                 var nguoiDungs = GetNguoiDungs()
@@ -233,55 +244,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
         {
             try
             {
-                //using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
-                //{
-                   
-                //    int? idTrucThuoc = null;
-                //    if (DistrictSelected != null)
-                //    {
-                //        MessageBox.Show($"Huyện tồn tại [ sửa hoặc xóa]");
-                //        return;
-                //    }
-                //    if (SelectedItem != null)
-                //    {
-                //        idTrucThuoc = SelectedItem.Id;
-                //    }
-                //    else if (string.IsNullOrEmpty(_textComboBox) != true)
-                //    {
-                //        var newTrucThuoc = new NguoiDung
-                //        {
-                //            Ten = _textComboBox,
-                //            CapHcId = _idTinh
-                //        };
-
-                //        // Thêm vào DbContext
-                //        await db.AddAsync(newTrucThuoc);
-
-                //        // Lưu thay đổi vào cơ sở dữ liệu
-                //        await db.SaveChangesAsync();
-
-                //        // Lấy ID của thực thể mới
-                //        idTrucThuoc = newTrucThuoc.Id;
-                //    }
-                //    if (!string.IsNullOrEmpty(NewDistrictName))
-                //    {
-                //        var NguoiDung = new NguoiDung { Ten = NewDistrictName, TrucThuoc = idTrucThuoc, CapHcId = _idHuyen, MaBuuDien = NewMaBuuDien };
-                //        await db.AddAsync(NguoiDung);
-                //        await db.SaveChangesAsync();
-
-                //        // Reset list
-                //        var NguoiDungs = GetNguoiDungs();
-
-                //        LoadTableList(NguoiDungs);
-                //        LoadSelect();
-
-                //        NewDistrictName = string.Empty;
-                //        Text = string.Empty;
-                //        NewMaBuuDien = string.Empty;
-
-                //    }
-
-                //}
+               
             }
             catch (Exception ex)
             {
@@ -292,61 +255,29 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
         {
             try
             {
-                //using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
-                //{
+                using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
+                {
+                    if(RowSelectedItem != null)
+                    {
+                        var nguoiDung = await db.NguoiDungs.FirstOrDefaultAsync(x => x.Id == RowSelectedItem.Id);
+                        if(nguoiDung != null)
+                        {
+                            nguoiDung.HoTen = NewFullName;
+                            nguoiDung.ChucVuId = ChucVuSelectedItem?.Id;
+                            nguoiDung.TrangThai = StatusSelectedItem?.StatusValue;
+                            nguoiDung.Email = NewEmail;
+                            await db.SaveChangesAsync();
 
-                //    if (DistrictSelected != null)
-                //    {
+                            var nguoiDungs = GetNguoiDungs();
+                            LoadTableList(nguoiDungs);
+                            RowSelectedItem = NguoiDungs.FirstOrDefault(x => x.Id == nguoiDung.Id);
 
-                //        //Kiểm tra tỉnh có chưa
-                //        int? idTrucThuoc = null;
-                //        if (SelectedItem != null)
-                //        {
-                //            idTrucThuoc = SelectedItem.Id;
-                //        }
-                //        else if (string.IsNullOrEmpty(_textComboBox) != true)
-                //        {
-                //            var newTrucThuoc = new NguoiDung
-                //            {
-                //                Ten = _textComboBox,
-                //                CapHcId = _idTinh
-                //            };
+                         
+                        }
+                    }
+                }
 
-                //            // Thêm vào DbContext
-                //            await db.AddAsync(newTrucThuoc);
 
-                //            // Lưu thay đổi vào cơ sở dữ liệu
-                //            await db.SaveChangesAsync();
-
-                //            // Lấy ID của thực thể mới
-                //            idTrucThuoc = newTrucThuoc.Id;
-                //        }
-
-                //        // Sửa thông tin huyện
-                //        var NguoiDung = await db.NguoiDungs.FirstOrDefaultAsync(x => x.Id == DistrictSelected.Id);
-
-                //        if (NguoiDung != null)
-                //        {
-
-                //            NguoiDung.TrucThuoc = idTrucThuoc;
-                //            NguoiDung.MaBuuDien = NewMaBuuDien;
-
-                //            // Lưu thay đổi vào cơ sở dữ liệu
-                //            await db.SaveChangesAsync();
-
-                //            // Reset list
-                //            var NguoiDungs = GetNguoiDungs();
-                //            LoadTableList(NguoiDungs);
-                //            LoadSelect();
-
-                //            NewDistrictName = string.Empty;
-                //            Text = string.Empty;
-                //            NewMaBuuDien = string.Empty;
-
-                //        }
-
-                //    }
-                //}
             }
             catch (Exception ex)
             {
@@ -357,32 +288,54 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
         {
             try
             {
-                //using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
-                //{
-                //    if (DistrictSelected != null)
-                //    {
-                //        var NguoiDung = await db.NguoiDungs.FirstOrDefaultAsync(x => x.Id == DistrictSelected.Id);
-                //        if (NguoiDung != null)
-                //        {
-                //            //Phần này ko dùng async
-                //            db.Remove(NguoiDung);
-                //            db.SaveChanges();
+                using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
+                {
+                    if(RowSelectedItem != null)
+                    {
+                        // Xóa phân quyền liên quan
+                        //var phanQuyens = await db.PhanQuyenNguoiDungs
+                        //    .Where(x => x.NguoiDungId == RowSelectedItem.Id)
+                        //    .ToListAsync();
 
-                //            // Reset list
-                //            var NguoiDungs = GetNguoiDungs();
-                //            LoadTableList(NguoiDungs);
-                //            LoadSelect();
+                        //if (phanQuyens.Any())
+                        //{
+                        //    db.PhanQuyenNguoiDungs.RemoveRange(phanQuyens);
+                        //}
 
-                //            NewDistrictName = string.Empty;
-                //            Text = string.Empty;
-                //            NewMaBuuDien = string.Empty;
-                //        }
-                //    }
-                //}
+                        // Xóa người dùng
+                        var nguoiDung = await db.NguoiDungs.Include(c => c.PhanQuyenNguoiDungs).FirstOrDefaultAsync(x => x.Id == RowSelectedItem.Id);
+                        if (nguoiDung != null)
+                        {
+                            // Xóa phân quyền liên quan
+                        
+                            if (nguoiDung.PhanQuyenNguoiDungs.Any())
+                            {
+                                db.PhanQuyenNguoiDungs.RemoveRange(nguoiDung.PhanQuyenNguoiDungs);
+                            }
+
+                            db.NguoiDungs.Remove(nguoiDung);
+                        }
+
+                        // Lưu thay đổi
+                        await db.SaveChangesAsync();
+
+                  
+
+                        var nguoiDungs = GetNguoiDungs();
+                        LoadTableList(nguoiDungs);
+
+                        NewId = 0;
+                        NewFullName = "";
+                        NewEmail = "";
+
+                        ChucVuSelectedItem = null;
+                        StatusSelectedItem = null;
+                    }
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi thêm: {ex.Message}");
+                MessageBox.Show($"Lỗi khi : {ex.Message}");
             }
         }
 
