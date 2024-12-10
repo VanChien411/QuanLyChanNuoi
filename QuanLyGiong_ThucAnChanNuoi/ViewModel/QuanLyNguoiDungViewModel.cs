@@ -18,7 +18,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
         public class Status
         {
             public bool StatusValue { get; set; }
-            public string Name => StatusValue ? "Mở" : "Khóa";
+            public string Name => StatusValue ? "Mở" : "Hoạt động";
 
             public Status(bool statusValue = false) // Giá trị mặc định là false
             {
@@ -40,11 +40,6 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
         public ObservableCollection<ChucVu> ChucVus { get; set; } = new ObservableCollection<ChucVu>();
         public ObservableCollection<Status> TrangThais { get; set; } = new ObservableCollection<Status>();
 
-        public class NguoiDungInterface : NguoiDung
-        {
-          
-            public string TrangThaiHienThi => TrangThai.HasValue && TrangThai.Value ? "Mở" : "Khóa";
-        }
         public string NewTextSearch
         {
             get => _newTextSearch;

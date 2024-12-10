@@ -322,6 +322,7 @@
     <Compile Include="ViewModel\QuanLyHCHuyenViewModel.cs" />
     <Compile Include="ViewModel\QuanLyHCXaViewModel.cs" />
     <Compile Include="ViewModel\QuanLyNguoiDungViewModel.cs" />
+    <Compile Include="ViewModel\QuanLyPhanQuyenViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Page Include="AdminWindow.xaml">
       <SubType>Designer</SubType>

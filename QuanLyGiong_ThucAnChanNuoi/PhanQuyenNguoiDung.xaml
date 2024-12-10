@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:QuanLyGiong_ThucAnChanNuoi"
+        xmlns:local="clr-namespace:QuanLyGiong_ThucAnChanNuoi" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         WindowState="Maximized"
         Title="PhanQuyenNguoiDung" Height="450" Width="800">
@@ -27,51 +27,164 @@
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                 <Grid Width="300" Margin="0,0,10,0">
                     <!-- Placeholder -->
-                    <TextBlock x:Name="PlaceholderTextBlock1" Text="Nhập từ khóa tìm kiếm..."
-                          VerticalAlignment="Center" Foreground="Gray"
-                          Margin="5,0,0,0" IsHitTestVisible="False"/>
+                    <TextBlock x:Name="PlaceholderTextBlock" Text="Nhập từ khóa tìm kiếm..."
+                    VerticalAlignment="Center" Foreground="Gray"
+                    Margin="5,0,0,0" IsHitTestVisible="False"/>
+
                     <!-- TextBox -->
-                    <TextBox x:Name="SearchTextBox1"
-                             VerticalAlignment="Center"
-                             TextChanged="SearchTextBox1_TextChanged"/>
+                    <TextBox x:Name="SearchTextBox"
+                      VerticalAlignment="Center"
+                       Text="{Binding NewTextSearch, UpdateSourceTrigger=PropertyChanged}"
+              
+                      TextChanged="SearchTextBox_TextChanged"/>
                 </Grid>
-                <Button Content="Tìm kiếm" Width="100" Click="SearchButton_Click"/>
+                <Button Content="Tìm kiếm" Width="100"  Command="{Binding SearchCommand}"/>
             </StackPanel>
 
-            <!-- DataGrid người dùng -->
-            <DataGrid x:Name="UserDataGrid1" AutoGenerateColumns="False" IsReadOnly="True"
-                      Grid.Row="1" SelectionMode="Single" Margin="0,0,0,10">
+            <!-- DataGrid -->
+            <DataGrid x:Name="DataGrid" ItemsSource="{Binding PhanQuyens}" AutoGenerateColumns="False" IsReadOnly="True"
+ Grid.Row="1" SelectionMode="Single" Margin="0,0,0,10"
+           SelectedItem="{Binding RowSelectedItem}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding RowSelectedCommand}" 
+                        CommandParameter="{Binding RowSelectedItem}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50" />
-                    <DataGridTextColumn Header="Họ và Tên" Binding="{Binding FullName}" Width="200" />
-                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="200" />
-                    <DataGridTextColumn Header="Vai trò" Binding="{Binding Role}" Width="150" />
-                    <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="100" />
+                    <DataGridTextColumn Header="ID" Binding="{Binding index}" Width="100"/>
+                    <DataGridTextColumn Header="Tên đăng nhập" Binding="{Binding NguoiDung.TenDn}" Width="200"/>
+                    <DataGridTextColumn Header="Họ Tên" Binding="{Binding NguoiDung.HoTen}" Width="200"/>
+                    <DataGridTextColumn Header="Thuộc Nhóm" Binding="{Binding Nhom.Ten}" Width="200"/>
+                    <DataGridTextColumn Header="Quyền" Binding="{Binding Quyen.TenQuyen}" Width="200"/>
+
+
+
                 </DataGrid.Columns>
             </DataGrid>
 
-            <!-- Phân quyền người dùng và các nút hành động -->
-            <StackPanel Orientation="Vertical" Grid.Row="2" HorizontalAlignment="Center">
-                <TextBlock Text="Chọn vai trò và quyền hạn" FontSize="16" FontWeight="Bold" Margin="10"/>
+            <!-- Action Buttons -->
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Row="4">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2">
+                    <!-- Form Input -->
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
 
-                <!-- Vai trò -->
-                <ComboBox x:Name="RoleComboBox1" Width="200" Margin="10">
-                    <ComboBoxItem Content="Quản trị viên"/>
-                    <ComboBoxItem Content="Người dùng"/>
-                    <ComboBoxItem Content="Khách"/>
-                </ComboBox>
+                        <StackPanel Orientation="Vertical" Margin="10">
+                            <TextBlock Text="Tài khoản:"/>
 
-                <!-- Trạng thái người dùng -->
-                <ComboBox x:Name="StatusComboBox1" Width="200" Margin="10">
-                    <ComboBoxItem Content="Kích hoạt"/>
-                    <ComboBoxItem Content="Khóa"/>
-                </ComboBox>
+                            <ComboBox x:Name="ChucVuComboBox" 
+           Width="200" 
+           Height="25" 
+           VerticalAlignment="Center" 
+           ItemsSource="{Binding ChucVus}" 
+           SelectedItem="{Binding ChucVuSelectedItem, Mode=TwoWay}" 
+         
+           DisplayMemberPath="TenChucVu" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding ChucVuSelectedCommand}"
+                       CommandParameter="{Binding ChucVuSelectedItem}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Margin="10">
+                            <TextBlock Text="Quyền:"/>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="20">
-                    <Button Content="Cập nhật" Width="100" Margin="10" Click="UpdateButton_Click"/>
-                    <Button Content="Thêm người dùng" Width="120" Margin="10" Click="AddUserButton_Click"/>
+                            <ComboBox x:Name="StatusComboBox" 
+           Width="200" 
+           Height="25" 
+           VerticalAlignment="Center" 
+           ItemsSource="{Binding TrangThais}" 
+           SelectedItem="{Binding StatusSelectedItem, Mode=TwoWay}" 
+         
+           DisplayMemberPath="Name" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding StatusSelectedCommand}"
+                       CommandParameter="{Binding StatusSelectedItem}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ComboBox>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                        <Button Content="Cập nhập" Width="100" Margin="10" Command="{Binding EditItemCommand}"/>
+                        <Button Content="Thêm quyền" Width="150" Margin="10" Command="{Binding DeleteItemCommand}"/>
+                    </StackPanel>
+                </StackPanel>
+                <!-- Action Buttons 2-->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2">
+                    <!-- Form Input -->
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+
+                        <StackPanel Orientation="Vertical" Margin="10">
+                            <TextBlock Text="Tài khoản:"/>
+
+                            <ComboBox x:Name="TenComboBox" 
+Width="200" 
+Height="25" 
+VerticalAlignment="Center" 
+ItemsSource="{Binding ChucVus}" 
+SelectedItem="{Binding ChucVuSelectedItem, Mode=TwoWay}" 
+    
+DisplayMemberPath="TenChucVu" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding ChucVuSelectedCommand}"
+            CommandParameter="{Binding ChucVuSelectedItem}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Margin="10">
+                            <TextBlock Text="Nhóm:"/>
+
+                            <ComboBox x:Name="NhomComboBox" 
+                                Width="200" 
+                                Height="25" 
+                                VerticalAlignment="Center" 
+                                ItemsSource="{Binding TrangThais}" 
+                                SelectedItem="{Binding StatusSelectedItem, Mode=TwoWay}" 
+    
+                                DisplayMemberPath="Name" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding StatusSelectedCommand}"
+            CommandParameter="{Binding StatusSelectedItem}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Margin="10">
+                            <TextBlock Text="Quyền của nhóm:"/>
+
+                            <ComboBox x:Name="QuyensComboBox" 
+                    Width="200" 
+                    Height="25" 
+                    VerticalAlignment="Center" 
+                    ItemsSource="{Binding TrangThais}" 
+                    SelectedItem="{Binding StatusSelectedItem, Mode=TwoWay}" 
+    
+                    DisplayMemberPath="Name" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding StatusSelectedCommand}"
+CommandParameter="{Binding StatusSelectedItem}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ComboBox>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                        <Button Content="Cập nhập" Width="100" Margin="10" Command="{Binding EditItemCommand}"/>
+                        <Button Content="Thêm quyền" Width="150" Margin="10" Command="{Binding DeleteItemCommand}"/>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
+            
         </Grid>
     </Grid>
 </Window>
