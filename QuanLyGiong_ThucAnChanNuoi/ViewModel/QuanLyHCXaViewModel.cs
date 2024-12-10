@@ -206,10 +206,12 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 // Sử dụng && để kiểm tra x.MaBuuDien != null trước khi gọi ToLower().Contains().
 
                 var donViHcs = GetDonViHcs()
-                    .Where(x => x.Ten.ToLower().Contains(textSearch)
-                        || (x.MaBuuDien != null && x.MaBuuDien.ToLower().Contains(textSearch))
-                        || (x.TrucThuocNavigation != null && x.TrucThuocNavigation.Ten.ToLower().Contains(textSearch)))
-                    .ToList();
+                  .Where(x =>
+                      (x.Ten?.ToLower().Contains(textSearch.ToLower()) ?? false)
+                      || (x.MaBuuDien?.ToLower().Contains(textSearch.ToLower()) ?? false)
+                      || (x.TrucThuocNavigation?.Ten?.ToLower().Contains(textSearch.ToLower()) ?? false))
+                  .ToList();
+
 
                 LoadTableList(donViHcs);
 

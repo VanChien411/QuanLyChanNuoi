@@ -278,17 +278,19 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             {
 
                 var textSearch = NewTextSearch?.ToLower() ?? "";
-                // Sử dụng && để kiểm tra x.MaBuuDien != null trước khi gọi ToLower().Contains().
 
-                //var PhanQuyens = GetPhanQuyens()
-                //    .Where(x => x.HoTen.ToLower().Contains(textSearch)
-                //        || (x.Email.ToLower().Contains(textSearch))
-                //        || (x.Id.ToString().ToLower().Contains(textSearch))
-                //        || (x.TrangThaiHienThi.ToLower().Contains(textSearch))
-                //        || (x.ChucVu != null && x.ChucVu.TenChucVu.ToLower().Contains(textSearch)))
-                //    .ToList();
+                var PhanQuyens = GetPhanQuyens()
+                    .Where(x =>
+                        (x.NguoiDung?.TenDn?.ToLower().Contains(textSearch.ToLower()) ?? false)
+                        || (x.index?.ToString().ToLower().Contains(textSearch.ToLower()) ?? false)
+                        || (x.NguoiDung?.Email?.ToLower().Contains(textSearch.ToLower()) ?? false)
+                        || (x.NguoiDung?.HoTen?.ToLower().Contains(textSearch.ToLower()) ?? false)
+                        || (x.Nhom?.Ten?.ToLower().Contains(textSearch.ToLower()) ?? false)
+                        || (x.Quyen?.TenQuyen?.ToLower().Contains(textSearch.ToLower()) ?? false))
+                    .ToList();
 
-                //LoadTableList(PhanQuyens);
+
+                LoadTableList(PhanQuyens);
 
 
             }
@@ -396,10 +398,10 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             }
         }
 
-        private void LoadTableList(List<PhanQuyen> PhanQuyens)
+        private void LoadTableList(List<PhanQuyenDTO> data)
         {
             PhanQuyens.Clear();
-            foreach (var item in PhanQuyens)
+            foreach (var item in data)
             {
                 PhanQuyens.Add(item);
             }

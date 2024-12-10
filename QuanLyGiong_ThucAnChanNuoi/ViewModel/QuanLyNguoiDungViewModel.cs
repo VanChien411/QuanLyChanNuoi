@@ -219,12 +219,14 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 // Sử dụng && để kiểm tra x.MaBuuDien != null trước khi gọi ToLower().Contains().
 
                 var nguoiDungs = GetNguoiDungs()
-                    .Where(x => x.HoTen.ToLower().Contains(textSearch)
-                        || ( x.Email.ToLower().Contains(textSearch))
-                        || (x.Id.ToString().ToLower().Contains(textSearch))
-                        || (x.TrangThaiHienThi.ToLower().Contains(textSearch))
-                        || (x.ChucVu != null && x.ChucVu.TenChucVu.ToLower().Contains(textSearch)))
-                    .ToList();
+                  .Where(x =>
+                      (x.HoTen?.ToLower().Contains(textSearch.ToLower()) ?? false)
+                      || (x.Email?.ToLower().Contains(textSearch.ToLower()) ?? false)
+                      || (x.Id.ToString().ToLower().Contains(textSearch.ToLower()) )
+                      || (x.TrangThaiHienThi?.ToLower().Contains(textSearch.ToLower()) ?? false)
+                      || (x.ChucVu?.TenChucVu?.ToLower().Contains(textSearch.ToLower()) ?? false))
+                  .ToList();
+
 
                 LoadTableList(nguoiDungs);
 
