@@ -1,5 +1,4 @@
-﻿using ControlzEx.Standard;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using QuanLyGiong_ThucAnChanNuoi.Models;
 using System;
 using System.Collections.Generic;
@@ -385,7 +384,51 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
         {
             try
             {
+                using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
+                {
+                    if (NguoiDungSelectedItem != null) {
+                        if (QuyenSelectedItem?.MaQuyen != null)
+                        {
+                            var phanQuyenNguoiDung = db.PhanQuyenNguoiDungs
+                                .Where(x => x.NguoiDungId == NguoiDungSelectedItem.Id
+                                                  && (x.MaQuyen == QuyenSelectedItem.MaQuyen))
+                                .FirstOrDefault();
 
+                            if (phanQuyenNguoiDung == null)
+                            {
+
+                                var phanQuyen = new Models.PhanQuyenNguoiDung { NguoiDungId = NguoiDungSelectedItem.Id, MaQuyen = QuyenSelectedItem.MaQuyen };
+                                db.PhanQuyenNguoiDungs.Add(phanQuyen);
+                     
+
+                            }
+
+                        }
+
+                        if (NhomSelectedItem?.Id != null)
+                        {
+
+                            var thanhVienNhom = db.ThanhVienNhoms
+                                .Where(x => x.NguoiDungId == NguoiDungSelectedItem.Id
+                                && x.NhomId == NhomSelectedItem.Id).FirstOrDefault();
+                            if (thanhVienNhom == null)
+                            {
+                                var tvn = new Models.ThanhVienNhom { NguoiDungId = NguoiDungSelectedItem.Id, NhomId = NhomSelectedItem.Id, NgayThamGia = DateTime.Now };
+                                db.ThanhVienNhoms.Add(tvn);
+                            
+                            }
+                        }
+                        // Có thay đổi
+                        if (db.ChangeTracker.HasChanges())
+                        {
+                            db.SaveChanges();
+                            var phanQuyens = GetPhanQuyens();
+                            LoadTableList(phanQuyens);
+
+                        }
+                    }
+                   
+                }
             }
             catch (Exception ex)
             {
@@ -403,47 +446,76 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                         if (RowSelectedItem.NguoiDung?.Id == NguoiDungSelectedItem?.Id) {
                             // Cho phep cap nhap
                             // Kiểm tra nếu quyền đã tồn tại trong cơ sở dữ liệu.
-                            if (RowSelectedItem?.Quyen != null)
+                            if (RowSelectedItem?.Quyen != null && QuyenSelectedItem?.MaQuyen != null && RowSelectedItem.Quyen.MaQuyen != QuyenSelectedItem.MaQuyen)
                             {
                                 var phanQuyenNguoiDung = db.PhanQuyenNguoiDungs
                                     .Where(x => x.NguoiDungId == RowSelectedItem.NguoiDung.Id
                                                       && (x.MaQuyen == RowSelectedItem.Quyen.MaQuyen))
                                     .FirstOrDefault();
 
+                                var secondPhanQuyenNguoiDung = db.PhanQuyenNguoiDungs
+                                    .Where(x => x.NguoiDungId == RowSelectedItem.NguoiDung.Id
+                                                      && (x.MaQuyen == QuyenSelectedItem.MaQuyen))
+                                    .FirstOrDefault();
+
                                 if (phanQuyenNguoiDung != null) {
 
-                                    phanQuyenNguoiDung.MaQuyen = QuyenSelectedItem?.MaQuyen;
-                                    db.SaveChanges();
+                                    db.Remove(phanQuyenNguoiDung);
 
-                                    //var phanQuyen = new Models.PhanQuyenNguoiDung { NguoiDungId = RowSelectedItem.NguoiDung.Id, MaQuyen = QuyenSelectedItem.MaQuyen };
-                                    //db.PhanQuyenNguoiDungs.Add(phanQuyen);
-                                    //db.SaveChanges();
-
+                                }
+                                if (secondPhanQuyenNguoiDung == null) {
+                                    var phanQuyen = new Models.PhanQuyenNguoiDung { NguoiDungId = RowSelectedItem.NguoiDung.Id, MaQuyen = QuyenSelectedItem.MaQuyen };
+                                    db.PhanQuyenNguoiDungs.Add(phanQuyen);
+                                  
                                 }
 
                             }
-
-                            if (RowSelectedItem?.Nhom != null) {
+                            else if (RowSelectedItem?.Nhom != null && NhomSelectedItem?.Id != null && RowSelectedItem.Nhom.Id != NhomSelectedItem.Id) {
 
                                 var thanhVienNhom = db.ThanhVienNhoms
                                     .Where(x => x.NguoiDungId == RowSelectedItem.NguoiDung.Id
                                     && x.NhomId == RowSelectedItem.Nhom.Id).FirstOrDefault();
-                                if(thanhVienNhom != null)
+
+                                var secondThanhVienNhom = db.ThanhVienNhoms
+                                  .Where(x => x.NguoiDungId == RowSelectedItem.NguoiDung.Id
+                                  && x.NhomId == NhomSelectedItem.Id).FirstOrDefault();
+
+
+                                if (thanhVienNhom != null )
                                 {
-                                    thanhVienNhom.NhomId = NhomSelectedItem.Id;
-                                    thanhVienNhom.NgayThamGia  = DateTime.Now;
-                                    db.SaveChanges();
-
-                                    //var tvn = new Models.ThanhVienNhom {NguoiDungId = RowSelectedItem.NguoiDung.Id, NhomId = NhomSelectedItem.Id, NgayThamGia = DateTime.Now };
-                                    //db.ThanhVienNhoms.Add(tvn);
-                                    //db.SaveChanges();
+                                    db.Remove(thanhVienNhom);
                                 }
-                            }
-                            
-                        }
 
-                        var phanQuyens = GetPhanQuyens();
-                        LoadTableList(phanQuyens);
+                                if (secondThanhVienNhom == null)
+                                {
+                                    var tvn = new Models.ThanhVienNhom { NguoiDungId = RowSelectedItem.NguoiDung.Id, NhomId = NhomSelectedItem.Id, NgayThamGia = DateTime.Now };
+                                    db.ThanhVienNhoms.Add(tvn);
+                                    
+                                }
+                               
+                            }
+                            else
+                            {
+                                MessageBox.Show("Chọn loại cập nhâp tương ứng với loại muốn cập nhập trong table");
+                            }
+                            // Có thay đổi
+                            if (db.ChangeTracker.HasChanges())
+                            {
+                                db.SaveChanges();
+                                var phanQuyens = GetPhanQuyens();
+                                LoadTableList(phanQuyens);
+
+                                NguoiDungSelectedItem = null;
+                                QuyenNhomSelectedItem = null;
+                                NhomSelectedItem = null;
+                                QuyenNhomSelectedItem = null ;
+                            }
+
+
+                        }
+                        else
+                            MessageBox.Show("Chọn dòng dữ liệu muốn cập nhập trong table");
+
 
                     }
                     else
@@ -461,50 +533,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
         {
             try
             {
-                using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
-                {
-                    //if (RowSelectedItem != null)
-                    //{
-                    //    // Xóa phân quyền liên quan
-                    //    //var phanQuyens = await db.PhanQuyenPhanQuyens
-                    //    //    .Where(x => x.PhanQuyenId == RowSelectedItem.Id)
-                    //    //    .ToListAsync();
-
-                    //    //if (phanQuyens.Any())
-                    //    //{
-                    //    //    db.PhanQuyenPhanQuyens.RemoveRange(phanQuyens);
-                    //    //}
-
-                    //    // Xóa người dùng
-                    //    var PhanQuyen = await db.PhanQuyens.Include(c => c.PhanQuyenPhanQuyens).FirstOrDefaultAsync(x => x.Id == RowSelectedItem.Id);
-                    //    if (PhanQuyen != null)
-                    //    {
-                    //        // Xóa phân quyền liên quan
-
-                    //        if (PhanQuyen.PhanQuyenPhanQuyens.Any())
-                    //        {
-                    //            db.PhanQuyenPhanQuyens.RemoveRange(PhanQuyen.PhanQuyenPhanQuyens);
-                    //        }
-
-                    //        db.PhanQuyens.Remove(PhanQuyen);
-                    //    }
-
-                    //    // Lưu thay đổi
-                    //    await db.SaveChangesAsync();
-
-
-
-                    //    var PhanQuyens = GetPhanQuyens();
-                    //    LoadTableList(PhanQuyens);
-
-                    //    NewId = 0;
-                    //    NewFullName = "";
-                    //    NewEmail = "";
-
-                    //    NguoiDungSelectedItem = null;
-                    //    StatusSelectedItem = null;
-                    //}
-                }
+               
             }
             catch (Exception ex)
             {
