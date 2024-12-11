@@ -6,12 +6,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Remoting.Contexts;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Markup;
 
 namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
 {
@@ -87,13 +83,18 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
         private string _newTextSearch;
 
         private PhanQuyenDTO _rowSelectedItem;
-        private ChucVu _chucVuSelectedItem;
-        private Status _statusSelectedItem;
+        private NguoiDung _nguoiDungSelectedItem;
+        private PhanQuyen _quyenSelectdItem;
+        private Nhom _nhomSelectdItem;
+        private PhanQuyen _quyenNhomSelectdItem;
 
 
         public ObservableCollection<PhanQuyenDTO> PhanQuyens { get; set; } = new ObservableCollection<PhanQuyenDTO>();
-        public ObservableCollection<ChucVu> ChucVus { get; set; } = new ObservableCollection<ChucVu>();
-        public ObservableCollection<Status> TrangThais { get; set; } = new ObservableCollection<Status>();
+        public ObservableCollection<NguoiDung> NguoiDungs { get; set; } = new ObservableCollection<NguoiDung>();
+        public ObservableCollection<PhanQuyen> Quyens { get; set; } = new ObservableCollection<PhanQuyen>();
+        public ObservableCollection<Nhom> Nhoms { get; set; } = new ObservableCollection<Nhom>();
+        public ObservableCollection<PhanQuyen> QuyensOfNhom { get; set; } = new ObservableCollection<PhanQuyen>();
+
 
 
         public string NewTextSearch
@@ -116,26 +117,46 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             }
         }
 
-        public ChucVu ChucVuSelectedItem
+        public NguoiDung NguoiDungSelectedItem
         {
-            get => _chucVuSelectedItem;
+            get => _nguoiDungSelectedItem;
             set
             {
-                if (_chucVuSelectedItem != value) // Chỉ thay đổi khi giá trị khác
+                if (_nguoiDungSelectedItem != value) // Chỉ thay đổi khi giá trị khác
                 {
-                    _chucVuSelectedItem = value;
-                    OnPropertyChanged(nameof(ChucVuSelectedItem)); // Thông báo UI
+                    _nguoiDungSelectedItem = value;
+                    OnPropertyChanged(nameof(NguoiDungSelectedItem)); // Thông báo UI
                 }
             }
         }
 
-        public Status StatusSelectedItem
+        public PhanQuyen QuyenSelectedItem
         {
-            get => _statusSelectedItem;
+            get => _quyenSelectdItem;
             set
             {
-                _statusSelectedItem = value;
-                OnPropertyChanged(nameof(StatusSelectedItem));
+                _quyenSelectdItem = value;
+             
+                OnPropertyChanged(nameof(QuyenSelectedItem));
+            }
+        }
+        public Nhom NhomSelectedItem
+        {
+            get => _nhomSelectdItem;
+            set
+            {
+                _nhomSelectdItem = value;
+             
+                OnPropertyChanged(nameof(NhomSelectedItem));
+            }
+        }
+        public PhanQuyen QuyenNhomSelectedItem
+        {
+            get => _quyenNhomSelectdItem;
+            set
+            {
+                _quyenNhomSelectdItem = value;
+                OnPropertyChanged(nameof(QuyenNhomSelectedItem));
             }
         }
         public int NewId
@@ -169,11 +190,11 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
         public ICommand EditItemCommand { get; }
         public ICommand DeleteItemCommand { get; }
         public ICommand SearchCommand { get; }
-        public ICommand DistrictSelectionChangedCommand { get; }
-        public ICommand SelectionChangedCommand { get; }
         public ICommand RowSelectedCommand { get; set; }
-        public ICommand ChucVuSelectedCommand { get; set; }
-        public ICommand StatusSelectedCommand { get; set; }
+        public ICommand NguoiDungSelectedCommand { get; set; }
+        public ICommand QuyenSelectedCommand { get; set; }
+        public ICommand NhomSelectedCommand { get; set; }
+        public ICommand QuyenNhomSelectedCommand { get; set; }
 
 
         public QuanLyPhanQuyenViewModel()
@@ -184,8 +205,11 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             DeleteItemCommand = new RelayCommand(DeleteItem);
             SearchCommand = new RelayCommand(Search);
             RowSelectedCommand = new RelayCommandT<PhanQuyenDTO>(OnRowSelected);
-            ChucVuSelectedCommand = new RelayCommandT<ChucVu>(OnChucVuSelected);
-            StatusSelectedCommand = new RelayCommandT<Status>(OnStatusSelected);
+            NguoiDungSelectedCommand = new RelayCommandT<NguoiDung>(OnNguoiDungSelected);
+            QuyenSelectedCommand = new RelayCommandT<PhanQuyen>(OnQuyenSelected);
+            NhomSelectedCommand = new RelayCommandT<Nhom>(OnNhomSelected);
+            QuyenNhomSelectedCommand = new RelayCommandT<PhanQuyen>(OnQuyenNhomSelected);
+
 
         }
         private void Initialize()
@@ -211,12 +235,16 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                     //Gan gia tri cho table list
                     PhanQuyens = new ObservableCollection<PhanQuyenDTO>(phanQuyens);
                 
-                    var chucVus = db.ChucVus.ToList();
-                    ChucVus = new ObservableCollection<ChucVu>(chucVus);
+                    var nguoiDungs = db.NguoiDungs.ToList();
+                    NguoiDungs = new ObservableCollection<NguoiDung>(nguoiDungs);
 
-                    var trangThais = new List<Status> { new Status(true), new Status(false) };
-                    TrangThais = new ObservableCollection<Status>(trangThais);
+                    var quyens = db.PhanQuyens.ToList();
+                    Quyens = new ObservableCollection<PhanQuyen>(quyens);
 
+                    var nhoms = db.Nhoms.ToList();
+                    Nhoms = new ObservableCollection<Nhom>(nhoms);
+
+            
                 }
             }
             catch (Exception ex)
@@ -228,23 +256,77 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
         {
             if (selectedItem != null)
             {
-                RowSelectedItem = selectedItem;
-                // Thực hiện hành động với SelectedItem
-                //NewId = selectedItem.index ?? 0;
-                //NewFullName = selectedItem.HoTen;
-                //NewEmail = selectedItem.Email;
 
-                //ChucVuSelectedItem = ChucVus.FirstOrDefault(c => c.Id == selectedItem?.ChucVu?.Id);
-                //StatusSelectedItem = TrangThais.FirstOrDefault(c => c.StatusValue == selectedItem?.TrangThai);
+                // Thực hiện hành động với SelectedItem
+
+                NguoiDungSelectedItem = NguoiDungs.FirstOrDefault(c => c.Id == selectedItem?.NguoiDung?.Id);
+                QuyenSelectedItem = Quyens.FirstOrDefault(c => c.MaQuyen == selectedItem?.Quyen?.MaQuyen);
+
+                NhomSelectedItem = Nhoms.FirstOrDefault(c => c.Id ==selectedItem?.Nhom?.Id);
+
+             
             }
 
         }
-        private void OnChucVuSelected(ChucVu selectedItem)
+        private void OnNguoiDungSelected(NguoiDung selectedItem)
         {
+          
 
         }
 
-        private void OnStatusSelected(Status selectedItem)
+        private void OnQuyenSelected(PhanQuyen selectedItem)
+        {
+           if(selectedItem != null && QuyenSelectedItem != null)
+            {
+                // Giới hạng chỉ thêm 1 quyền hoặc 1 nhóm mỗi lần
+               
+                    NhomSelectedItem = null;
+                    QuyensOfNhom.Clear();
+                
+            }
+
+        }
+        private void OnNhomSelected(Nhom selectedItem)
+        {
+            if(selectedItem != null)
+            {
+               if(QuyenSelectedItem != null && NhomSelectedItem != null)
+                    QuyenSelectedItem = null;
+              
+
+                using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
+                {
+
+                    var quyens = db.PhanQuyenNhoms.Include(c => c.PhanQuyen).Where(c => c.NhomID == selectedItem.Id).ToList();
+                    if(quyens.Count > 0)
+                    {
+                        var list = new List<PhanQuyen>();
+                        // Tao list phan quyen va them tung quyen thuc nhóm
+                        foreach(var item in quyens)
+                        {
+                            if(item.PhanQuyen != null)
+                            {
+                                list.Add(item.PhanQuyen);
+                            }
+                        }
+
+                        QuyensOfNhom.Clear();
+                        foreach (var item in list)
+                        {
+                            QuyensOfNhom.Add(item);
+
+                        }
+                        if(list.Count > 0)
+                            QuyenNhomSelectedItem  = QuyensOfNhom[0];
+                    }
+                    
+
+                }
+            }
+       
+
+        }
+        private void OnQuyenNhomSelected(PhanQuyen selectedItem)
         {
 
 
@@ -316,24 +398,56 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             {
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
-                    //if (RowSelectedItem != null)
-                    //{
-                    //    var PhanQuyen = await db.PhanQuyens.FirstOrDefaultAsync(x => x.Id == RowSelectedItem.Id);
-                    //    if (PhanQuyen != null)
-                    //    {
-                    //        PhanQuyen.HoTen = NewFullName;
-                    //        PhanQuyen.ChucVuId = ChucVuSelectedItem?.Id;
-                    //        PhanQuyen.TrangThai = StatusSelectedItem?.StatusValue;
-                    //        PhanQuyen.Email = NewEmail;
-                    //        await db.SaveChangesAsync();
+                    //Kiem tra rowselected có trùng với nguoidungselected 
+                    if (RowSelectedItem != null) {
+                        if (RowSelectedItem.NguoiDung?.Id == NguoiDungSelectedItem?.Id) {
+                            // Cho phep cap nhap
+                            // Kiểm tra nếu quyền đã tồn tại trong cơ sở dữ liệu.
+                            if (RowSelectedItem?.Quyen != null)
+                            {
+                                var phanQuyenNguoiDung = db.PhanQuyenNguoiDungs
+                                    .Where(x => x.NguoiDungId == RowSelectedItem.NguoiDung.Id
+                                                      && (x.MaQuyen == RowSelectedItem.Quyen.MaQuyen))
+                                    .FirstOrDefault();
 
-                    //        var PhanQuyens = GetPhanQuyens();
-                    //        LoadTableList(PhanQuyens);
-                    //        RowSelectedItem = PhanQuyens.FirstOrDefault(x => x.Id == PhanQuyen.Id);
+                                if (phanQuyenNguoiDung != null) {
 
+                                    phanQuyenNguoiDung.MaQuyen = QuyenSelectedItem?.MaQuyen;
+                                    db.SaveChanges();
 
-                    //    }
-                    //}
+                                    //var phanQuyen = new Models.PhanQuyenNguoiDung { NguoiDungId = RowSelectedItem.NguoiDung.Id, MaQuyen = QuyenSelectedItem.MaQuyen };
+                                    //db.PhanQuyenNguoiDungs.Add(phanQuyen);
+                                    //db.SaveChanges();
+
+                                }
+
+                            }
+
+                            if (RowSelectedItem?.Nhom != null) {
+
+                                var thanhVienNhom = db.ThanhVienNhoms
+                                    .Where(x => x.NguoiDungId == RowSelectedItem.NguoiDung.Id
+                                    && x.NhomId == RowSelectedItem.Nhom.Id).FirstOrDefault();
+                                if(thanhVienNhom != null)
+                                {
+                                    thanhVienNhom.NhomId = NhomSelectedItem.Id;
+                                    thanhVienNhom.NgayThamGia  = DateTime.Now;
+                                    db.SaveChanges();
+
+                                    //var tvn = new Models.ThanhVienNhom {NguoiDungId = RowSelectedItem.NguoiDung.Id, NhomId = NhomSelectedItem.Id, NgayThamGia = DateTime.Now };
+                                    //db.ThanhVienNhoms.Add(tvn);
+                                    //db.SaveChanges();
+                                }
+                            }
+                            
+                        }
+
+                        var phanQuyens = GetPhanQuyens();
+                        LoadTableList(phanQuyens);
+
+                    }
+                    else
+                        MessageBox.Show("Chọn dòng dữ liệu muốn cập nhập trong table");
                 }
 
 
@@ -387,7 +501,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                     //    NewFullName = "";
                     //    NewEmail = "";
 
-                    //    ChucVuSelectedItem = null;
+                    //    NguoiDungSelectedItem = null;
                     //    StatusSelectedItem = null;
                     //}
                 }

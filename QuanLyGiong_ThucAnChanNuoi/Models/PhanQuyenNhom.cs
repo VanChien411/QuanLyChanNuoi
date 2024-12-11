@@ -13,7 +13,12 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
         public int NhomID { get; set; }
         public string MaQuyen { get; set; }
 
-        public Nhom Nhom { get; set; }
-        public PhanQuyen PhanQuyen { get; set; }
+        // Chỉ rõ khóa ngoại đến NguoiDung
+        [ForeignKey(nameof(NhomID))]
+        public virtual Nhom Nhom { get; set; }
+
+        // Nếu PhanQuyen là bảng khác
+        [ForeignKey(nameof(MaQuyen))]
+        public virtual PhanQuyen PhanQuyen { get; set; }
     }
 }

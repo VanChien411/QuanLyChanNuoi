@@ -73,17 +73,17 @@
                             <TextBlock Text="Tài khoản:"/>
 
                             <ComboBox x:Name="ChucVuComboBox" 
-           Width="200" 
-           Height="25" 
-           VerticalAlignment="Center" 
-           ItemsSource="{Binding ChucVus}" 
-           SelectedItem="{Binding ChucVuSelectedItem, Mode=TwoWay}" 
+                               Width="200" 
+                               Height="25" 
+                               VerticalAlignment="Center" 
+                               ItemsSource="{Binding NguoiDungs}" 
+                               SelectedItem="{Binding NguoiDungSelectedItem, Mode=TwoWay}" 
          
-           DisplayMemberPath="TenChucVu" >
+                               DisplayMemberPath="TenDn" >      
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SelectionChanged">
-                                        <i:InvokeCommandAction Command="{Binding ChucVuSelectedCommand}"
-                       CommandParameter="{Binding ChucVuSelectedItem}" />
+                                        <i:InvokeCommandAction Command="{Binding NguoiDungSelectedCommand}"
+                       CommandParameter="{Binding NguoiDungSelectedItem}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </ComboBox>
@@ -95,14 +95,14 @@
            Width="200" 
            Height="25" 
            VerticalAlignment="Center" 
-           ItemsSource="{Binding TrangThais}" 
-           SelectedItem="{Binding StatusSelectedItem, Mode=TwoWay}" 
+           ItemsSource="{Binding Quyens}" 
+           SelectedItem="{Binding QuyenSelectedItem, Mode=TwoWay}" 
          
-           DisplayMemberPath="Name" >
+           DisplayMemberPath="TenQuyen" >
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SelectionChanged">
-                                        <i:InvokeCommandAction Command="{Binding StatusSelectedCommand}"
-                       CommandParameter="{Binding StatusSelectedItem}" />
+                                        <i:InvokeCommandAction Command="{Binding QuyenSelectedCommand}"
+                       CommandParameter="{Binding QuyenSelectedItem}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </ComboBox>
@@ -119,25 +119,7 @@
                     <!-- Form Input -->
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
 
-                        <StackPanel Orientation="Vertical" Margin="10">
-                            <TextBlock Text="Tài khoản:"/>
-
-                            <ComboBox x:Name="TenComboBox" 
-Width="200" 
-Height="25" 
-VerticalAlignment="Center" 
-ItemsSource="{Binding ChucVus}" 
-SelectedItem="{Binding ChucVuSelectedItem, Mode=TwoWay}" 
-    
-DisplayMemberPath="TenChucVu" >
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="SelectionChanged">
-                                        <i:InvokeCommandAction Command="{Binding ChucVuSelectedCommand}"
-            CommandParameter="{Binding ChucVuSelectedItem}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </ComboBox>
-                        </StackPanel>
+                       
                         <StackPanel Orientation="Vertical" Margin="10">
                             <TextBlock Text="Nhóm:"/>
 
@@ -145,14 +127,14 @@ DisplayMemberPath="TenChucVu" >
                                 Width="200" 
                                 Height="25" 
                                 VerticalAlignment="Center" 
-                                ItemsSource="{Binding TrangThais}" 
-                                SelectedItem="{Binding StatusSelectedItem, Mode=TwoWay}" 
+                                ItemsSource="{Binding Nhoms}" 
+                                SelectedItem="{Binding NhomSelectedItem, Mode=TwoWay}" 
     
-                                DisplayMemberPath="Name" >
+                                DisplayMemberPath="Ten" >
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SelectionChanged">
-                                        <i:InvokeCommandAction Command="{Binding StatusSelectedCommand}"
-            CommandParameter="{Binding StatusSelectedItem}" />
+                                        <i:InvokeCommandAction Command="{Binding NhomSelectedCommand}"
+            CommandParameter="{Binding NhomSelectedItem}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </ComboBox>
@@ -164,23 +146,22 @@ DisplayMemberPath="TenChucVu" >
                     Width="200" 
                     Height="25" 
                     VerticalAlignment="Center" 
-                    ItemsSource="{Binding TrangThais}" 
-                    SelectedItem="{Binding StatusSelectedItem, Mode=TwoWay}" 
+                    ItemsSource="{Binding QuyensOfNhom}" 
+                    SelectedItem="{Binding QuyenNhomSelectedItem, Mode=TwoWay}" 
     
-                    DisplayMemberPath="Name" >
+                    DisplayMemberPath="TenQuyen" >
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SelectionChanged">
-                                        <i:InvokeCommandAction Command="{Binding StatusSelectedCommand}"
-CommandParameter="{Binding StatusSelectedItem}" />
+                                        <i:InvokeCommandAction Command="{Binding QuyenNhomSelectedCommand}"
+CommandParameter="{Binding QuyenNhomSelectedItem}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </ComboBox>
                         </StackPanel>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="290">
 
-                        <Button Content="Cập nhập" Width="100" Margin="10" Command="{Binding EditItemCommand}"/>
-                        <Button Content="Thêm quyền" Width="150" Margin="10" Command="{Binding DeleteItemCommand}"/>
+                    
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

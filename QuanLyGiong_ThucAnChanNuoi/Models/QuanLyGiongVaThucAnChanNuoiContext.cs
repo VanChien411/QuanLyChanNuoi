@@ -207,9 +207,30 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
             });
             modelBuilder.Entity<PhanQuyenNhom>(entity =>
             {
+
+                entity.ToTable("phan_quyen_nhom");
+
                 entity.HasKey(e => new { e.NhomID, e.MaQuyen });
 
-               
+
+                entity.Property(e => e.NhomID)
+                    .HasColumnName("NhomID")
+                    .IsRequired();
+
+                entity.Property(e => e.MaQuyen)
+                    .HasColumnName("ma_quyen")
+                    .IsRequired();
+
+                entity.HasOne(e => e.Nhom)
+                    .WithMany(d => d.PhanQuyenNhoms)
+                    .HasForeignKey(e => e.NhomID)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(e => e.PhanQuyen)
+                    .WithMany(p => p.PhanQuyenNhoms)
+                    .HasForeignKey(e => e.MaQuyen)
+                    .OnDelete(DeleteBehavior.Cascade);
+
             });
             modelBuilder.Entity<PhanQuyenNguoiDung>(entity =>
             {
