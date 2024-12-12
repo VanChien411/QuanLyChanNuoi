@@ -18,7 +18,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
         public class Status
         {
             public bool StatusValue { get; set; }
-            public string Name => StatusValue ? "Mở" : "Hoạt động";
+            public string Name => StatusValue ? "Hoạt động" : "Khóa";
 
             public Status(bool statusValue = false) // Giá trị mặc định là false
             {

@@ -318,12 +318,15 @@
       <DependentUpon>UserWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\CoSoKhaoNghiemViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\QuanLyHCHuyenViewModel.cs" />
     <Compile Include="ViewModel\QuanLyHCXaViewModel.cs" />
     <Compile Include="ViewModel\QuanLyNguoiDungViewModel.cs" />
     <Compile Include="ViewModel\QuanLyPhanQuyenViewModel.cs" />
+    <Compile Include="ViewModel\QuanLySanXuatGiongVNViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
+    <Compile Include="ViewModel\SoHuuGiongVNViewModel.cs" />
     <Page Include="AdminWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
