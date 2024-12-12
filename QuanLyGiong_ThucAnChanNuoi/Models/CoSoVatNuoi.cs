@@ -41,6 +41,9 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
         [ForeignKey("ToChucCaNhanId")]
         [InverseProperty("CoSoVatNuois")]
         public virtual ToChucCaNhan ToChucCaNhan { get; set; }
+
+        public string TrangThaiHienThi => Trangthai.HasValue && Trangthai.Value ? "Đang nghiên cứu" : "Đã nghiên cứu xong";
+
     }
 }
 
