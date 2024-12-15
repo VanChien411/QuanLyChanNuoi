@@ -23,10 +23,13 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
 
         [StringLength(200)]
         public string LyDo { get; set; }
-
+        public DateTime? NgayBaoTon { get; set; }
+        public bool? TrangThai { get; set; }
         [ForeignKey("GiongId")]
         [InverseProperty("GiongCanBaoTons")]
         public virtual GiongVatNuoi Giong { get; set; }
+
+        public string TrangThaiHienThi => TrangThai.HasValue && TrangThai.Value ? "Đang bảo tồn" : "Hết bảo tồn";
     }
 }
 

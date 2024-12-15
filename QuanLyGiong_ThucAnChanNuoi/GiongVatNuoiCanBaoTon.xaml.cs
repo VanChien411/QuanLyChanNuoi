@@ -6,13 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
+using QuanLyGiong_ThucAnChanNuoi.ViewModel;
 namespace QuanLyGiong_ThucAnChanNuoi
 {
     /// <summary>
@@ -35,32 +29,33 @@ namespace QuanLyGiong_ThucAnChanNuoi
         public GiongVatNuoiCanBaoTon()
         {
             InitializeComponent();
-            LoadData();
+            DataContext = new GiongCanBaoTonViewModel();
+            //LoadData();
         }
 
         // Tải dữ liệu mẫu ban đầu
         private void LoadData()
         {
-            _animalOwners = new ObservableCollection<AnimalOwner>
-            {
-                new AnimalOwner { Index = 1, BreedName = "Công ty ABC", BreedType = "Hà Nội", ConservationStatus = "Bò", ConservationStartDate = "Đang nghiên cứu" },
-                new AnimalOwner { Index = 2, BreedName = "Hộ gia đình XYZ", BreedType = "Đà Nẵng", ConservationStatus = "Heo", ConservationStartDate = "Đã nghiên cứu xong" }
-            };
+            //_animalOwners = new ObservableCollection<AnimalOwner>
+            //{
+            //    new AnimalOwner { Index = 1, BreedName = "Công ty ABC", BreedType = "Hà Nội", ConservationStatus = "Bò", ConservationStartDate = "Đang nghiên cứu" },
+            //    new AnimalOwner { Index = 2, BreedName = "Hộ gia đình XYZ", BreedType = "Đà Nẵng", ConservationStatus = "Heo", ConservationStartDate = "Đã nghiên cứu xong" }
+            //};
 
-            DistrictDataGrid.ItemsSource = _animalOwners;
+            //DistrictDataGrid.ItemsSource = _animalOwners;
         }
 
         // Xử lý tìm kiếm
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            string keyword = SearchTextBox.Text.ToLower();
-            var filteredList = _animalOwners.Where(owner =>
-                owner.BreedName.ToLower().Contains(keyword) ||
-                owner.BreedType.ToLower().Contains(keyword) ||
-                owner.ConservationStatus.ToLower().Contains(keyword) ||
-                owner.ConservationStartDate.ToLower().Contains(keyword)).ToList();
+            //string keyword = SearchTextBox.Text.ToLower();
+            //var filteredList = _animalOwners.Where(owner =>
+            //    owner.BreedName.ToLower().Contains(keyword) ||
+            //    owner.BreedType.ToLower().Contains(keyword) ||
+            //    owner.ConservationStatus.ToLower().Contains(keyword) ||
+            //    owner.ConservationStartDate.ToLower().Contains(keyword)).ToList();
 
-            DistrictDataGrid.ItemsSource = new ObservableCollection<AnimalOwner>(filteredList);
+            //DistrictDataGrid.ItemsSource = new ObservableCollection<AnimalOwner>(filteredList);
         }
 
         // Hiển thị hoặc ẩn placeholder
@@ -74,68 +69,68 @@ namespace QuanLyGiong_ThucAnChanNuoi
         // Thêm mới tổ chức/cá nhân
         private void AddDistrictButton_Click(object sender, RoutedEventArgs e)
         {
-            if (int.TryParse(DistrictNameTextBox.Text, out int id))
-            {
-                _animalOwners.Add(new AnimalOwner
-                {
-                    Index = id,
-                    BreedName = ProvinceTextBox.Text,
-                    BreedType = PostalCodeTextBox.Text,
-                    ConservationStatus = PostalCodeTextBox1.Text,
-                    ConservationStartDate = PostalCodeTextBox2.Text
-                });
-                MessageBox.Show("Thêm mới thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
-                ClearInputFields();
-            }
-            else
-            {
-                MessageBox.Show("ID phải là số hợp lệ.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            //if (int.TryParse(DistrictNameTextBox.Text, out int id))
+            //{
+            //    _animalOwners.Add(new AnimalOwner
+            //    {
+            //        Index = id,
+            //        BreedName = ProvinceTextBox.Text,
+            //        BreedType = PostalCodeTextBox.Text,
+            //        ConservationStatus = PostalCodeTextBox1.Text,
+            //        ConservationStartDate = PostalCodeTextBox2.Text
+            //    });
+            //    MessageBox.Show("Thêm mới thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            //    ClearInputFields();
+            //}
+            //else
+            //{
+            //    MessageBox.Show("ID phải là số hợp lệ.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            //}
         }
 
         // Sửa thông tin tổ chức/cá nhân
         private void EditDistrictButton_Click(object sender, RoutedEventArgs e)
         {
-            if (DistrictDataGrid.SelectedItem is AnimalOwner selectedOwner)
-            {
-                selectedOwner.BreedName = ProvinceTextBox.Text;
-                selectedOwner.BreedType = PostalCodeTextBox.Text;
-                selectedOwner.ConservationStatus = PostalCodeTextBox1.Text;
-                selectedOwner.ConservationStartDate = PostalCodeTextBox2.Text;
+            //if (DistrictDataGrid.SelectedItem is AnimalOwner selectedOwner)
+            //{
+            //    selectedOwner.BreedName = ProvinceTextBox.Text;
+            //    selectedOwner.BreedType = PostalCodeTextBox.Text;
+            //    selectedOwner.ConservationStatus = PostalCodeTextBox1.Text;
+            //    selectedOwner.ConservationStartDate = PostalCodeTextBox2.Text;
 
-                DistrictDataGrid.Items.Refresh();
-                MessageBox.Show("Cập nhật thông tin thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
-                ClearInputFields();
-            }
-            else
-            {
-                MessageBox.Show("Vui lòng chọn một mục trong danh sách để sửa.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            //    DistrictDataGrid.Items.Refresh();
+            //    MessageBox.Show("Cập nhật thông tin thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            //    ClearInputFields();
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Vui lòng chọn một mục trong danh sách để sửa.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            //}
         }
 
         // Xóa tổ chức/cá nhân
         private void DeleteDistrictButton_Click(object sender, RoutedEventArgs e)
         {
-            if (DistrictDataGrid.SelectedItem is AnimalOwner selectedOwner)
-            {
-                _animalOwners.Remove(selectedOwner);
-                MessageBox.Show("Xóa thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
-                ClearInputFields();
-            }
-            else
-            {
-                MessageBox.Show("Vui lòng chọn một mục trong danh sách để xóa.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            //if (DistrictDataGrid.SelectedItem is AnimalOwner selectedOwner)
+            //{
+            //    _animalOwners.Remove(selectedOwner);
+            //    MessageBox.Show("Xóa thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            //    ClearInputFields();
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Vui lòng chọn một mục trong danh sách để xóa.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            //}
         }
 
         // Xóa nội dung các trường nhập liệu
         private void ClearInputFields()
         {
-            DistrictNameTextBox.Clear();
-            ProvinceTextBox.Clear();
-            PostalCodeTextBox.Clear();
-            PostalCodeTextBox1.Clear();
-            PostalCodeTextBox2.Clear();
+            //DistrictNameTextBox.Clear();
+            //ProvinceTextBox.Clear();
+            //PostalCodeTextBox.Clear();
+            //PostalCodeTextBox1.Clear();
+            //PostalCodeTextBox2.Clear();
         }
     }
 
