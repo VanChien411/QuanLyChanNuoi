@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:QuanLyGiong_ThucAnChanNuoi"
+        xmlns:local="clr-namespace:QuanLyGiong_ThucAnChanNuoi" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         WindowState="Maximized"
         Title="KhaiThacPhatTrienNguonGen" Height="450" Width="800">
@@ -33,54 +33,99 @@
 
                     <!-- TextBox -->
                     <TextBox x:Name="SearchTextBox"
-          VerticalAlignment="Center"
-          TextChanged="SearchTextBox_TextChanged"/>
+VerticalAlignment="Center"
+ Text="{Binding NewTextSearch, UpdateSourceTrigger=PropertyChanged}"
+              
+TextChanged="SearchTextBox_TextChanged"/>
                 </Grid>
-                <Button Content="Tìm kiếm" Width="100" Click="SearchButton_Click"/>
+                <Button Content="Tìm kiếm" Width="100"  Command="{Binding SearchCommand}"/>
             </StackPanel>
 
+
             <!-- DataGrid -->
-            <DataGrid x:Name="DistrictDataGrid" AutoGenerateColumns="False" IsReadOnly="True"
-               Grid.Row="1" SelectionMode="Single" Margin="0,0,0,10">
+            <DataGrid x:Name="DataGrid" ItemsSource="{Binding ToChucNguonGens}" AutoGenerateColumns="False" IsReadOnly="True"
+Grid.Row="1" SelectionMode="Single" Margin="0,0,0,10"
+          SelectedItem="{Binding RowSelectedItem}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding RowSelectedCommand}" 
+                       CommandParameter="{Binding RowSelectedItem}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding Index}" Width="50" />
-                    <DataGridTextColumn Header="Tên tổ chức/ cá nhân" Binding="{Binding BreedName}" Width="200" />
-                    <DataGridTextColumn Header="Loại nguồn gen" Binding="{Binding BreedType}" Width="200" />
-                    <DataGridTextColumn Header="Khu vực" Binding="{Binding ExportBanStatus}" Width="150" />
-                    <DataGridTextColumn Header="Ngày cập nhật" Binding="{Binding ExportBanDate}" Width="150" />
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50" />
+                    <DataGridTextColumn Header="Tên tổ chức/ cá nhân" Binding="{Binding ToChucCaNhan.Ten}" Width="200" />
+                    <DataGridTextColumn Header="Loại nguồn gen" Binding="{Binding NguonGen.TenNguonGen}" Width="200" />
+                    <DataGridTextColumn Header="Khu vực" Binding="{Binding KhuVuc}" Width="150" />
+                    <DataGridTextColumn Header="Ngày cập nhập" Binding="{Binding NgayThuThap}" Width="150" />
+
                 </DataGrid.Columns>
             </DataGrid>
-
             <!-- Action Buttons -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2">
                 <!-- Form Input -->
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                     <StackPanel Orientation="Vertical" Margin="10">
                         <TextBlock Text="ID:"/>
-                        <TextBox x:Name="DistrictNameTextBox" Width="20"/>
+                        <TextBox x:Name="IDTextBox" Width="20" IsEnabled="False" Text="{Binding NewId, UpdateSourceTrigger=PropertyChanged}"/>
+
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="10">
                         <TextBlock Text="Tên tổ chức/ cá nhân:"/>
-                        <TextBox x:Name="ProvinceTextBox" Width="200"/>
+                        <ComboBox x:Name="OfficeComboBox" 
+         
+                            Width="200" 
+                            Height="25" 
+                            VerticalAlignment="Center" 
+                        
+                            ItemsSource="{Binding ToChucCaNhans}" 
+                            SelectedItem="{Binding ToChucCaNhanSelectedItem}" 
+
+        DisplayMemberPath="Ten" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding ToChucCaNhanSelectedCommand}"
+    CommandParameter="{Binding ToChucCaNhanSelectedItem}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="10">
                         <TextBlock Text="Loại nguồn gen:"/>
-                        <TextBox x:Name="PostalCodeTextBox" Width="150"/>
+                        <ComboBox x:Name="NameComboBox" 
+                    IsEditable="True" 
+                    Width="200" 
+                    Height="25" 
+                    VerticalAlignment="Center" 
+                    Text="{Binding GenSource, UpdateSourceTrigger=PropertyChanged}" 
+                    ItemsSource="{Binding NguonGens}" 
+                    SelectedItem="{Binding NguonGenselectedItem}" 
+
+DisplayMemberPath="TenNguonGen" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding NguonGenselectedCommand}"
+    CommandParameter="{Binding NguonGenselectedItem}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="10">
                         <TextBlock Text="Khuc vực:"/>
-                        <TextBox x:Name="PostalCodeTextBox1" Width="150"/>
+                        <TextBox x:Name="Area" Text="{Binding NewArea, UpdateSourceTrigger=PropertyChanged}"  Width="150"/>
+
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="10">
-                        <TextBlock Text="Ngày cập nhật:"/>
-                        <TextBox x:Name="PostalCodeTextBox2" Width="100"/>
+                        <TextBlock Text="Ngày thu thập:"/>
+                        <DatePicker VerticalAlignment="Top"  Width="150"  SelectedDate="{Binding NewStartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="Thêm mới" Width="100" Margin="10" Click="AddDistrictButton_Click"/>
-                    <Button Content="Sửa" Width="100" Margin="10" Click="EditDistrictButton_Click"/>
-                    <Button Content="Xóa" Width="100" Margin="10" Click="DeleteDistrictButton_Click"/>
+                    <Button Content="Thêm mới" Width="100" Margin="10" Command="{Binding AddItemCommand}"/>
+                    <Button Content="Sửa" Width="100" Margin="10" Command="{Binding EditItemCommand}"/>
+                    <Button Content="Xóa" Width="100" Margin="10" Command="{Binding DeleteItemCommand}"/>
                 </StackPanel>
+
             </StackPanel>
         </Grid>
     </Grid>
