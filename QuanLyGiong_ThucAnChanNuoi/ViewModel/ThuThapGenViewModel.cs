@@ -207,7 +207,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 ////Thực hiện hành động với SelectedItem
                 NewId = selectedItem.Id;
                 NewArea = selectedItem.KhuVuc;
-                NewStartDate = selectedItem.NgayThuThap.Value;
+                NewStartDate = selectedItem.NgayThuThap ?? DateTime.Now;
 
                 ToChucCaNhanSelectedItem = ToChucCaNhans.FirstOrDefault(x => x.Id == selectedItem.ToChucCaNhanId);
                 NguonGenselectedItem = NguonGens.FirstOrDefault(x => x.Id == selectedItem.NguonGenId);

@@ -11,28 +11,24 @@ using System.Windows.Input;
 
 namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
 {
-   internal class BaoTonGenViewModel : INotifyPropertyChanged
+    internal class HoaChatCamViewModel : INotifyPropertyChanged
     {
-
 
         private int _newId;
         private string _newFullName;
-        private string _newArea;
-        private DateTime _newStartDate;
-        private string _newGenSource;
-        private string _active = "Bảo tồn";
+        private string _NewNote;
 
 
         private string _newTextSearch;
 
-        private ToChucNguonGen _rowSelectedItem;
+        private Models.HoaChatCam _rowSelectedItem;
         private ToChucCaNhan _toChucCaNhanSelectedItem;
 
         private NguonGen _NguonGen;
 
 
 
-        public ObservableCollection<ToChucNguonGen> ToChucNguonGens { get; set; } = new ObservableCollection<ToChucNguonGen>();
+        public ObservableCollection<Models.HoaChatCam> HoaChatCams { get; set; } = new ObservableCollection<Models.HoaChatCam>();
         public ObservableCollection<ToChucCaNhan> ToChucCaNhans { get; set; } = new ObservableCollection<ToChucCaNhan>();
 
 
@@ -53,7 +49,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             }
         }
 
-        public ToChucNguonGen RowSelectedItem
+        public Models.HoaChatCam RowSelectedItem
         {
             get => _rowSelectedItem;
             set
@@ -72,32 +68,10 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             }
         }
 
-        public NguonGen NguonGenselectedItem
-        {
-            get => _NguonGen;
-            set
-            {
-                _NguonGen = value;
-                if (value != null)
-                {
-                    // Khi có SelectedItem, cập nhật Text để khớp với item
-                    GenSource = (value as NguonGen)?.TenNguonGen; // Thay 'YourItemType' bằng kiểu object trong ItemsSource
-                }
-                OnPropertyChanged(nameof(NguonGenselectedItem));
-            }
-        }
 
 
 
-        public string GenSource
-        {
-            get => _newGenSource;
-            set
-            {
-                _newGenSource = value;
-                OnPropertyChanged(nameof(GenSource));
-            }
-        }
+
         public int NewId
         {
             get => _newId;
@@ -116,22 +90,14 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 OnPropertyChanged(nameof(NewFullName));
             }
         }
-        public DateTime NewStartDate
+
+        public string NewNote
         {
-            get => _newStartDate;
+            get => _NewNote;
             set
             {
-                _newStartDate = value;
-                OnPropertyChanged(nameof(NewStartDate));
-            }
-        }
-        public string NewArea
-        {
-            get => _newArea;
-            set
-            {
-                _newArea = value;
-                OnPropertyChanged(nameof(NewArea));
+                _NewNote = value;
+                OnPropertyChanged(nameof(NewNote));
             }
         }
 
@@ -147,14 +113,14 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
 
 
 
-        public BaoTonGenViewModel()
+        public HoaChatCamViewModel()
         {
             Initialize();
             AddItemCommand = new RelayCommand(AddItem);
             EditItemCommand = new RelayCommand(EditItem);
             DeleteItemCommand = new RelayCommand(DeleteItem);
             SearchCommand = new RelayCommand(Search);
-            RowSelectedCommand = new RelayCommandT<ToChucNguonGen>(OnRowSelected);
+            RowSelectedCommand = new RelayCommandT<Models.HoaChatCam>(OnRowSelected);
             NguonGenselectedCommand = new RelayCommandT<NguonGen>(OnNguonGenselected);
             ToChucCaNhanSelectedCommand = new RelayCommandT<ToChucCaNhan>(OnToChuCaNhanSelected);
 
@@ -179,9 +145,9 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
 
-                    var rowData = GetToChucNguonGens();
+                    var rowData = GetHoaChatCams();
                     //Gan gia tri cho table list
-                    ToChucNguonGens = new ObservableCollection<ToChucNguonGen>(rowData);
+                    HoaChatCams = new ObservableCollection<Models.HoaChatCam>(rowData);
 
                     var nguonGens = db.NguonGens.ToList();
                     NguonGens = new ObservableCollection<NguonGen>(nguonGens);
@@ -190,7 +156,6 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
 
 
 
-                    NewStartDate = DateTime.Now;
                 }
             }
             catch (Exception ex)
@@ -198,18 +163,15 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 MessageBox.Show($"Lỗi khi tải dữ liệu: {ex.Message}");
             }
         }
-        private void OnRowSelected(ToChucNguonGen selectedItem)
+        private void OnRowSelected(Models.HoaChatCam selectedItem)
         {
             if (selectedItem != null)
             {
 
                 ////Thực hiện hành động với SelectedItem
                 NewId = selectedItem.Id;
-                NewArea = selectedItem.KhuVuc;
-                NewStartDate = selectedItem.NgayThuThap?? DateTime.Now;
-
-                ToChucCaNhanSelectedItem = ToChucCaNhans.FirstOrDefault(x => x.Id == selectedItem.ToChucCaNhanId);
-                NguonGenselectedItem = NguonGens.FirstOrDefault(x => x.Id == selectedItem.NguonGenId);
+                NewNote = selectedItem.LyDoCam;
+                NewFullName = selectedItem.TenHoaChat;
 
 
             }
@@ -240,14 +202,14 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
 
         }
 
-        private List<ToChucNguonGen> GetToChucNguonGens()
+        private List<Models.HoaChatCam> GetHoaChatCams()
         {
             try
             {
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
 
-                    var data = db.ToChucNguonGens.AsNoTracking().Include(c => c.NguonGen).Include(c => c.ToChucCaNhan).Where(x => x.HoatDong.Equals(_active)).ToList();
+                    var data = db.HoaChatCams.AsNoTracking().Include(c => c.CoSoHoaChatCams).ToList();
                     return data;
                 }
             }
@@ -265,18 +227,16 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 var textSearch = NewTextSearch?.ToLower() ?? "";
                 // Sử dụng && để kiểm tra x.MaBuuDien != null trước khi gọi ToLower().Contains().
 
-                var ToChucNguonGens = GetToChucNguonGens()
+                var HoaChatCams = GetHoaChatCams()
                   .Where(x =>
-                      (x.ToChucCaNhan?.Ten?.ToLower().Contains(textSearch.ToLower()) ?? false)
-                      || (x.NguonGen?.TenNguonGen?.ToLower().Contains(textSearch.ToLower()) ?? false)
-                      || (x.NgayThuThap?.ToString().ToLower().Contains(textSearch.ToLower()) ?? false)
+                       (x.TenHoaChat?.ToLower().Contains(textSearch.ToLower()) ?? false)
+                      || (x.LyDoCam?.ToLower().Contains(textSearch.ToLower()) ?? false)
                       || (x.Id.ToString().ToLower().Contains(textSearch.ToLower()))
-                      || (x.KhuVuc?.ToLower().Contains(textSearch.ToLower()) ?? false)
                    )
                   .ToList();
 
 
-                LoadTableList(ToChucNguonGens);
+                LoadTableList(HoaChatCams);
 
 
             }
@@ -291,49 +251,21 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             {
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
-                    if (ToChucCaNhanSelectedItem?.Id == null || string.IsNullOrEmpty(GenSource))
-                    {
-                        MessageBox.Show("Hãy nhập đầy đủ dữ liệu");
-                        return;
-                    }
-                    int? idGen = null;
-                    if (NguonGenselectedItem?.Id != null)
-                    {
-                        idGen = NguonGenselectedItem.Id;
-
-
-                        var check = db.ToChucNguonGens.FirstOrDefault(x => x.HoatDong == _active && x.NguonGenId == idGen && x.ToChucCaNhanId == ToChucCaNhanSelectedItem.Id);
-                        if (check != null)
+                    if (!string.IsNullOrEmpty(NewFullName)) {
+                        var hcc = new Models.HoaChatCam
                         {
-                            MessageBox.Show("Dữ liệu có sãn hãy [ sửa hoặc xóa]");
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        var ng = new NguonGen { TenNguonGen = GenSource };
-                        db.NguonGens.Add(ng);
-                        db.SaveChanges();
-
-                        idGen = ng.Id;
-                    }
-
-                    if (idGen != null)
-                    {
-                        var tcng = new ToChucNguonGen { ToChucCaNhanId = ToChucCaNhanSelectedItem.Id, NguonGenId = idGen.Value, KhuVuc = NewArea, NgayThuThap = NewStartDate, HoatDong = _active };
-                        db.ToChucNguonGens.Add(tcng);
+                            TenHoaChat = NewFullName,
+                            LyDoCam = NewNote
+                        };
+                        db.HoaChatCams.Add(hcc);
                         db.SaveChanges();
 
                         //Reset list
-                        var data = GetToChucNguonGens();
+                        var data = GetHoaChatCams();
                         LoadTableList(data);
 
-                        RowSelectedItem = null;
-                        NguonGenselectedItem = null;
-                        ToChucCaNhanSelectedItem = null;
-
-                        NewArea = "";
-
+                        NewFullName = "";
+                        NewNote = "";
                     }
                 }
 
@@ -347,62 +279,32 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
         {
             try
             {
-
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
-                    if (ToChucCaNhanSelectedItem?.Id == null || string.IsNullOrEmpty(GenSource))
+                    if (RowSelectedItem != null)
                     {
-                        MessageBox.Show("Hãy nhập đầy đủ dữ liệu");
-                        return;
-                    }
-                    if (RowSelectedCommand != null)
-                    {
-                        int? idGen = null;
-                        if (NguonGenselectedItem?.Id != null)
-                        {
-                            idGen = NguonGenselectedItem.Id;
-
-                        }
-                        else
-                        {
-                            var ng = new NguonGen { TenNguonGen = GenSource };
-                            db.NguonGens.Add(ng);
-                            db.SaveChanges();
-
-                            idGen = ng.Id;
-                        }
-
-                        if (idGen != null)
-                        {
-                            var tcng = db.ToChucNguonGens.Where(x => x.Id == RowSelectedItem.Id).FirstOrDefault();
-                            if (tcng != null)
-                            {
-                                tcng.ToChucCaNhanId = ToChucCaNhanSelectedItem.Id;
-                                tcng.NguonGenId = idGen.Value;
-                                tcng.KhuVuc = NewArea;
-                                tcng.NgayThuThap = NewStartDate;
+                        if (string.IsNullOrEmpty(NewFullName)) {
+                            var hcc = db.HoaChatCams.FirstOrDefault(x => x.Id == RowSelectedItem.Id);
+                            if (hcc != null) { 
+                                hcc.TenHoaChat = NewFullName;
+                                hcc.LyDoCam = NewNote;
 
                                 db.SaveChanges();
 
-
                                 //Reset list
-                                var data = GetToChucNguonGens();
+                                var data = GetHoaChatCams();
                                 LoadTableList(data);
 
-                                RowSelectedItem = ToChucNguonGens.FirstOrDefault(x => x.Id == tcng.Id);
+                                RowSelectedItem = HoaChatCams.FirstOrDefault(x => x.Id == hcc.Id);
                             }
-
                         }
-
-
-
                     }
                     else
                     {
-
                         MessageBox.Show("Chọn dữ liệu muốn sửa trong bảng");
                     }
                 }
+
             }
             catch (Exception ex)
             {
@@ -418,21 +320,22 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
 
                     if (RowSelectedItem != null)
                     {
-                        var gvnBt = db.ToChucNguonGens.Where(x => x.Id == RowSelectedItem.Id).FirstOrDefault();
+                        var gvnBt = db.HoaChatCams.Where(x => x.Id == RowSelectedItem.Id).FirstOrDefault();
                         db.Remove(gvnBt);
                         db.SaveChanges();
 
                         // Reset list
-                        var data = GetToChucNguonGens();
+                        var data = GetHoaChatCams();
                         LoadTableList(data);
 
                         RowSelectedItem = null;
-                        NguonGenselectedItem = null;
-                        ToChucCaNhanSelectedItem = null;
 
-                        NewArea = "";
+                        NewFullName = "";
+                        NewNote = "";
                     }
                 }
+
+
             }
             catch (Exception ex)
             {
@@ -440,12 +343,12 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             }
         }
 
-        private void LoadTableList(List<ToChucNguonGen> data)
+        private void LoadTableList(List<Models.HoaChatCam> data)
         {
-            ToChucNguonGens.Clear();
+            HoaChatCams.Clear();
             foreach (var item in data)
             {
-                ToChucNguonGens.Add(item);
+                HoaChatCams.Add(item);
             }
         }
 

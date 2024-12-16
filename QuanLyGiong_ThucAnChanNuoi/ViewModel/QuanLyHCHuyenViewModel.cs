@@ -429,7 +429,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             // Xử lý logic khi người dùng thay đổi lựa chọn
             if (selectedItem != null)
             {
-
+                
             }
         }
         private void OnDistrictSelectionChanged(object selectedItem)

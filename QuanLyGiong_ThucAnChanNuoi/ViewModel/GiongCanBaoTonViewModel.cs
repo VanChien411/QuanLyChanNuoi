@@ -259,7 +259,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 //Thực hiện hành động với SelectedItem
                 NewId = selectedItem.Id;
                 NewKind = selectedItem.Giong?.Loai;
-                NewStartDate = selectedItem.NgayBaoTon.Value;
+                NewStartDate = selectedItem.NgayBaoTon ?? DateTime.Now;
 
       
                 GiongVatNuoiSelectedItem = GiongVatNuois.FirstOrDefault(x => x.Id == NewId);

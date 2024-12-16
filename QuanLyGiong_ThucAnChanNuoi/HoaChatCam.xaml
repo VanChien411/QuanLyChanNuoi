@@ -9,7 +9,7 @@
         Title="HoaChatCam" Height="450" Width="800">
     <Grid Margin="10">
         <!-- Tiêu đề -->
-        <TextBlock Text="Quản lý cơ sở mua bán thức ăn chăn nuôi"
+        <TextBlock Text="Hóa chất cấm"
             FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
         <!-- Layout chính -->
@@ -42,7 +42,7 @@ TextChanged="SearchTextBox_TextChanged"/>
             </StackPanel>
          
             <!-- DataGrid -->
-            <DataGrid x:Name="DataGrid" ItemsSource="{Binding CoSoThucAns}" AutoGenerateColumns="False" IsReadOnly="True"
+            <DataGrid x:Name="DataGrid" ItemsSource="{Binding HoaChatCams}" AutoGenerateColumns="False" IsReadOnly="True"
 Grid.Row="1" SelectionMode="Single" Margin="0,0,0,10"
           SelectedItem="{Binding RowSelectedItem}">
                 <i:Interaction.Triggers>
@@ -52,11 +52,10 @@ Grid.Row="1" SelectionMode="Single" Margin="0,0,0,10"
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding MaDanhMuc}" Width="100"/>
-                    <DataGridTextColumn Header="Tên hóa chất/sản phẩm/vi sinh vật" Binding="{Binding TenDanhMuc}" Width="300"/>
-                    <DataGridTextColumn Header="Loại" Binding="{Binding Loai}" Width="200"/>
-                    <DataGridTextColumn Header="Mô tả" Binding="{Binding MoTa}" Width="300"/>
-                    <DataGridTextColumn Header="Ngày áp dụng" Binding="{Binding NgayApDung}" Width="150"/>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="100"/>
+                    <DataGridTextColumn Header="Tên hóa chất/sản phẩm/vi sinh vật" Binding="{Binding TenHoaChat}" Width="300"/>
+                    <DataGridTextColumn Header="Lý do cấm" Binding="{Binding LyDoCam}" Width="300"/>
+   
 
                 </DataGrid.Columns>
             </DataGrid>
@@ -65,47 +64,24 @@ Grid.Row="1" SelectionMode="Single" Margin="0,0,0,10"
                 <!-- Form Input -->
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                     <StackPanel Orientation="Vertical" Margin="10">
-                        <TextBlock Text="Mã danh mục:"/>
                         <TextBlock Text="ID:"/>
                         <TextBox x:Name="IDTextBox" Width="20" IsEnabled="False" Text="{Binding NewId, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="10">
-                        <TextBlock Text="Tên hóa chất/sản phẩm/vi sinh vật:"/>
-                        <ComboBox x:Name="OfficeComboBox" 
-     
-                        Width="200" 
-                        Height="25" 
-                        VerticalAlignment="Center" 
-                    
-                        ItemsSource="{Binding CoSoThucAnSelect}" 
-                        SelectedItem="{Binding CoSoThucAnSelectedItem}" 
+                        <TextBlock Text="Tên hóa chất:"/>
+                        <TextBox x:Name="NameTextBox" Width="150"  Text="{Binding NewFullName, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="10">
+                        <TextBlock Text="Lý do cấm:"/>
+                        <TextBox x:Name="NoteTextBox" Width="150"  Text="{Binding NewNote, UpdateSourceTrigger=PropertyChanged}"/>
 
-    DisplayMemberPath="TenCoSo" >
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="SelectionChanged">
-                                    <i:InvokeCommandAction Command="{Binding CoSoThucAnSelectedCommand}"
-CommandParameter="{Binding CoSoThucAnSelectedItem}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </ComboBox>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" Margin="10">
-                        <TextBlock Text="Loại:"/>
-                        <TextBox x:Name="PostalCodeTextBox" Width="150"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Vertical" Margin="10">
-                        <TextBlock Text="Mô tả:"/>
-                        <TextBox x:Name="PostalCodeTextBox1" Width="150"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Vertical" Margin="10">
-                        <TextBlock Text="Ngày áp dụng:"/>
-                        <TextBox x:Name="PostalCodeTextBox2" Width="100"/>
-                    </StackPanel>
+                   
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="Thêm mới" Width="100" Margin="10" Click="AddDistrictButton_Click"/>
-                    <Button Content="Sửa" Width="100" Margin="10" Click="EditDistrictButton_Click"/>
-                    <Button Content="Xóa" Width="100" Margin="10" Click="DeleteDistrictButton_Click"/>
+                    <Button Content="Thêm mới" Width="100" Margin="10" Command="{Binding AddItemCommand}"/>
+                    <Button Content="Sửa" Width="100" Margin="10" Command="{Binding EditItemCommand}"/>
+                    <Button Content="Xóa" Width="100" Margin="10" Command="{Binding DeleteItemCommand}"/>
                 </StackPanel>
             </StackPanel>
         </Grid>

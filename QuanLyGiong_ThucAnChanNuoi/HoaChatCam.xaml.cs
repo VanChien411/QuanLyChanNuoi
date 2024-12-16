@@ -20,7 +20,7 @@ namespace QuanLyGiong_ThucAnChanNuoi
         public HoaChatCam()
         {
             InitializeComponent();
-
+            DataContext = new HoaChatCamViewModel();
             // Gán dữ liệu vào DataGrid
             //DistrictDataGrid.ItemsSource = _dataList;
 
