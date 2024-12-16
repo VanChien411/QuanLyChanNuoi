@@ -330,6 +330,7 @@
     <Compile Include="ViewModel\QuanLyPhanQuyenViewModel.cs" />
     <Compile Include="ViewModel\QuanLySanXuatGiongVNViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
+    <Compile Include="ViewModel\SanXuatThucAnViewModel.cs" />
     <Compile Include="ViewModel\SoHuuGiongVNViewModel.cs" />
     <Compile Include="ViewModel\ThuThapGenViewModel.cs" />
     <Page Include="AdminWindow.xaml">

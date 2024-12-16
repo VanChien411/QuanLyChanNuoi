@@ -31,6 +31,8 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
         [Column("ThucAnChanNuoiID")]
         public int ThucAnChanNuoiId { get; set; }
 
+        public DateTime? NgayCapNhat { get; set; }
+
         [InverseProperty("CoSoThucAn")]
         public virtual ICollection<CoSoHoaChatCam> CoSoHoaChatCams { get; set; } = new List<CoSoHoaChatCam>();
 
