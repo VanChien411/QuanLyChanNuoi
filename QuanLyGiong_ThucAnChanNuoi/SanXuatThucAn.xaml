@@ -42,17 +42,7 @@ TextChanged="SearchTextBox_TextChanged"/>
             </StackPanel>
 
 
-            <!-- DataGrid -->
-            <DataGrid x:Name="DistrictDataGrid" AutoGenerateColumns="False" IsReadOnly="True"
-               Grid.Row="1" SelectionMode="Single" Margin="0,0,0,10">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="100" />
-                    <DataGridTextColumn Header="Tên Cơ sở" Binding="{Binding Name}" Width="300" />
-                    <DataGridTextColumn Header="Loại Sản phẩm" Binding="{Binding ProductType}" Width="150" />
-                    <DataGridTextColumn Header="Khu vực" Binding="{Binding Region}" Width="150" />
-                    <DataGridTextColumn Header="Ngày Cập nhật" Binding="{Binding LastUpdated}" Width="150" />
-                </DataGrid.Columns>
-            </DataGrid>
+          
             <!-- DataGrid -->
             <DataGrid x:Name="DataGrid" ItemsSource="{Binding CoSoThucAns}" AutoGenerateColumns="False" IsReadOnly="True"
 Grid.Row="1" SelectionMode="Single" Margin="0,0,0,10"

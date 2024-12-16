@@ -333,6 +333,7 @@
     <Compile Include="ViewModel\SanXuatThucAnViewModel.cs" />
     <Compile Include="ViewModel\SoHuuGiongVNViewModel.cs" />
     <Compile Include="ViewModel\ThuThapGenViewModel.cs" />
+    <Compile Include="ViewModel\UserViewModel.cs" />
     <Page Include="AdminWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

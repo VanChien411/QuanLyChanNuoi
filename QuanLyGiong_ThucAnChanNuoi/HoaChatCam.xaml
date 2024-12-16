@@ -3,14 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:QuanLyGiong_ThucAnChanNuoi"
+        xmlns:local="clr-namespace:QuanLyGiong_ThucAnChanNuoi" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         WindowState="Maximized"
         Title="HoaChatCam" Height="450" Width="800">
     <Grid Margin="10">
         <!-- Tiêu đề -->
         <TextBlock Text="Quản lý cơ sở mua bán thức ăn chăn nuôi"
-            FontSize="20" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,0,0,20"/>
+            FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
         <!-- Layout chính -->
         <Grid>
@@ -33,35 +33,61 @@
 
                     <!-- TextBox -->
                     <TextBox x:Name="SearchTextBox"
-          VerticalAlignment="Center"
-          TextChanged="SearchTextBox_TextChanged"/>
+VerticalAlignment="Center"
+ Text="{Binding NewTextSearch, UpdateSourceTrigger=PropertyChanged}"
+              
+TextChanged="SearchTextBox_TextChanged"/>
                 </Grid>
-                <Button Content="Tìm kiếm" Width="100" Click="SearchButton_Click"/>
+                <Button Content="Tìm kiếm" Width="100"  Command="{Binding SearchCommand}"/>
             </StackPanel>
-
+         
             <!-- DataGrid -->
-            <DataGrid x:Name="DistrictDataGrid" AutoGenerateColumns="False" IsReadOnly="True"
-               Grid.Row="1" SelectionMode="Single" Margin="0,0,0,10">
+            <DataGrid x:Name="DataGrid" ItemsSource="{Binding CoSoThucAns}" AutoGenerateColumns="False" IsReadOnly="True"
+Grid.Row="1" SelectionMode="Single" Margin="0,0,0,10"
+          SelectedItem="{Binding RowSelectedItem}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding RowSelectedCommand}" 
+                       CommandParameter="{Binding RowSelectedItem}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Mã danh mục" Binding="{Binding MaDanhMuc}" Width="100"/>
+                    <DataGridTextColumn Header="ID" Binding="{Binding MaDanhMuc}" Width="100"/>
                     <DataGridTextColumn Header="Tên hóa chất/sản phẩm/vi sinh vật" Binding="{Binding TenDanhMuc}" Width="300"/>
                     <DataGridTextColumn Header="Loại" Binding="{Binding Loai}" Width="200"/>
                     <DataGridTextColumn Header="Mô tả" Binding="{Binding MoTa}" Width="300"/>
                     <DataGridTextColumn Header="Ngày áp dụng" Binding="{Binding NgayApDung}" Width="150"/>
+
                 </DataGrid.Columns>
             </DataGrid>
-
             <!-- Action Buttons -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2">
                 <!-- Form Input -->
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                     <StackPanel Orientation="Vertical" Margin="10">
                         <TextBlock Text="Mã danh mục:"/>
-                        <TextBox x:Name="DistrictNameTextBox" Width="20"/>
+                        <TextBlock Text="ID:"/>
+                        <TextBox x:Name="IDTextBox" Width="20" IsEnabled="False" Text="{Binding NewId, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="10">
                         <TextBlock Text="Tên hóa chất/sản phẩm/vi sinh vật:"/>
-                        <TextBox x:Name="ProvinceTextBox" Width="200"/>
+                        <ComboBox x:Name="OfficeComboBox" 
+     
+                        Width="200" 
+                        Height="25" 
+                        VerticalAlignment="Center" 
+                    
+                        ItemsSource="{Binding CoSoThucAnSelect}" 
+                        SelectedItem="{Binding CoSoThucAnSelectedItem}" 
+
+    DisplayMemberPath="TenCoSo" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding CoSoThucAnSelectedCommand}"
+CommandParameter="{Binding CoSoThucAnSelectedItem}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="10">
                         <TextBlock Text="Loại:"/>

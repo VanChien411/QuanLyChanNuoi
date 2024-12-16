@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:QuanLyGiong_ThucAnChanNuoi"
+        xmlns:local="clr-namespace:QuanLyGiong_ThucAnChanNuoi" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         WindowState="Maximized"
         Title="UserWindow" Height="450" Width="800">
@@ -34,12 +34,12 @@
                                     <DockPanel Margin="0,0,0,10">
                                         <Grid>
                                             <TextBox x:Name="SearchTextBox" Width="200" Height="30" Padding="5" VerticalAlignment="Center"
-                                                     DockPanel.Dock="Left" TextChanged="SearchTextBox_TextChanged" />
+                                                     DockPanel.Dock="Left"  Text="{Binding NewTextSearch, UpdateSourceTrigger=PropertyChanged}" TextChanged="SearchTextBox_TextChanged" />
                                             <TextBlock x:Name="PlaceholderText" Text="Nhập từ khóa tìm kiếm" Foreground="Gray"
                                                      VerticalAlignment="Center" Margin="5,0,0,0" IsHitTestVisible="False"
                                                      HorizontalAlignment="Left" Visibility="Visible"/>
                                         </Grid>
-                                        <Button Content="Tìm kiếm" Width="100" Height="30" Margin="5,0,0,0" Click="SearchButton_Click"/>
+                                        <Button Content="Tìm kiếm" Width="100"  Command="{Binding SearchCommand}"/>
                                     </DockPanel>
                                 </StackPanel>
                             </Border>
@@ -50,19 +50,25 @@
                                     <TextBlock Text="Kết quả tìm kiếm" FontSize="20" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,20"/>
 
                                     <!-- Hiển thị thông tin dưới dạng bảng -->
-                                    <DataGrid x:Name="ResultsDataGrid" AutoGenerateColumns="False" IsReadOnly="True" Height="300"
+                                    <DataGrid x:Name="ResultsDataGrid" ItemsSource="{Binding CoSoVatNuois}"  SelectedItem="{Binding CoSoVatNuoiselectedItem}" AutoGenerateColumns="False" IsReadOnly="True" Height="300"
                       HeadersVisibility="Column" VerticalGridLinesBrush="#E0E0E0" AlternatingRowBackground="#F7F7F7">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="SelectionChanged">
+                                                <i:InvokeCommandAction Command="{Binding CoSoVatNuoiselectedCommand}" 
+        CommandParameter="{Binding CoSoVatNuoiselectedItem}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                         <DataGrid.Columns>
                                             <!-- Cột ID  THEM CO SO SAN XUAT, KHAO NGHIEM -->
                                             <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
                                             <!-- Cột Tên -->
-                                            <DataGridTextColumn Header="Tên" Binding="{Binding Name}" Width="150"/>
+                                            <DataGridTextColumn Header="Tên" Binding="{Binding GiongVatNuoi.TenGiong}" Width="200"/>
                                             <!-- Cột Trạng thái -->
-                                            <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="100"/>
+                                            <DataGridTextColumn Header="Trạng thái" Binding="{Binding TrangThaiHienThi}" Width="200"/>
 
-                                            <DataGridTextColumn Header="Cơ sở sản xuất" Binding="{Binding Status}" Width="200"/>
+                                            <DataGridTextColumn Header="Cơ sở " Binding="{Binding TenCoSo}" Width="200"/>
 
-                                            <DataGridTextColumn Header="Cơ sở sản khảo nghiệm" Binding="{Binding Status}" Width="Auto"/>
+                                            <DataGridTextColumn Header="Loại cơ sở" Binding="{Binding LoaiCoSo}" Width="Auto"/>
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </StackPanel>
@@ -89,13 +95,13 @@
                                     <!-- Thanh tìm kiếm -->
                                     <DockPanel Margin="0,0,0,10">
                                         <Grid>
-                                            <TextBox x:Name="SearchTextBox1" Width="200" Height="30" Padding="5" VerticalAlignment="Center"
-                               DockPanel.Dock="Left" TextChanged="SearchTextBox_TextChanged" />
-                                            <TextBlock x:Name="PlaceholderText1" Text="Nhập từ khóa tìm kiếm" Foreground="Gray"
-                               VerticalAlignment="Center" Margin="5,0,0,0" IsHitTestVisible="False"
-                               HorizontalAlignment="Left" Visibility="Visible"/>
+                                            <TextBox x:Name="Search2TextBox" Width="200" Height="30" Padding="5" VerticalAlignment="Center"
+               DockPanel.Dock="Left"  Text="{Binding NewTextSearch2, UpdateSourceTrigger=PropertyChanged}" TextChanged="SearchTextBox_TextChanged" />
+                                            <TextBlock x:Name="Placeholder2Text" Text="Nhập từ khóa tìm kiếm" Foreground="Gray"
+               VerticalAlignment="Center" Margin="5,0,0,0" IsHitTestVisible="False"
+               HorizontalAlignment="Left" Visibility="Visible"/>
                                         </Grid>
-                                        <Button Content="Tìm kiếm" Width="100" Height="30" Margin="5,0,0,0" Click="SearchButton_Click"/>
+                                        <Button Content="Tìm kiếm" Width="100"  Command="{Binding SearchCommand2}"/>
                                     </DockPanel>
                                 </StackPanel>
                             </Border>
@@ -106,19 +112,26 @@
                                     <TextBlock Text="Kết quả tìm kiếm" FontSize="20" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,20"/>
 
                                     <!-- Hiển thị thông tin dưới dạng bảng -->
-                                    <DataGrid x:Name="ResultsDataGrid1" AutoGenerateColumns="False" IsReadOnly="True" Height="300"
-HeadersVisibility="Column" VerticalGridLinesBrush="#E0E0E0" AlternatingRowBackground="#F7F7F7">
+                                    <DataGrid x:Name="Results2DataGrid" ItemsSource="{Binding ToChucNguonGens}"  SelectedItem="{Binding ToChucNguonGensedItem}" AutoGenerateColumns="False" IsReadOnly="True" Height="300"
+              HeadersVisibility="Column" VerticalGridLinesBrush="#E0E0E0" AlternatingRowBackground="#F7F7F7">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="SelectionChanged">
+                                                <i:InvokeCommandAction Command="{Binding ToChucNguonGensedCommand}" 
+CommandParameter="{Binding ToChucNguonGensedItem}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                         <DataGrid.Columns>
                                             <!-- Cột ID  THEM CO SO SAN XUAT, KHAO NGHIEM -->
                                             <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
                                             <!-- Cột Tên -->
-                                            <DataGridTextColumn Header="Tên" Binding="{Binding Name}" Width="150"/>
+                                            <DataGridTextColumn Header="Tên" Binding="{Binding NguonGen.TenNguonGen}" Width="150"/>
                                             <!-- Cột Trạng thái -->
-                                            <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="100"/>
+                                            <DataGridTextColumn Header="Hoạt động" Binding="{Binding HoatDong}" Width="100"/>
 
-                                            <DataGridTextColumn Header="Cơ sở sản xuất" Binding="{Binding Status}" Width="200"/>
+                                            <DataGridTextColumn Header="Khu vực" Binding="{Binding KhuVuc}" Width="Auto"/>
 
-                                            <DataGridTextColumn Header="Cơ sở sản khảo nghiệm" Binding="{Binding Status}" Width="Auto"/>
+                                            <DataGridTextColumn Header="Tổ chức cá nhân" Binding="{Binding ToChucCaNhan.Ten}" Width="200"/>
+
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </StackPanel>
@@ -145,13 +158,13 @@ HeadersVisibility="Column" VerticalGridLinesBrush="#E0E0E0" AlternatingRowBackgr
                                     <!-- Thanh tìm kiếm -->
                                     <DockPanel Margin="0,0,0,10">
                                         <Grid>
-                                            <TextBox x:Name="SearchTextBox2" Width="200" Height="30" Padding="5" VerticalAlignment="Center"
-                          DockPanel.Dock="Left" TextChanged="SearchTextBox_TextChanged" />
-                                            <TextBlock x:Name="PlaceholderText2" Text="Nhập từ khóa tìm kiếm" Foreground="Gray"
-                          VerticalAlignment="Center" Margin="5,0,0,0" IsHitTestVisible="False"
-                          HorizontalAlignment="Left" Visibility="Visible"/>
+                                            <TextBox x:Name="Search3TextBox" Width="200" Height="30" Padding="5" VerticalAlignment="Center"
+               DockPanel.Dock="Left"  Text="{Binding NewTextSearch3, UpdateSourceTrigger=PropertyChanged}" TextChanged="SearchTextBox_TextChanged" />
+                                            <TextBlock x:Name="Placeholder3Text" Text="Nhập từ khóa tìm kiếm" Foreground="Gray"
+               VerticalAlignment="Center" Margin="5,0,0,0" IsHitTestVisible="False"
+               HorizontalAlignment="Left" Visibility="Visible"/>
                                         </Grid>
-                                        <Button Content="Tìm kiếm" Width="100" Height="30" Margin="5,0,0,0" Click="SearchButton_Click"/>
+                                        <Button Content="Tìm kiếm" Width="100"  Command="{Binding SearchCommand3}"/>
                                     </DockPanel>
                                 </StackPanel>
                             </Border>
@@ -161,18 +174,24 @@ HeadersVisibility="Column" VerticalGridLinesBrush="#E0E0E0" AlternatingRowBackgr
                                     <StackPanel>
                                         <TextBlock Text="Danh sách thông tin" FontSize="20" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,20"/>
                                     <!-- Hiển thị thông tin dưới dạng bảng -->
-                                    <DataGrid x:Name="ResultsDataGrid2" AutoGenerateColumns="False" IsReadOnly="True" Height="300"
-     HeadersVisibility="Column" VerticalGridLinesBrush="#E0E0E0" AlternatingRowBackground="#F7F7F7">
+                                    <DataGrid x:Name="Results3DataGrid" ItemsSource="{Binding CoSoThucAns}"  SelectedItem="{Binding RowSelectedItem}" AutoGenerateColumns="False" IsReadOnly="True" Height="300"
+              HeadersVisibility="Column" VerticalGridLinesBrush="#E0E0E0" AlternatingRowBackground="#F7F7F7">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="SelectionChanged">
+                                                <i:InvokeCommandAction Command="{Binding RowSelectedCommand}" 
+CommandParameter="{Binding RowSelectedItem}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                         <DataGrid.Columns>
                                             <!-- Cột ID -->
                                             <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
                                             <!-- Cột Tên -->
-                                            <DataGridTextColumn Header="Tên" Binding="{Binding Name}" Width="*"/>
+                                            <DataGridTextColumn Header="Tên" Binding="{Binding ThucAnChanNuoi.TenThucAn}" Width="auto"/>
                                             <!-- Cột Trạng thái -->
-                                            <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="Auto"/>
-                                            <DataGridTextColumn Header="Cơ sở sản xuất" Binding="{Binding SX}" Width="Auto"/>
-                                            <DataGridTextColumn Header="Mua Bán" Binding="{Binding MB}" Width="Auto"/>
-                                            <DataGridTextColumn Header="Khảo nghiệm" Binding="{Binding KN}" Width="Auto"/>
+                                            <DataGridTextColumn Header="Loại" Binding="{Binding ThucAnChanNuoi.LoaiThucAn}" Width="Auto"/>
+                                            <DataGridTextColumn Header="Cơ sở " Binding="{Binding TenCoSo}" Width="Auto"/>
+                                            <DataGridTextColumn Header="Loại cơ sở" Binding="{Binding LoaiCoSo}" Width="Auto"/>
+                                            <DataGridTextColumn Header="Mô tả" Binding="{Binding ThucAnChanNuoi.MoTa}" Width="Auto"/>
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </StackPanel>

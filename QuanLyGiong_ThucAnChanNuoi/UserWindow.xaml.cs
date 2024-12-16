@@ -5,12 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using QuanLyGiong_ThucAnChanNuoi.ViewModel;
 
 namespace QuanLyGiong_ThucAnChanNuoi
 {
@@ -22,6 +17,7 @@ namespace QuanLyGiong_ThucAnChanNuoi
         public UserWindow()
         {
             InitializeComponent();
+            DataContext = new UserViewModel();
         }
        
 
@@ -31,22 +27,30 @@ namespace QuanLyGiong_ThucAnChanNuoi
     PlaceholderText.Visibility = string.IsNullOrWhiteSpace(SearchTextBox.Text)
         ? Visibility.Visible
         : Visibility.Collapsed;
-}
+
+            Placeholder2Text.Visibility = string.IsNullOrWhiteSpace(Search2TextBox.Text)
+      ? Visibility.Visible
+      : Visibility.Collapsed;
+
+            Placeholder3Text.Visibility = string.IsNullOrWhiteSpace(Search3TextBox.Text)
+      ? Visibility.Visible
+      : Visibility.Collapsed;
+        }
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            // Lấy từ khóa từ TextBox
-            string keyword = SearchTextBox.Text;
+            //// Lấy từ khóa từ TextBox
+            //string keyword = SearchTextBox.Text;
 
-            // Kiểm tra từ khóa và thực hiện hành động
-            if (!string.IsNullOrWhiteSpace(keyword))
-            {
-                MessageBox.Show($"Từ khóa tìm kiếm: {keyword}");
-                // Thêm logic tìm kiếm tại đây
-            }
-            else
-            {
-                MessageBox.Show("Vui lòng nhập từ khóa để tìm kiếm.");
-            }
+            //// Kiểm tra từ khóa và thực hiện hành động
+            //if (!string.IsNullOrWhiteSpace(keyword))
+            //{
+            //    MessageBox.Show($"Từ khóa tìm kiếm: {keyword}");
+            //    // Thêm logic tìm kiếm tại đây
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Vui lòng nhập từ khóa để tìm kiếm.");
+            //}
         }
 
 
@@ -55,18 +59,18 @@ namespace QuanLyGiong_ThucAnChanNuoi
 
         private void SearchGeneticResources_Click(object sender, RoutedEventArgs e)
         {
-            // Lấy từ khóa từ TextBox
-            string keyword = SearchTextBox.Text;
-            // Kiểm tra từ khóa và thực hiện hành động
-            if (!string.IsNullOrWhiteSpace(keyword))
-            {
-                MessageBox.Show($"Từ khóa tìm kiếm: {keyword}");
-                // Thêm logic tìm kiếm tại đây
-            }
-            else
-            {
-                MessageBox.Show("Vui lòng nhập từ khóa để tìm kiếm.");
-            }
+            //// Lấy từ khóa từ TextBox
+            //string keyword = SearchTextBox.Text;
+            //// Kiểm tra từ khóa và thực hiện hành động
+            //if (!string.IsNullOrWhiteSpace(keyword))
+            //{
+            //    MessageBox.Show($"Từ khóa tìm kiếm: {keyword}");
+            //    // Thêm logic tìm kiếm tại đây
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Vui lòng nhập từ khóa để tìm kiếm.");
+            //}
         }
 
 
@@ -76,7 +80,7 @@ namespace QuanLyGiong_ThucAnChanNuoi
         // Tra cứu dữ liệu - Thức ăn chăn nuôi
         private void SearchFeedProducers_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Tìm kiếm cơ sở sản xuất và mua bán thức ăn chăn nuôi thương mại.");
+            //MessageBox.Show("Tìm kiếm cơ sở sản xuất và mua bán thức ăn chăn nuôi thương mại.");
             // Thực hiện chức năng tìm kiếm cơ sở sản xuất thức ăn chăn nuôi tại đây
         }
 
