@@ -345,12 +345,14 @@
     <Compile Include="ViewModel\GiongCanBaoTonViewModel.cs" />
     <Compile Include="ViewModel\KhaiThacGenViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\MuaBanConGiongViewModel.cs" />
     <Compile Include="ViewModel\QuanLyHCHuyenViewModel.cs" />
     <Compile Include="ViewModel\QuanLyHCXaViewModel.cs" />
     <Compile Include="ViewModel\QuanLyLichSuViewModel.cs" />
     <Compile Include="ViewModel\QuanLyNguoiDungViewModel.cs" />
     <Compile Include="ViewModel\QuanLyPhanQuyenViewModel.cs" />
     <Compile Include="ViewModel\QuanLySanXuatGiongVNViewModel.cs" />
+    <Compile Include="ViewModel\QuanLyTinhPhoiViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\SanXuatThucAnViewModel.cs" />
     <Compile Include="ViewModel\SoHuuGiongVNViewModel.cs" />
@@ -516,9 +518,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
       <Visible>False</Visible>

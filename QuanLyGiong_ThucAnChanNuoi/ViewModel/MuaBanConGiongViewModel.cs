@@ -10,17 +10,15 @@ using System.Windows.Input;
 
 namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
 {
-    internal class QuanLySanXuatGiongVNViewModel : INotifyPropertyChanged
+  internal class MuaBanConGiongViewModel : INotifyPropertyChanged
     {
-       
-
         private int _newId;
         private string _newFullName;
         private string _newAddress;
         private string _newPhone;
         private string _newEmail;
         private string _newType;
-        private string _newActiveType = "Sản xuất con giống vật nuôi";
+        private string _newActiveType = "Mua bán con giống";
         private string _newTextSearch;
 
         private ToChucCaNhan _rowSelectedItem;
@@ -61,9 +59,9 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             }
         }
 
-      
 
-      
+
+
         public int NewId
         {
             get => _newId;
@@ -126,7 +124,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
         public ICommand ChucVuSelectedCommand { get; set; }
 
 
-        public QuanLySanXuatGiongVNViewModel()
+        public MuaBanConGiongViewModel()
         {
             Initialize();
             AddItemCommand = new RelayCommand(AddItem);
@@ -134,8 +132,8 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             DeleteItemCommand = new RelayCommand(DeleteItem);
             SearchCommand = new RelayCommand(Search);
             RowSelectedCommand = new RelayCommandT<ToChucCaNhan>(OnRowSelected);
-    
-         
+
+
 
         }
         private void Initialize()
@@ -157,7 +155,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             {
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
-                   
+
                     var toChucCaNhans = GetToChucCaNhans();
                     //Gan gia tri cho table list
                     ToChucCaNhans = new ObservableCollection<ToChucCaNhan>(toChucCaNhans);
@@ -197,7 +195,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
 
-                    var ToChucCaNhans = db.ToChucCaNhans.AsNoTracking().Where(x => x.LoaiHoatDong.Equals(NewActiveType) ).ToList();
+                    var ToChucCaNhans = db.ToChucCaNhans.AsNoTracking().Where(x => x.LoaiHoatDong.Equals(NewActiveType)).ToList();
                     return ToChucCaNhans;
                 }
             }
@@ -243,7 +241,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 {
                     if (!string.IsNullOrEmpty(NewFullName))
                     {
-                        var toChucCaNhan = new ToChucCaNhan{Ten = NewFullName, DiaChi = NewAddress, Email = NewEmail,SoDienThoai = NewPhone, LoaiHinh = NewType, LoaiHoatDong = NewActiveType };
+                        var toChucCaNhan = new ToChucCaNhan { Ten = NewFullName, DiaChi = NewAddress, Email = NewEmail, SoDienThoai = NewPhone, LoaiHinh = NewType, LoaiHoatDong = NewActiveType };
                         db.ToChucCaNhans.Add(toChucCaNhan);
                         db.SaveChanges();
 
@@ -264,13 +262,13 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             {
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
-                   if(RowSelectedItem != null)
+                    if (RowSelectedItem != null)
                     {
                         var toChucCaNhan = await db.ToChucCaNhans.FirstOrDefaultAsync(x => x.Id == RowSelectedItem.Id);
                         toChucCaNhan.Ten = NewFullName;
                         toChucCaNhan.DiaChi = NewAddress;
                         toChucCaNhan.SoDienThoai = NewPhone;
-                        toChucCaNhan.LoaiHinh = NewType;   
+                        toChucCaNhan.LoaiHinh = NewType;
                         toChucCaNhan.LoaiHoatDong = RowSelectedItem.LoaiHoatDong;
 
                         await db.SaveChangesAsync();
@@ -309,7 +307,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                         NewAddress = "";
                         NewPhone = "";
                         NewType = "";
-                  
+
                     }
                 }
             }

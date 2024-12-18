@@ -13,54 +13,21 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
 {
     internal class SoHuuGiongVNViewModel : INotifyPropertyChanged
     {
-        public class GiongVatNuoiType
-        {
-            public string Name { get; set; }
-
-            public List<GiongVatNuoiType> GetList()
-            {
-                return new List<GiongVatNuoiType>
-                    {
-                        new GiongVatNuoiType { Name = "Bò" },
-                        new GiongVatNuoiType { Name = "Lợn" },
-                        new GiongVatNuoiType { Name = "Gà" },
-                        new GiongVatNuoiType { Name = "Vịt" },
-                        new GiongVatNuoiType { Name = "Dê" }
-                    };
-            }
-        }
-
-        public class Status
-        {
-            public bool StatusValue { get; set; }
-            public string Name => StatusValue ? "Hoạt động" : "Khóa";
-
-            public Status(bool statusValue = false) // Giá trị mặc định là false
-            {
-                StatusValue = statusValue;
-            }
-        }
-
         private int _newId;
         private string _newFullName;
         private string _newAddress;
-        private string _newOfficeName;
-
-
+        private string _newPhone;
+        private string _newEmail;
+        private string _newType;
+        private string _newActiveType = "Sở hữu giống vật nuôi để phối giống trực tiếp";
         private string _newTextSearch;
 
-        private CoSoVatNuoi _rowSelectedItem;
-        private ToChucCaNhan _toChucCaNhanSelectedItem;
-        private GiongVatNuoiType _giongVatNuoiType;
-        private Status _statusSelectedItem;
+        private ToChucCaNhan _rowSelectedItem;
+        private ChucVu _chucVuSelectedItem;
 
 
 
-        public ObservableCollection<CoSoVatNuoi> CoSoVatNuois { get; set; } = new ObservableCollection<CoSoVatNuoi>();
         public ObservableCollection<ToChucCaNhan> ToChucCaNhans { get; set; } = new ObservableCollection<ToChucCaNhan>();
-
-        public ObservableCollection<GiongVatNuoiType> GiongVatNuoiTypes { get; set; } = new ObservableCollection<GiongVatNuoiType>();
-        public ObservableCollection<Status> TrangThais { get; set; } = new ObservableCollection<Status>();
 
 
 
@@ -73,8 +40,17 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 OnPropertyChanged(nameof(NewTextSearch)); // Notify UI to update binding
             }
         }
-        
-        public CoSoVatNuoi RowSelectedItem
+        public string NewPhone
+        {
+            get => _newPhone;
+            set
+            {
+                _newPhone = value;
+                OnPropertyChanged(nameof(NewPhone)); // Notify UI to update binding
+            }
+        }
+
+        public ToChucCaNhan RowSelectedItem
         {
             get => _rowSelectedItem;
             set
@@ -83,34 +59,8 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 OnPropertyChanged(nameof(RowSelectedItem));
             }
         }
-        public ToChucCaNhan ToChucCaNhanSelectedItem
-        {
-            get => _toChucCaNhanSelectedItem;
-            set
-            {
-                _toChucCaNhanSelectedItem = value;
-                OnPropertyChanged(nameof(ToChucCaNhanSelectedItem));
-            }
-        }
-        public GiongVatNuoiType GiongVatNuoiTypeSelectedItem
-        {
-            get => _giongVatNuoiType;
-            set
-            {
-                _giongVatNuoiType = value;
-                OnPropertyChanged(nameof(GiongVatNuoiTypeSelectedItem));
-            }
-        }
 
-        public Status StatusSelectedItem
-        {
-            get => _statusSelectedItem;
-            set
-            {
-                _statusSelectedItem = value;
-                OnPropertyChanged(nameof(StatusSelectedItem));
-            }
-        }
+
 
 
         public int NewId
@@ -131,15 +81,6 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 OnPropertyChanged(nameof(NewFullName));
             }
         }
-        public string NewOfficeName
-        {
-            get => _newOfficeName;
-            set
-            {
-                _newOfficeName = value;
-                OnPropertyChanged(nameof(NewOfficeName));
-            }
-        }
         public string NewAddress
         {
             get => _newAddress;
@@ -149,15 +90,39 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 OnPropertyChanged(nameof(NewAddress));
             }
         }
-       
+        public string NewEmail
+        {
+            get => _newEmail;
+            set
+            {
+                _newEmail = value;
+                OnPropertyChanged(nameof(NewEmail));
+            }
+        }
+        public string NewType
+        {
+            get => _newType;
+            set
+            {
+                _newType = value;
+                OnPropertyChanged(nameof(NewType));
+            }
+        }
+        public string NewActiveType
+        {
+            get => _newActiveType;
+            set
+            {
+                _newActiveType = value;
+                OnPropertyChanged(nameof(NewActiveType));
+            }
+        }
         public ICommand AddItemCommand { get; }
         public ICommand EditItemCommand { get; }
         public ICommand DeleteItemCommand { get; }
         public ICommand SearchCommand { get; }
         public ICommand RowSelectedCommand { get; set; }
-        public ICommand GiongVatNuoiTypeSelectedCommand { get; set; }
-        public ICommand ToChucCaNhanSelectedCommand { get; set; }
-
+        public ICommand ChucVuSelectedCommand { get; set; }
 
 
         public SoHuuGiongVNViewModel()
@@ -167,9 +132,9 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             EditItemCommand = new RelayCommand(EditItem);
             DeleteItemCommand = new RelayCommand(DeleteItem);
             SearchCommand = new RelayCommand(Search);
-            RowSelectedCommand = new RelayCommandT<CoSoVatNuoi>(OnRowSelected);
-            GiongVatNuoiTypeSelectedCommand = new RelayCommandT<GiongVatNuoiType>(OnGiongVatNuoiTypeSelected);
-            ToChucCaNhanSelectedCommand = new RelayCommandT<ToChucCaNhan>(OnToChuCaNhanSelected);
+            RowSelectedCommand = new RelayCommandT<ToChucCaNhan>(OnRowSelected);
+
+
 
         }
         private void Initialize()
@@ -192,18 +157,10 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
 
-                    var coSoVatNuois = GetCoSoVatNuois();
+                    var toChucCaNhans = GetToChucCaNhans();
                     //Gan gia tri cho table list
-                    CoSoVatNuois = new ObservableCollection<CoSoVatNuoi>(coSoVatNuois);
+                    ToChucCaNhans = new ObservableCollection<ToChucCaNhan>(toChucCaNhans);
 
-                    var giongVatNuoiTypes = new GiongVatNuoiType().GetList();
-                    GiongVatNuoiTypes = new ObservableCollection<GiongVatNuoiType>(giongVatNuoiTypes);
-
-                    var toChucCaNhan = db.ToChucCaNhans.ToList();
-                    ToChucCaNhans = new ObservableCollection<ToChucCaNhan>(toChucCaNhan);
-
-                    var trangThais = new List<Status> { new Status(true), new Status(false) };
-                    TrangThais = new ObservableCollection<Status>(trangThais);
                 }
             }
             catch (Exception ex)
@@ -211,55 +168,36 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 MessageBox.Show($"Lỗi khi tải dữ liệu: {ex.Message}");
             }
         }
-        private void OnRowSelected(CoSoVatNuoi selectedItem)
+        private void OnRowSelected(ToChucCaNhan selectedItem)
         {
             if (selectedItem != null)
             {
-               
+
                 //RowSelectedItem = selectedItem;
                 // Thực hiện hành động với SelectedItem
-                //NewFullName = selectedItem.Ten;
-                //NewAddress = selectedItem.DiaChi;
-                //NewPhone = selectedItem.SoDienThoai;
-                //NewType = selectedItem.LoaiHinh;
+                NewFullName = selectedItem.Ten;
+                NewAddress = selectedItem.DiaChi;
+                NewPhone = selectedItem.SoDienThoai;
+                NewType = selectedItem.LoaiHinh;
 
 
             }
 
         }
-        private void OnGiongVatNuoiTypeSelected(GiongVatNuoiType selectedItem)
-        {
-            if (selectedItem != null)
-            {
-
-
-            }
-
-        }
-        private void OnToChuCaNhanSelected(ToChucCaNhan selectedItem)
-        {
-            if (selectedItem != null)
-            {
-               
-
-            }
-
-        }
-        
         private void OnChucVuSelected(ChucVu selectedItem)
         {
 
         }
 
-        private List<CoSoVatNuoi> GetCoSoVatNuois()
+        private List<ToChucCaNhan> GetToChucCaNhans()
         {
             try
             {
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
-                   
-                    var coSoVatNuois = db.CoSoVatNuois.AsNoTracking().Include(c => c.ToChucCaNhan).Include(c => c.GiongVatNuoi).ToList();
-                    return coSoVatNuois;
+
+                    var ToChucCaNhans = db.ToChucCaNhans.AsNoTracking().Where(x => x.LoaiHoatDong.Equals(NewActiveType)).ToList();
+                    return ToChucCaNhans;
                 }
             }
             catch (Exception ex)
@@ -276,18 +214,18 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 var textSearch = NewTextSearch?.ToLower() ?? "";
                 // Sử dụng && để kiểm tra x.MaBuuDien != null trước khi gọi ToLower().Contains().
 
-                var CoSoVatNuois = GetCoSoVatNuois()
+                var toChucCaNhans = GetToChucCaNhans()
                   .Where(x =>
-                      (x.ToChucCaNhan?.Ten?.ToLower().Contains(textSearch.ToLower()) ?? false)
-                      || (x.GiongVatNuoi?.Loai?.ToLower().Contains(textSearch.ToLower()) ?? false)
-                      || (x.TenCoSo?.ToLower().Contains(textSearch.ToLower()) ?? false)
+                      (x.Ten?.ToLower().Contains(textSearch.ToLower()) ?? false)
+                      || (x.Email?.ToLower().Contains(textSearch.ToLower()) ?? false)
                       || (x.Id.ToString().ToLower().Contains(textSearch.ToLower()))
-                      || (x.DiaChi?.ToLower().Contains(textSearch.ToLower()) ?? false)
-                   )
+                      || (x.SoDienThoai?.ToLower().Contains(textSearch.ToLower()) ?? false)
+                      || (x.LoaiHinh?.ToLower().Contains(textSearch.ToLower()) ?? false)
+                      || (x.LoaiHoatDong?.ToLower().Contains(textSearch.ToLower()) ?? false))
                   .ToList();
 
 
-                LoadTableList(CoSoVatNuois);
+                LoadTableList(toChucCaNhans);
 
 
             }
@@ -302,17 +240,15 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             {
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
-                    //if (!string.IsNullOrEmpty(NewFullName))
-                    //{
-                    //    var CoSoVatNuoi = new CoSoVatNuoi { Ten = NewFullName, DiaChi = NewAddress, Email = NewEmail, SoDienThoai = NewPhone, LoaiHinh = NewType, LoaiHoatDong = NewActiveType };
-                    //    db.CoSoVatNuois.Add(CoSoVatNuoi);
-                    //    db.SaveChanges();
+                    if (!string.IsNullOrEmpty(NewFullName))
+                    {
+                        var toChucCaNhan = new ToChucCaNhan { Ten = NewFullName, DiaChi = NewAddress, Email = NewEmail, SoDienThoai = NewPhone, LoaiHinh = NewType, LoaiHoatDong = NewActiveType };
+                        db.ToChucCaNhans.Add(toChucCaNhan);
+                        db.SaveChanges();
 
-                    //    var CoSoVatNuois = GetCoSoVatNuois();
-                    //    LoadTableList(CoSoVatNuois);
-                    //}
-
-                    //if(!)
+                        var ToChucCaNhans = GetToChucCaNhans();
+                        LoadTableList(ToChucCaNhans);
+                    }
                 }
 
             }
@@ -327,21 +263,21 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             {
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
-                    //if (RowSelectedItem != null)
-                    //{
-                    //    var CoSoVatNuoi = await db.CoSoVatNuois.FirstOrDefaultAsync(x => x.Id == RowSelectedItem.Id);
-                    //    CoSoVatNuoi.Ten = NewFullName;
-                    //    CoSoVatNuoi.DiaChi = NewAddress;
-                    //    CoSoVatNuoi.SoDienThoai = NewPhone;
-                    //    CoSoVatNuoi.LoaiHinh = NewType;
-                    //    CoSoVatNuoi.LoaiHoatDong = RowSelectedItem.LoaiHoatDong;
+                    if (RowSelectedItem != null)
+                    {
+                        var toChucCaNhan = await db.ToChucCaNhans.FirstOrDefaultAsync(x => x.Id == RowSelectedItem.Id);
+                        toChucCaNhan.Ten = NewFullName;
+                        toChucCaNhan.DiaChi = NewAddress;
+                        toChucCaNhan.SoDienThoai = NewPhone;
+                        toChucCaNhan.LoaiHinh = NewType;
+                        toChucCaNhan.LoaiHoatDong = RowSelectedItem.LoaiHoatDong;
 
-                    //    await db.SaveChangesAsync();
+                        await db.SaveChangesAsync();
 
-                    //    var CoSoVatNuois = GetCoSoVatNuois();
-                    //    LoadTableList(CoSoVatNuois);
-                    //    RowSelectedItem = CoSoVatNuois.FirstOrDefault(x => x.Id == CoSoVatNuoi.Id);
-                    //}
+                        var toChucCaNhans = GetToChucCaNhans();
+                        LoadTableList(toChucCaNhans);
+                        RowSelectedItem = ToChucCaNhans.FirstOrDefault(x => x.Id == toChucCaNhan.Id);
+                    }
                 }
 
 
@@ -357,23 +293,23 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             {
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
-                    //if (RowSelectedItem != null)
-                    //{
-                    //    var CoSoVatNuoi = await db.CoSoVatNuois.FirstOrDefaultAsync(x => x.Id == RowSelectedItem.Id);
-                    //    db.Remove(CoSoVatNuoi);
+                    if (RowSelectedItem != null)
+                    {
+                        var toChucCaNhan = await db.ToChucCaNhans.FirstOrDefaultAsync(x => x.Id == RowSelectedItem.Id);
+                        db.Remove(toChucCaNhan);
 
-                    //    db.SaveChanges();
+                        db.SaveChanges();
 
-                    //    var CoSoVatNuois = GetCoSoVatNuois();
-                    //    LoadTableList(CoSoVatNuois);
+                        var ToChucCaNhans = GetToChucCaNhans();
+                        LoadTableList(ToChucCaNhans);
 
-                    //    NewFullName = "";
-                    //    NewEmail = "";
-                    //    NewAddress = "";
-                    //    NewPhone = "";
-                    //    NewType = "";
+                        NewFullName = "";
+                        NewEmail = "";
+                        NewAddress = "";
+                        NewPhone = "";
+                        NewType = "";
 
-                    //}
+                    }
                 }
             }
             catch (Exception ex)
@@ -382,12 +318,12 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             }
         }
 
-        private void LoadTableList(List<CoSoVatNuoi> CoSoVatNuois)
+        private void LoadTableList(List<ToChucCaNhan> toChucCaNhans)
         {
-            CoSoVatNuois.Clear();
-            foreach (var item in CoSoVatNuois)
+            ToChucCaNhans.Clear();
+            foreach (var item in toChucCaNhans)
             {
-                CoSoVatNuois.Add(item);
+                ToChucCaNhans.Add(item);
             }
         }
 

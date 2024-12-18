@@ -3,14 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:QuanLyGiong_ThucAnChanNuoi"
+        xmlns:local="clr-namespace:QuanLyGiong_ThucAnChanNuoi" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         WindowState="Maximized"
         Title="MuaBanConGiong" Height="450" Width="800">
     <Grid Margin="10">
         <!-- Tiêu đề -->
-        <TextBlock Text="Quản lý Tổ chức, Cá nhân mua bán Con giống, Tinh, Phôi, Trứng giống"
-            FontSize="20" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,0,0,20"/>
+        <TextBlock Text="Quản lý danh mục tổ chức, cá nhân mua bán con giống"
+            FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
         <!-- Layout chính -->
         <Grid>
@@ -33,21 +33,33 @@
 
                     <!-- TextBox -->
                     <TextBox x:Name="SearchTextBox"
-          VerticalAlignment="Center"
-          TextChanged="SearchTextBox_TextChanged"/>
+VerticalAlignment="Center"
+ Text="{Binding NewTextSearch, UpdateSourceTrigger=PropertyChanged}"
+              
+TextChanged="SearchTextBox_TextChanged"/>
                 </Grid>
-                <Button Content="Tìm kiếm" Width="100" Click="SearchButton_Click"/>
+                <Button Content="Tìm kiếm" Width="100"  Command="{Binding SearchCommand}"/>
             </StackPanel>
 
             <!-- DataGrid -->
-            <DataGrid x:Name="DistrictDataGrid" AutoGenerateColumns="False" IsReadOnly="True"
-               Grid.Row="1" SelectionMode="Single" Margin="0,0,0,10">
+            <DataGrid x:Name="DataGrid" ItemsSource="{Binding ToChucCaNhans}" AutoGenerateColumns="False" IsReadOnly="True"
+ Grid.Row="1" SelectionMode="Single" Margin="0,0,0,10"
+           SelectedItem="{Binding RowSelectedItem}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding RowSelectedCommand}" 
+                        CommandParameter="{Binding RowSelectedItem}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding Index}" Width="50" />
-                    <DataGridTextColumn Header="Tên Tổ chức/Cá nhân" Binding="{Binding Name}" Width="300" />
-                    <DataGridTextColumn Header="Địa chỉ" Binding="{Binding Address}" Width="200" />
-                    <DataGridTextColumn Header="Loại sản phẩm" Binding="{Binding AnimalType}" Width="150" />
-                    <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="150" />
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50" />
+                    <DataGridTextColumn Header="Tên Tổ chức/Cá nhân" Binding="{Binding Ten}" Width="200" />
+                    <DataGridTextColumn Header="Địa chỉ" Binding="{Binding DiaChi}" Width="200" />
+                    <DataGridTextColumn Header="Số điện thoại" Binding="{Binding SoDienThoai}" Width="150" />
+                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="150" />
+                    <DataGridTextColumn Header="Loại hình" Binding="{Binding LoaiHinh}" Width="150" />
+                    <DataGridTextColumn Header="Loại hình hoạt động" Binding="{Binding LoaiHoatDong}" Width="200" />
+
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -55,31 +67,31 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2">
                 <!-- Form Input -->
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                    <StackPanel Orientation="Vertical" Margin="10">
-                        <TextBlock Text="ID:"/>
-                        <TextBox x:Name="DistrictNameTextBox" Width="20"/>
-                    </StackPanel>
+
                     <StackPanel Orientation="Vertical" Margin="10">
                         <TextBlock Text="Tên Tổ chức/Cá nhân:"/>
-                        <TextBox x:Name="ProvinceTextBox" Width="200"/>
+                        <TextBox x:Name="FullNameTextBox" Width="200" Text="{Binding NewFullName, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="10">
                         <TextBlock Text="Địa chỉ:"/>
-                        <TextBox x:Name="PostalCodeTextBox" Width="150"/>
+                        <TextBox x:Name="AddressTextBox" Width="200" Text="{Binding NewAddress, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="10">
-                        <TextBlock Text="Loại sản phẩm:"/>
-                        <TextBox x:Name="PostalCodeTextBox1" Width="150"/>
+                        <TextBlock Text="Số điện thoại:"/>
+                        <TextBox x:Name="PhoneTextBox" Width="200" Text="{Binding NewPhone, UpdateSourceTrigger=PropertyChanged}"/>
+
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="10">
-                        <TextBlock Text="Trạng thái:"/>
-                        <TextBox x:Name="PostalCodeTextBox2" Width="100"/>
+                        <TextBlock Text="Loại hình:"/>
+                        <TextBox x:Name="TypeTextBox" Width="100" Text="{Binding NewType, UpdateSourceTrigger=PropertyChanged}"/>
+
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="Thêm mới" Width="100" Margin="10" Click="AddDistrictButton_Click"/>
-                    <Button Content="Sửa" Width="100" Margin="10" Click="EditDistrictButton_Click"/>
-                    <Button Content="Xóa" Width="100" Margin="10" Click="DeleteDistrictButton_Click"/>
+                    <Button Content="Thêm mới" Width="100" Margin="10" Command="{Binding AddItemCommand}"/>
+                    <Button Content="Sửa" Width="100" Margin="10" Command="{Binding EditItemCommand}"/>
+                    <Button Content="Xóa" Width="100" Margin="10" Command="{Binding DeleteItemCommand}"/>
+
                 </StackPanel>
             </StackPanel>
         </Grid>
