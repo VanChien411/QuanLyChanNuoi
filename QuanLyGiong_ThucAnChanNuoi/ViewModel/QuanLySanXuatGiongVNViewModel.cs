@@ -243,12 +243,17 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 {
                     if (!string.IsNullOrEmpty(NewFullName))
                     {
-                        var toChucCaNhan = new ToChucCaNhan{Ten = NewFullName, DiaChi = NewAddress, Email = NewEmail,SoDienThoai = NewPhone, LoaiHinh = NewType, LoaiHoatDong = NewActiveType };
+                        var toChucCaNhan = new ToChucCaNhan { Ten = NewFullName, DiaChi = NewAddress, Email = NewEmail, SoDienThoai = NewPhone, LoaiHinh = NewType, LoaiHoatDong = NewActiveType };
                         db.ToChucCaNhans.Add(toChucCaNhan);
                         db.SaveChanges();
 
                         var ToChucCaNhans = GetToChucCaNhans();
                         LoadTableList(ToChucCaNhans);
+
+                        NewFullName = "";
+                        NewAddress = "";
+                        NewPhone = "";
+                        NewType = "";
                     }
                 }
 
@@ -264,13 +269,13 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             {
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
-                   if(RowSelectedItem != null)
+                    if (RowSelectedItem != null)
                     {
                         var toChucCaNhan = await db.ToChucCaNhans.FirstOrDefaultAsync(x => x.Id == RowSelectedItem.Id);
                         toChucCaNhan.Ten = NewFullName;
                         toChucCaNhan.DiaChi = NewAddress;
                         toChucCaNhan.SoDienThoai = NewPhone;
-                        toChucCaNhan.LoaiHinh = NewType;   
+                        toChucCaNhan.LoaiHinh = NewType;
                         toChucCaNhan.LoaiHoatDong = RowSelectedItem.LoaiHoatDong;
 
                         await db.SaveChangesAsync();
@@ -309,13 +314,17 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                         NewAddress = "";
                         NewPhone = "";
                         NewType = "";
-                  
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Chọn dữ liệu muốn xóa trong bảng");
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi : {ex.Message}");
+                MessageBox.Show($"Lỗi khi xóa: {ex.Message}");
             }
         }
 

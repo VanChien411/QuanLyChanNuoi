@@ -248,6 +248,11 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
 
                         var ToChucCaNhans = GetToChucCaNhans();
                         LoadTableList(ToChucCaNhans);
+
+                        NewFullName = "";
+                        NewAddress = "";
+                        NewPhone = "";
+                        NewType = "";
                     }
                 }
 
@@ -310,11 +315,14 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                         NewType = "";
 
                     }
+                    else {
+                        MessageBox.Show("Chọn dữ liệu muốn xóa trong bảng");
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi : {ex.Message}");
+                MessageBox.Show($"Lỗi khi xóa: {ex.Message}");
             }
         }
 
