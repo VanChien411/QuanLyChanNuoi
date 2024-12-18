@@ -203,7 +203,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.Models
 
             modelBuilder.Entity<LichSuTruyCap>(entity =>
             {
-                entity.HasOne(d => d.NguoiDung).WithMany().HasConstraintName("FK__lich_su_t__Nguoi__4222D4EF");
+                entity.HasOne(d => d.NguoiDung).WithMany(d => d.LichSuTruyCaps);
             });
             modelBuilder.Entity<PhanQuyenNhom>(entity =>
             {

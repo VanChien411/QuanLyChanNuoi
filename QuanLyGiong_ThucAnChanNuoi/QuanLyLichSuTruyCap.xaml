@@ -25,31 +25,43 @@
             </Grid.RowDefinitions>
 
             <!-- Thanh tìm kiếm -->
+            <!-- Tìm kiếm -->
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <TextBox x:Name="SearchTextBox" 
-                         Width="300" 
-                         VerticalAlignment="Center" 
-                         Margin="0,0,10,0" 
-                         />
-                <Button Content="Tìm kiếm" Width="100" Click="SearchButton_Click"/>
+                <Grid Width="300" Margin="0,0,10,0">
+                    <!-- Placeholder -->
+                    <TextBlock x:Name="PlaceholderTextBlock" Text="Nhập từ khóa tìm kiếm..."
+            VerticalAlignment="Center" Foreground="Gray"
+            Margin="5,0,0,0" IsHitTestVisible="False"/>
+
+                    <!-- TextBox -->
+                    <TextBox x:Name="SearchTextBox"
+VerticalAlignment="Center"
+ Text="{Binding NewTextSearch, UpdateSourceTrigger=PropertyChanged}"
+              
+TextChanged="SearchTextBox_TextChanged"/>
+                </Grid>
+                <Button Content="Tìm kiếm" Width="100"  Command="{Binding SearchCommand}"/>
             </StackPanel>
 
-            <!-- Bảng hiển thị lịch sử -->
-            <DataGrid x:Name="HistoryDataGrid" AutoGenerateColumns="False" IsReadOnly="True" 
-                      Grid.Row="1" SelectionMode="Single" Margin="0,0,0,10">
+          
+            <!-- DataGrid -->
+            <DataGrid x:Name="DataGrid" ItemsSource="{Binding LichSuTruyCaps}" AutoGenerateColumns="False" IsReadOnly="True"
+Grid.Row="1" SelectionMode="Single" Margin="0,0,0,10"
+          SelectedItem="{Binding RowSelectedItem}">
+          
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
-                    <DataGridTextColumn Header="Tên Người dùng" Binding="{Binding UserName}" Width="200"/>
-                    <DataGridTextColumn Header="Hành động" Binding="{Binding Action}" Width="200"/>
-                    <DataGridTextColumn Header="Thời gian" Binding="{Binding Time}" Width="200"/>
+                    <DataGridTextColumn Header="Tên Người dùng" Binding="{Binding NguoiDung.TenDn}" Width="200"/>
+                    <DataGridTextColumn Header="Hành động" Binding="{Binding Mota}" Width="200"/>
+                    <DataGridTextColumn Header="Thời gian" Binding="{Binding ThoiGian}" Width="200"/>
                     <DataGridTextColumn Header="IP Address" Binding="{Binding IpAddress}" Width="150"/>
                 </DataGrid.Columns>
             </DataGrid>
-
             <!-- Nút thao tác -->
             <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" Margin="0,10,0,0">
-                <Button Content="Xóa Lịch sử" Width="120" Margin="10" Click="DeleteHistoryButton_Click"/>
-                <Button Content="Xuất Báo cáo" Width="120" Margin="10" Click="ExportReportButton_Click"/>
+
+                <Button Content="Xóa Lịch sử" Width="100" Margin="10" Command="{Binding DeleteItemCommand}"/>
+                <Button Content="Xuất Báo cáo" Width="100" Margin="10" Command="{Binding ExportItemCommand}"/>
             </StackPanel>
         </Grid>
     </Grid>

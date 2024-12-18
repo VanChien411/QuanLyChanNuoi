@@ -52,12 +52,7 @@
                                     <!-- Hiển thị thông tin dưới dạng bảng -->
                                     <DataGrid x:Name="ResultsDataGrid" ItemsSource="{Binding CoSoVatNuois}"  SelectedItem="{Binding CoSoVatNuoiselectedItem}" AutoGenerateColumns="False" IsReadOnly="True" Height="300"
                       HeadersVisibility="Column" VerticalGridLinesBrush="#E0E0E0" AlternatingRowBackground="#F7F7F7">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="SelectionChanged">
-                                                <i:InvokeCommandAction Command="{Binding CoSoVatNuoiselectedCommand}" 
-        CommandParameter="{Binding CoSoVatNuoiselectedItem}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
+                                     
                                         <DataGrid.Columns>
                                             <!-- Cột ID  THEM CO SO SAN XUAT, KHAO NGHIEM -->
                                             <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
@@ -114,12 +109,7 @@
                                     <!-- Hiển thị thông tin dưới dạng bảng -->
                                     <DataGrid x:Name="Results2DataGrid" ItemsSource="{Binding ToChucNguonGens}"  SelectedItem="{Binding ToChucNguonGensedItem}" AutoGenerateColumns="False" IsReadOnly="True" Height="300"
               HeadersVisibility="Column" VerticalGridLinesBrush="#E0E0E0" AlternatingRowBackground="#F7F7F7">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="SelectionChanged">
-                                                <i:InvokeCommandAction Command="{Binding ToChucNguonGensedCommand}" 
-CommandParameter="{Binding ToChucNguonGensedItem}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
+                                      
                                         <DataGrid.Columns>
                                             <!-- Cột ID  THEM CO SO SAN XUAT, KHAO NGHIEM -->
                                             <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
@@ -176,12 +166,7 @@ CommandParameter="{Binding ToChucNguonGensedItem}" />
                                     <!-- Hiển thị thông tin dưới dạng bảng -->
                                     <DataGrid x:Name="Results3DataGrid" ItemsSource="{Binding CoSoThucAns}"  SelectedItem="{Binding RowSelectedItem}" AutoGenerateColumns="False" IsReadOnly="True" Height="300"
               HeadersVisibility="Column" VerticalGridLinesBrush="#E0E0E0" AlternatingRowBackground="#F7F7F7">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="SelectionChanged">
-                                                <i:InvokeCommandAction Command="{Binding RowSelectedCommand}" 
-CommandParameter="{Binding RowSelectedItem}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
+                                  
                                         <DataGrid.Columns>
                                             <!-- Cột ID -->
                                             <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>

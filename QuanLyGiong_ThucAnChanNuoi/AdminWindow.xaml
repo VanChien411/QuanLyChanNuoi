@@ -37,27 +37,26 @@
                           
                             <Button Content="Quản lý lịch sử truy cập" Width="300" Height="30" Margin="0,5" Click="Button_Click_7"/>
                            
-                            <Button Content="Quản lý lịch sử tác động hệ thống" Width="300" Height="30" Margin="0,5" Click="Button_Click_8"/>
+                            <!--<Button Content="Quản lý lịch sử tác động hệ thống" Width="300" Height="30" Margin="0,5" Click="Button_Click_8"/>-->
                             
                         </StackPanel>
                     </TabItem>
 
                     <!-- Báo cáo - Thống kê -->
-                    <TabItem Header="Báo cáo - Thống kê">
+                    <!--<TabItem Header="Báo cáo - Thống kê">
                         <StackPanel Margin="10">
                             <TextBlock Text="Báo cáo - Thống kê" FontSize="16" FontWeight="Bold"/>
                             <Button Content="Báo cáo - thống kê người dùng" Width="300" Height="30" Margin="0,10,0,5"/>
                             <Button Content="Báo cáo - thống kê lịch sử truy cập" Width="300" Height="30" Margin="0,5"/>
                            
                         </StackPanel>
-                    </TabItem>
+                    </TabItem>-->
 
                     <!-- Quản lý thông tin tài khoản -->
                     <TabItem Header="Quản lý thông tin tài khoản">
                         <StackPanel Margin="10">
-                            <TextBlock Text="Quản lý Thông tin Tài khoản" FontSize="16" FontWeight="Bold"/>
-                            <Button Content="Quản lý thông tin tài khoản" Width="300" Height="30" Margin="0,10,0,5"/>
-                            <Button Content="Đăng xuất khỏi hệ thống" Width="300" Height="30" Margin="0,5"/>
+                         
+                            <Button x:Name="LogOut" Content="Đăng xuất khỏi hệ thống" Width="300" Height="30" Margin="0,5" Click="LogOut_Click"/>
                         </StackPanel>
                     </TabItem>
 

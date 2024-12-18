@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,8 +32,7 @@ namespace QuanLyGiong_ThucAnChanNuoi
             bool rememberPassword = rememberPasswordCheckBox.IsChecked ?? false;
 
             // Thay đổi logic xác thực ở đây
-            //if (await IsValidLogin(username, password))
-            if (true)
+            if (await IsValidLogin(username, password))
             {
                 // Lưu thông tin đăng nhập nếu chọn "Nhớ mật khẩu"
                 if (rememberPassword)
@@ -91,8 +92,13 @@ namespace QuanLyGiong_ThucAnChanNuoi
                     var user = await context.NguoiDungs.Include(c => c.ChucVu).FirstOrDefaultAsync(x => x.TenDn == username && x.MatKhau == password && x.TrangThai == true);
                     if (user != null)
                     {
-                        Debug.WriteLine(user.ChucVu?.TenChucVu);
+                        // Lưu lịch sử 
+                        var VisitHistory = new LichSuTruyCap { NguoiDungId = user.Id , Mota= "Đăng nhập", ThoiGian = DateTime.Now, IpAddress = GetMacAddresses()[0] };
+                        context.LichSuTruyCaps.Add(VisitHistory);
+                        context.SaveChanges();
+                        return true;
                     }
+                 
                 }
                 catch (Exception ex)
                 {
@@ -101,7 +107,18 @@ namespace QuanLyGiong_ThucAnChanNuoi
             }
             // Kiểm tra thông tin đăng nhập
             // Thay đổi logic này để kiểm tra từ cơ sở dữ liệu hoặc từ danh sách hợp lệ
-            return username == "admin" && password == "123456"; // Ví dụ thông tin đăng nhập hợp lệ
+            return false; // Ví dụ thông tin đăng nhập hợp lệ
+        }
+        private string[] GetMacAddresses()
+        {
+            var macAddresses = NetworkInterface.GetAllNetworkInterfaces()
+                .Where(nic => nic.OperationalStatus == OperationalStatus.Up)
+                .OrderBy(nic => nic.NetworkInterfaceType == NetworkInterfaceType.Ethernet ? 0 :
+                    nic.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 ? 1 : 2)
+                .Select(nic => nic.GetPhysicalAddress().ToString())
+                .Where(mac => !string.IsNullOrEmpty(mac))
+                .ToArray();
+            return macAddresses;
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
@@ -131,5 +148,11 @@ namespace QuanLyGiong_ThucAnChanNuoi
             }
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            QuenMatKhau quenMatKhau = new QuenMatKhau();
+            quenMatKhau.Show();
+            this.Close();
+        }
     }
 }

@@ -1,67 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
+using QuanLyGiong_ThucAnChanNuoi.ViewModel;
 
 
 namespace QuanLyGiong_ThucAnChanNuoi
 {
     public partial class QuanLyLichSuTruyCap : Window
     {
-        // Danh sách lịch sử truy cập (giả lập)
-        private List<AccessHistory> _historyData = new List<AccessHistory>
-        {
-            new AccessHistory { Id = 1, UserName = "Nguyễn Văn A", Action = "Đăng nhập", Time = DateTime.Now.AddHours(-2).ToString("dd/MM/yyyy HH:mm"), IpAddress = "192.168.1.1" },
-            new AccessHistory { Id = 2, UserName = "Trần Thị B", Action = "Sửa dữ liệu", Time = DateTime.Now.AddHours(-1).ToString("dd/MM/yyyy HH:mm"), IpAddress = "192.168.1.2" },
-            new AccessHistory { Id = 3, UserName = "Lê Văn C", Action = "Xóa dữ liệu", Time = DateTime.Now.ToString("dd/MM/yyyy HH:mm"), IpAddress = "192.168.1.3" }
-        };
-
+      
         public QuanLyLichSuTruyCap()
         {
             InitializeComponent();
-            LoadHistoryData();
+            DataContext = new QuanLyLichSuViewModel();
         }
-
-        // Hiển thị dữ liệu trong DataGrid
-        private void LoadHistoryData()
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            HistoryDataGrid.ItemsSource = _historyData;
+            PlaceholderTextBlock.Visibility = string.IsNullOrWhiteSpace(SearchTextBox.Text) ? Visibility.Visible : Visibility.Hidden;
         }
-
-        // Tìm kiếm trong danh sách lịch sử
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
-        {
-            string keyword = SearchTextBox.Text.ToLower();
-            var filteredData = _historyData.Where(history =>
-                history.UserName.ToLower().Contains(keyword) ||
-                history.Action.ToLower().Contains(keyword) ||
-                history.Time.Contains(keyword) ||
-                history.IpAddress.Contains(keyword)).ToList();
-
-            HistoryDataGrid.ItemsSource = filteredData;
-        }
-
-        // Xóa tất cả lịch sử truy cập
-        private void DeleteHistoryButton_Click(object sender, RoutedEventArgs e)
-        {
-            var result = MessageBox.Show("Bạn có chắc chắn muốn xóa toàn bộ lịch sử truy cập không?", "Xác nhận", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (result == MessageBoxResult.Yes)
-            {
-                _historyData.Clear();
-                LoadHistoryData();
-                MessageBox.Show("Đã xóa toàn bộ lịch sử!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-        }
+       
 
         // Xuất báo cáo lịch sử truy cập
         private void ExportReportButton_Click(object sender, RoutedEventArgs e)
