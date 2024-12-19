@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
 {
-    internal class HoaChatCamViewModel : INotifyPropertyChanged
+  internal class NuyenLieuDuocSuDungViewModel : INotifyPropertyChanged
     {
 
         private int _newId;
@@ -21,14 +21,14 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
 
         private string _newTextSearch;
 
-        private Models.HoaChatCam _rowSelectedItem;
+        private Models.NguyenLieuChoPhep _rowSelectedItem;
         private ToChucCaNhan _toChucCaNhanSelectedItem;
 
         private NguonGen _NguonGen;
 
 
 
-        public ObservableCollection<Models.HoaChatCam> HoaChatCams { get; set; } = new ObservableCollection<Models.HoaChatCam>();
+        public ObservableCollection<Models.NguyenLieuChoPhep> NguyenLieuChoPheps { get; set; } = new ObservableCollection<Models.NguyenLieuChoPhep>();
         public ObservableCollection<ToChucCaNhan> ToChucCaNhans { get; set; } = new ObservableCollection<ToChucCaNhan>();
 
 
@@ -49,7 +49,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             }
         }
 
-        public Models.HoaChatCam RowSelectedItem
+        public Models.NguyenLieuChoPhep RowSelectedItem
         {
             get => _rowSelectedItem;
             set
@@ -113,14 +113,14 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
 
 
 
-        public HoaChatCamViewModel()
+        public NuyenLieuDuocSuDungViewModel()
         {
             Initialize();
             AddItemCommand = new RelayCommand(AddItem);
             EditItemCommand = new RelayCommand(EditItem);
             DeleteItemCommand = new RelayCommand(DeleteItem);
             SearchCommand = new RelayCommand(Search);
-            RowSelectedCommand = new RelayCommandT<Models.HoaChatCam>(OnRowSelected);
+            RowSelectedCommand = new RelayCommandT<Models.NguyenLieuChoPhep>(OnRowSelected);
             NguonGenselectedCommand = new RelayCommandT<NguonGen>(OnNguonGenselected);
             ToChucCaNhanSelectedCommand = new RelayCommandT<ToChucCaNhan>(OnToChuCaNhanSelected);
 
@@ -144,10 +144,10 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             {
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
-
-                    var rowData = GetHoaChatCams();
+               
+                    var rowData = GetNguyenLieuChoPheps();
                     //Gan gia tri cho table list
-                    HoaChatCams = new ObservableCollection<Models.HoaChatCam>(rowData);
+                    NguyenLieuChoPheps = new ObservableCollection<Models.NguyenLieuChoPhep>(rowData);
 
                     var nguonGens = db.NguonGens.ToList();
                     NguonGens = new ObservableCollection<NguonGen>(nguonGens);
@@ -163,15 +163,15 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 MessageBox.Show($"Lỗi khi tải dữ liệu: {ex.Message}");
             }
         }
-        private void OnRowSelected(Models.HoaChatCam selectedItem)
+        private void OnRowSelected(Models.NguyenLieuChoPhep selectedItem)
         {
             if (selectedItem != null)
             {
 
                 ////Thực hiện hành động với SelectedItem
                 NewId = selectedItem.Id;
-                NewNote = selectedItem.LyDoCam;
-                NewFullName = selectedItem.TenHoaChat;
+                NewNote = selectedItem.MoTa;
+                NewFullName = selectedItem.TenNguyenLieu;
 
 
             }
@@ -202,14 +202,14 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
 
         }
 
-        private List<Models.HoaChatCam> GetHoaChatCams()
+        private List<Models.NguyenLieuChoPhep> GetNguyenLieuChoPheps()
         {
             try
             {
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
 
-                    var data = db.HoaChatCams.AsNoTracking().Include(c => c.CoSoHoaChatCams).ToList();
+                    var data = db.NguyenLieuChoPheps.AsNoTracking().Include(c => c.CoSoNguyenLieuChoPheps).ToList();
                     return data;
                 }
             }
@@ -227,16 +227,16 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 var textSearch = NewTextSearch?.ToLower() ?? "";
                 // Sử dụng && để kiểm tra x.MaBuuDien != null trước khi gọi ToLower().Contains().
 
-                var HoaChatCams = GetHoaChatCams()
+                var NguyenLieuChoPheps = GetNguyenLieuChoPheps()
                   .Where(x =>
-                       (x.TenHoaChat?.ToLower().Contains(textSearch.ToLower()) ?? false)
-                      || (x.LyDoCam?.ToLower().Contains(textSearch.ToLower()) ?? false)
+                       (x.TenNguyenLieu?.ToLower().Contains(textSearch.ToLower()) ?? false)
+                      || (x.MoTa?.ToLower().Contains(textSearch.ToLower()) ?? false)
                       || (x.Id.ToString().ToLower().Contains(textSearch.ToLower()))
                    )
                   .ToList();
 
 
-                LoadTableList(HoaChatCams);
+                LoadTableList(NguyenLieuChoPheps);
 
 
             }
@@ -251,17 +251,18 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             {
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
-                    if (!string.IsNullOrEmpty(NewFullName)) {
-                        var hcc = new Models.HoaChatCam
+                    if (!string.IsNullOrEmpty(NewFullName))
+                    {
+                        var hcc = new Models.NguyenLieuChoPhep
                         {
-                            TenHoaChat = NewFullName,
-                            LyDoCam = NewNote
+                            TenNguyenLieu = NewFullName,
+                            MoTa = NewNote
                         };
-                        db.HoaChatCams.Add(hcc);
+                        db.NguyenLieuChoPheps.Add(hcc);
                         db.SaveChanges();
 
                         //Reset list
-                        var data = GetHoaChatCams();
+                        var data = GetNguyenLieuChoPheps();
                         LoadTableList(data);
 
                         NewFullName = "";
@@ -283,19 +284,21 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 {
                     if (RowSelectedItem != null)
                     {
-                        if (!string.IsNullOrEmpty(NewFullName)) {
-                            var hcc = db.HoaChatCams.FirstOrDefault(x => x.Id == RowSelectedItem.Id);
-                            if (hcc != null) { 
-                                hcc.TenHoaChat = NewFullName;
-                                hcc.LyDoCam = NewNote;
+                        if (!string.IsNullOrEmpty(NewFullName))
+                        {
+                            var hcc = db.NguyenLieuChoPheps.FirstOrDefault(x => x.Id == RowSelectedItem.Id);
+                            if (hcc != null)
+                            {
+                                hcc.TenNguyenLieu = NewFullName;
+                                hcc.MoTa = NewNote;
 
                                 db.SaveChanges();
 
                                 //Reset list
-                                var data = GetHoaChatCams();
+                                var data = GetNguyenLieuChoPheps();
                                 LoadTableList(data);
 
-                                RowSelectedItem = HoaChatCams.FirstOrDefault(x => x.Id == hcc.Id);
+                                RowSelectedItem = NguyenLieuChoPheps.FirstOrDefault(x => x.Id == hcc.Id);
                             }
                         }
                     }
@@ -320,12 +323,12 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
 
                     if (RowSelectedItem != null)
                     {
-                        var gvnBt = db.HoaChatCams.Where(x => x.Id == RowSelectedItem.Id).FirstOrDefault();
+                        var gvnBt = db.NguyenLieuChoPheps.Where(x => x.Id == RowSelectedItem.Id).FirstOrDefault();
                         db.Remove(gvnBt);
                         db.SaveChanges();
 
                         // Reset list
-                        var data = GetHoaChatCams();
+                        var data = GetNguyenLieuChoPheps();
                         LoadTableList(data);
 
                         RowSelectedItem = null;
@@ -343,12 +346,12 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             }
         }
 
-        private void LoadTableList(List<Models.HoaChatCam> data)
+        private void LoadTableList(List<Models.NguyenLieuChoPhep> data)
         {
-            HoaChatCams.Clear();
+            NguyenLieuChoPheps.Clear();
             foreach (var item in data)
             {
-                HoaChatCams.Add(item);
+                NguyenLieuChoPheps.Add(item);
             }
         }
 
@@ -367,3 +370,4 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
 
     }
 }
+

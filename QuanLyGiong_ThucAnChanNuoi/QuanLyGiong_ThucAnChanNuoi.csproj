@@ -346,6 +346,7 @@
     <Compile Include="ViewModel\KhaiThacGenViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\MuaBanConGiongViewModel.cs" />
+    <Compile Include="ViewModel\NuyenLieuDuocSuDungViewModel.cs" />
     <Compile Include="ViewModel\QuanLyHCHuyenViewModel.cs" />
     <Compile Include="ViewModel\QuanLyHCXaViewModel.cs" />
     <Compile Include="ViewModel\QuanLyLichSuViewModel.cs" />
