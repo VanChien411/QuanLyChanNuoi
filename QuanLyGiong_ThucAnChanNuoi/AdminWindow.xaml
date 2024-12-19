@@ -82,14 +82,85 @@
                                         </StackPanel.RenderTransform>
                                         <TextBlock Text="Mô tả Hệ thống Quản lý CSDL và Quản trị hệ thống" FontWeight="Bold" FontSize="16" />
                                         <TextBlock Text="Hệ thống quản lý được xây dựng để phục vụ công tác quản lý dữ liệu và vận hành trong lĩnh vực hành chính và chăn nuôi. Ứng dụng áp dụng các công nghệ hiện đại như WPF, Entity Framework và kiến trúc MVVM nhằm tối ưu hóa trải nghiệm người dùng và đảm bảo hiệu năng xử lý dữ liệu." 
-                       TextWrapping="Wrap" FontWeight="Bold" FontSize="16" />
+                       TextWrapping="Wrap" FontWeight="Bold" FontSize="16" FontStyle="Italic" />
                                     </StackPanel>
                                     <Image Source="/farm.png" Width="200" Height="126" />
 
                                     <!-- Phần ảnh -->
                                 </StackPanel>
                                 <TextBlock Text="Cấu trúc hệ thống." Height="26" FontWeight="Bold" FontSize="16" />
-                                <TreeView>
+                                <TreeView FontSize="16">
+                                    <!-- Mục chính: Quản trị hệ thống -->
+                                    <TreeViewItem Header="Quản trị hệ thống">
+                                        <!-- Sub-item: Quản lý đơn vị hành chính -->
+                                        <TreeViewItem Header="Quản lý đơn vị hành chính">
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm danh mục đơn vị hành chính cấp huyện" />
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm danh mục đơn vị hành chính cấp xã" />
+                                        </TreeViewItem>
+
+                                        <!-- Sub-item: Quản lý người dùng và phân quyền -->
+                                        <TreeViewItem Header="Quản lý người dùng và phân quyền">
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm phân quyền cho người dùng" />
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm quản lý người dùng" />
+                                        </TreeViewItem>
+
+                                        <!-- Sub-item: Quản lý hệ thống và bảo mật -->
+                                        <TreeViewItem Header="Quản lý hệ thống và bảo mật">
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm quản lý lịch sử truy cập" />
+                                        </TreeViewItem>
+
+                                        <!-- Sub-item: Quản lý thông tin tài khoản -->
+                                        <TreeViewItem Header="Quản lý thông tin tài khoản">
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm đăng xuất khỏi hệ thống" />
+                                        </TreeViewItem>
+
+                                        <!-- Sub-item: Quản lý hướng dẫn sử dụng -->
+                                        <TreeViewItem Header="Quản lý hướng dẫn sử dụng">
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm cập nhật hướng dẫn sử dụng" />
+                                        </TreeViewItem>
+                                    </TreeViewItem>
+                                    <!-- Mục chính: Giống vật nuôi -->
+                                    <TreeViewItem Header="Giống vật nuôi">
+                                        <!-- Sub-item: Tổ chức, cá nhân sản xuất giống vật nuôi -->
+                                        <TreeViewItem Header="Tổ chức, cá nhân sản xuất giống vật nuôi">
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm danh mục tổ chức, cá nhân sản xuất con giống vật nuôi" />
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm danh mục tổ chức, cá nhân sản xuất tinh, phôi, ấu trùng và cơ sở ấp trứng" />
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm danh mục tổ chức, cá nhân sở hữu giống vật nuôi để phối giống trực tiếp" />
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm danh mục tổ chức, cá nhân mua bán con giống, tinh, phôi, trứng giống" />
+                                        </TreeViewItem>
+
+                                        <!-- Sub-item: Cơ sở khảo nghiệm và bảo tồn giống vật nuôi -->
+                                        <TreeViewItem Header="Cơ sở khảo nghiệm và bảo tồn giống vật nuôi">
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm danh mục cơ sở khảo nghiệm dòng, giống vật nuôi" />
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm danh mục giống vật nuôi cần bảo tồn" />
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm danh mục giống vật nuôi cấm xuất khẩu" />
+                                        </TreeViewItem>
+                                    </TreeViewItem>
+
+                                    <!-- Mục chính: Nguồn gen giống vật nuôi -->
+                                    <TreeViewItem Header="Nguồn gen giống vật nuôi">
+                                        <!-- Sub-item: Tổ chức, cá nhân quản lý nguồn gen -->
+                                        <TreeViewItem Header="Tổ chức, cá nhân quản lý nguồn gen">
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm danh mục tổ chức, cá nhân thu thập nguồn gen giống vật nuôi" />
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm danh mục tổ chức, cá nhân bảo tồn nguồn gen giống vật nuôi" />
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm danh mục tổ chức, cá nhân khai thác, phát triển nguồn gen giống vật nuôi" />
+                                        </TreeViewItem>
+                                    </TreeViewItem>
+
+                                    <!-- Mục chính: Thức ăn chăn nuôi -->
+                                    <TreeViewItem Header="Thức ăn chăn nuôi">
+                                        <!-- Sub-item: Cơ sở sản xuất và mua bán thức ăn chăn nuôi -->
+                                        <TreeViewItem Header="Cơ sở sản xuất và mua bán thức ăn chăn nuôi">
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm danh mục cơ sở sản xuất thức ăn chăn nuôi thương mại" />
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm danh mục cơ sở mua bán thức ăn chăn nuôi" />
+                                        </TreeViewItem>
+
+                                        <!-- Sub-item: Hóa chất và nguyên liệu thức ăn chăn nuôi -->
+                                        <TreeViewItem Header="Hóa chất và nguyên liệu thức ăn chăn nuôi">
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm danh mục hóa chất, sản phẩm sinh học, vi sinh vật cấm sử dụng trong thức ăn chăn nuôi" />
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm danh mục nguyên liệu được phép sử dụng làm thức ăn trong chăn nuôi" />
+                                        </TreeViewItem>
+                                    </TreeViewItem>
                                     <!-- Mục chính: Tra cứu dữ liệu -->
                                     <TreeViewItem Header="Tra cứu dữ liệu">
                                         <!-- Sub-item: Giống vật nuôi -->
