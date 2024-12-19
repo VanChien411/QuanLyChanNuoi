@@ -28,6 +28,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
         private DonViHc _selectedItem;
         private DonViHc _districtSelected;
 
+        private DonViHc _rowSelectedItem;
         public ObservableCollection<DonViHc> DonViHcs { get; set; } = new ObservableCollection<DonViHc>();
         public ObservableCollection<DonViHc> Huyens { get; set; } = new ObservableCollection<DonViHc>();
         public ObservableCollection<DonViHc> Tinhs { get; set; } = new ObservableCollection<DonViHc>();
@@ -53,6 +54,16 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                     SelectedItem = null;
                 }
                 OnPropertyChanged(nameof(Text)); // Notify UI to update binding
+            }
+        }
+
+        public DonViHc RowSelectedItem
+        {
+            get => _rowSelectedItem;
+            set
+            {
+                _rowSelectedItem = value;
+                OnPropertyChanged(nameof(RowSelectedItem));
             }
         }
         public DonViHc SelectedItem
@@ -133,7 +144,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
         public ICommand SearchCommand { get; }
         public ICommand DistrictSelectionChangedCommand { get; }
         public ICommand SelectionChangedCommand { get; }
-
+        public ICommand RowSelectedCommand { get; set; }
 
         public QuanLyHCHuyenViewModel()
         {
@@ -144,6 +155,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             SearchCommand = new RelayCommand(Search);
             DistrictSelectionChangedCommand = new RelayCommandT<object>(OnDistrictSelectionChanged);
             SelectionChangedCommand = new RelayCommandT<object>(OnSelectionChanged);
+            RowSelectedCommand = new RelayCommandT<DonViHc>(OnRowSelected);
         }
         private void Initialize()
         {
@@ -181,7 +193,16 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                 MessageBox.Show($"Lỗi khi tải dữ liệu: {ex.Message}");
             }
         }
+        private void OnRowSelected(DonViHc selectedItem)
+        {
+            if (selectedItem != null)
+            {
 
+               DistrictSelected = Huyens.FirstOrDefault(x => x.Id == selectedItem.Id); 
+
+            }
+
+        }
         private List<DonViHc> GetDonViHcs()
         {
             try
@@ -439,8 +460,8 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             {
                 try
                 {
-                    SelectedItem = DistrictSelected.TrucThuocNavigation;
-                    NewMaBuuDien = DistrictSelected.MaBuuDien;
+                    SelectedItem = DistrictSelected?.TrucThuocNavigation;
+                    NewMaBuuDien = DistrictSelected?.MaBuuDien;
                 }
                 catch (Exception ex)
                 {

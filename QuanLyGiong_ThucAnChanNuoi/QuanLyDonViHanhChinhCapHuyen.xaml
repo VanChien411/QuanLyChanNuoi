@@ -43,7 +43,14 @@
 
             <!-- DataGrid -->
             <DataGrid x:Name="DistrictDataGrid" ItemsSource="{Binding DonViHcs}" AutoGenerateColumns="False" IsReadOnly="True"
-                      Grid.Row="1" SelectionMode="Single" Margin="0,0,0,10">
+                      Grid.Row="1" SelectionMode="Single" Margin="0,0,0,10"   SelectedItem="{Binding RowSelectedItem}"
+                      >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding RowSelectedCommand}" 
+        CommandParameter="{Binding RowSelectedItem}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="100"/>
                     <DataGridTextColumn Header="Tên Huyện" Binding="{Binding Ten}" Width="200"/>
