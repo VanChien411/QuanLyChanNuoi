@@ -50,8 +50,8 @@
                                     <TextBlock Text="Kết quả tìm kiếm" FontSize="20" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,20"/>
 
                                     <!-- Hiển thị thông tin dưới dạng bảng -->
-                                    <DataGrid x:Name="ResultsDataGrid" ItemsSource="{Binding CoSoVatNuois}"  SelectedItem="{Binding CoSoVatNuoiselectedItem}" AutoGenerateColumns="False" IsReadOnly="True" Height="300"
-                      HeadersVisibility="Column" VerticalGridLinesBrush="#E0E0E0" AlternatingRowBackground="#F7F7F7">
+                                    <DataGrid x:Name="ResultsDataGrid" ItemsSource="{Binding CoSoVatNuois}"  SelectedItem="{Binding CoSoVatNuoiselectedItem}" AutoGenerateColumns="False" IsReadOnly="True" 
+                      HeadersVisibility="Column" VerticalGridLinesBrush="#E0E0E0" AlternatingRowBackground="#F7F7F7" Height="auto">
                                      
                                         <DataGrid.Columns>
                                             <!-- Cột ID  THEM CO SO SAN XUAT, KHAO NGHIEM -->
@@ -107,7 +107,7 @@
                                     <TextBlock Text="Kết quả tìm kiếm" FontSize="20" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,20"/>
 
                                     <!-- Hiển thị thông tin dưới dạng bảng -->
-                                    <DataGrid x:Name="Results2DataGrid" ItemsSource="{Binding ToChucNguonGens}"  SelectedItem="{Binding ToChucNguonGensedItem}" AutoGenerateColumns="False" IsReadOnly="True" Height="300"
+                                    <DataGrid x:Name="Results2DataGrid" ItemsSource="{Binding ToChucNguonGens}"  SelectedItem="{Binding ToChucNguonGensedItem}" AutoGenerateColumns="False" IsReadOnly="True"  Height="auto"
               HeadersVisibility="Column" VerticalGridLinesBrush="#E0E0E0" AlternatingRowBackground="#F7F7F7">
                                       
                                         <DataGrid.Columns>
@@ -164,7 +164,7 @@
                                     <StackPanel>
                                         <TextBlock Text="Danh sách thông tin" FontSize="20" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,20"/>
                                     <!-- Hiển thị thông tin dưới dạng bảng -->
-                                    <DataGrid x:Name="Results3DataGrid" ItemsSource="{Binding CoSoThucAns}"  SelectedItem="{Binding RowSelectedItem}" AutoGenerateColumns="False" IsReadOnly="True" Height="300"
+                                    <DataGrid x:Name="Results3DataGrid" ItemsSource="{Binding CoSoThucAns}"  SelectedItem="{Binding RowSelectedItem}" AutoGenerateColumns="False" IsReadOnly="True"  Height="auto"
               HeadersVisibility="Column" VerticalGridLinesBrush="#E0E0E0" AlternatingRowBackground="#F7F7F7">
                                   
                                         <DataGrid.Columns>

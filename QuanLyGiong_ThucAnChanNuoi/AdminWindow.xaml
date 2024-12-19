@@ -67,7 +67,7 @@
                     <!-- Quản lý hướng dẫn sử dụng -->
                     <TabItem Header="Quản lý hướng dẫn sử dụng">
                         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                            <StackPanel Margin="10" HorizontalAlignment="Center" >
+                            <StackPanel Margin="10,30,10,10" HorizontalAlignment="Center" >
                                 <!-- Nội dung văn bản và ảnh cùng hàng -->
                                 <StackPanel Orientation="Horizontal"  Margin="0,0,0,0" Height="133">
                                     <!-- Phần mô tả văn bản -->
@@ -88,6 +88,8 @@
 
                                     <!-- Phần ảnh -->
                                 </StackPanel>
+                                <TextBlock Margin="0,10,0,20"  MaxWidth="910"   Text="Hệ thống là một nền tảng quản lý toàn diện, hỗ trợ quản trị danh mục hành chính và cơ sở dữ liệu chăn nuôi. Người dùng có thể quản lý, tìm kiếm, và tra cứu thông tin về đơn vị hành chính, người dùng, nhóm người dùng, phân quyền, cùng các lịch sử và báo cáo liên quan. Đồng thời, hệ thống cho phép quản lý dữ liệu về giống vật nuôi, nguồn gen, và thức ăn chăn nuôi, bao gồm thông tin tổ chức, cá nhân sản xuất, mua bán, bảo tồn, và các sản phẩm bị cấm. Hệ thống đảm bảo tính hiệu quả, minh bạch, và thuận tiện trong quản lý thông tin." 
+TextWrapping="Wrap" FontSize="16" FontStyle="Italic" HorizontalAlignment="Left" />
                                 <TextBlock Text="Cấu trúc hệ thống." Height="26" FontWeight="Bold" FontSize="16" />
                                 <TreeView FontSize="16">
                                     <!-- Mục chính: Quản trị hệ thống -->
