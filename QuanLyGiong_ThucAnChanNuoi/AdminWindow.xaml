@@ -6,16 +6,20 @@
         xmlns:local="clr-namespace:QuanLyGiong_ThucAnChanNuoi"
         mc:Ignorable="d"
         WindowState="Maximized"
-        Title="AdminWindow" Height="450" Width="800">
+        Title="AdminWindow" Height="450" Width="1133">
     <Grid>
-        <TabControl>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="157*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <TabControl Grid.ColumnSpan="2">
             <!-- Quản trị hệ thống -->
             <TabItem Header="Quản trị hệ thống">
                 <TabControl>
                     <!-- Quản lý đơn vị hành chính -->
                     <TabItem Header="Quản lý đơn vị hành chính">
                         <StackPanel Margin="10">
-                            
+
                             <Button Content="Quản lý danh mục đơn vị hành chính cấp huyện" Width="500" Height="30" Margin="0,10,0,5" Click="Button_Click"/>
                             <Button Content="Quản lý danh mục đơn vị hành chính cấp xã" Width="500" Height="30" Margin="0,5" Click="Button_Click_4"/>
                         </StackPanel>
@@ -33,12 +37,12 @@
                     <!-- Quản lý hệ thống và bảo mật -->
                     <TabItem Header="Quản lý hệ thống và bảo mật">
                         <StackPanel Margin="10">
-                            
-                          
+
+
                             <Button Content="Quản lý lịch sử truy cập" Width="300" Height="30" Margin="0,5" Click="Button_Click_7"/>
-                           
+
                             <!--<Button Content="Quản lý lịch sử tác động hệ thống" Width="300" Height="30" Margin="0,5" Click="Button_Click_8"/>-->
-                            
+
                         </StackPanel>
                     </TabItem>
 
@@ -55,23 +59,75 @@
                     <!-- Quản lý thông tin tài khoản -->
                     <TabItem Header="Quản lý thông tin tài khoản">
                         <StackPanel Margin="10">
-                         
+
                             <Button x:Name="LogOut" Content="Đăng xuất khỏi hệ thống" Width="300" Height="30" Margin="0,5" Click="LogOut_Click"/>
                         </StackPanel>
                     </TabItem>
 
                     <!-- Quản lý hướng dẫn sử dụng -->
                     <TabItem Header="Quản lý hướng dẫn sử dụng">
-                        <StackPanel Margin="10">
-                            <TextBlock Text="Quản lý Hướng dẫn Sử dụng" FontSize="16" FontWeight="Bold"/>
-                            <Button Content="Cập nhật hướng dẫn sử dụng" Width="300" Height="30" Margin="0,10,0,5"/>
-                        </StackPanel>
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="10" HorizontalAlignment="Center" >
+                                <!-- Nội dung văn bản và ảnh cùng hàng -->
+                                <StackPanel Orientation="Horizontal"  Margin="0,0,0,0" Height="133">
+                                    <!-- Phần mô tả văn bản -->
+                                    <StackPanel Width="700" Margin="0,0,20,0" Height="171" RenderTransformOrigin="0.5,0.5" >
+                                        <StackPanel.RenderTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform/>
+                                                <SkewTransform AngleX="-1.437"/>
+                                                <RotateTransform/>
+                                                <TranslateTransform X="-2.145"/>
+                                            </TransformGroup>
+                                        </StackPanel.RenderTransform>
+                                        <TextBlock Text="Mô tả Hệ thống Quản lý CSDL và Quản trị hệ thống" FontWeight="Bold" FontSize="16" />
+                                        <TextBlock Text="Hệ thống quản lý được xây dựng để phục vụ công tác quản lý dữ liệu và vận hành trong lĩnh vực hành chính và chăn nuôi. Ứng dụng áp dụng các công nghệ hiện đại như WPF, Entity Framework và kiến trúc MVVM nhằm tối ưu hóa trải nghiệm người dùng và đảm bảo hiệu năng xử lý dữ liệu." 
+                       TextWrapping="Wrap" FontWeight="Bold" FontSize="16" />
+                                    </StackPanel>
+                                    <Image Source="/farm.png" Width="200" Height="126" />
+
+                                    <!-- Phần ảnh -->
+                                </StackPanel>
+                                <TextBlock Text="Cấu trúc hệ thống." Height="26" FontWeight="Bold" FontSize="16" />
+                                <TreeView>
+                                    <!-- Mục chính: Tra cứu dữ liệu -->
+                                    <TreeViewItem Header="Tra cứu dữ liệu">
+                                        <!-- Sub-item: Giống vật nuôi -->
+                                        <TreeViewItem Header="Giống vật nuôi">
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm giống vật nuôi" />
+                                        </TreeViewItem>
+
+                                        <!-- Sub-item: Nguồn gen giống vật nuôi -->
+                                        <TreeViewItem Header="Nguồn gen giống vật nuôi">
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm nguồn gen giống vật nuôi" />
+                                            <!-- Các mục con -->
+                                            <TreeViewItem Header="COW SO" />
+                                            <TreeViewItem Header="CA NHAN" />
+                                            <TreeViewItem Header="THU THAP" />
+                                            <TreeViewItem Header="BAO TON" />
+                                            <TreeViewItem Header="KHAI THAC" />
+                                        </TreeViewItem>
+
+                                        <!-- Sub-item: Thức ăn chăn nuôi -->
+                                        <TreeViewItem Header="Thức ăn chăn nuôi">
+                                            <TreeViewItem Header="Cho phép thêm, xửa, xóa tìm kiếm thức ăn chăn nuôi" />
+                                            <!-- Các mục con -->
+                                            <TreeViewItem Header="CO SO SAN XUAT" />
+                                            <TreeViewItem Header="MUA BAN" />
+                                            <TreeViewItem Header="KHAO NGHIEM" />
+                                        </TreeViewItem>
+                                    </TreeViewItem>
+                                </TreeView>
+
+                            </StackPanel>
+                        </ScrollViewer>
+
                     </TabItem>
                 </TabControl>
             </TabItem>
 
             <!-- Quản lý cơ sở dữ liệu về chăn nuôi ///////////Xóa -->
-           
+
         </TabControl>
     </Grid>
 </Window>

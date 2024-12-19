@@ -532,6 +532,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="farm.png" />
     <Content Include="QuanLyGiong_ThucAnChanNuoi.csproj.user" />
     <Content Include="QuanLyGiong_ThucAnChanNuoi.sln" />
   </ItemGroup>
