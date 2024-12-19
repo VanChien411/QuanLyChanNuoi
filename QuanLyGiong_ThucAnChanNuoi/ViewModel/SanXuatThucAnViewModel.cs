@@ -189,11 +189,11 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                     var rowData = GetCoSoThucAns();
                     //Gan gia tri cho table list
                     CoSoThucAns = new ObservableCollection<CoSoThucAn>(rowData);
-
+                    
                     var coSoThucAns = db.CoSoThucAns.ToList();
                     CoSoThucAnSelect = new ObservableCollection<CoSoThucAn>(coSoThucAns);
 
-                    var thucAnChanNuois = db.ThucAnChanNuois.ToList();
+                    var thucAnChanNuois = db.ThucAnChanNuois.Where(x => x.LoaiThucAn.Equals(_foodType)).ToList();
                     ThucAnChanNuois = new ObservableCollection<ThucAnChanNuoi>(thucAnChanNuois);
 
                     var toChucCaNhan = db.ToChucCaNhans.ToList();
@@ -334,6 +334,7 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
                     var data = GetCoSoThucAns();
                     LoadTableList(data);
 
+
                     RowSelectedItem = null;
                     CoSoThucAnSelectedItem = null;
                     ThucAnChanNuoiselectedItem = null;
@@ -354,9 +355,6 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
         {
             try
             {
-
-             
-
                 using (var db = new QuanLyGiongVaThucAnChanNuoiContext())
                 {
                     if (CoSoThucAnSelectedItem?.Id == null || ThucAnChanNuoiselectedItem?.Id == null || ToChucCaNhanSelectedItem?.Id == null)
@@ -376,12 +374,18 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
 
                             db.SaveChanges();
 
-
                             //Reset list
                             var data = GetCoSoThucAns();
                             LoadTableList(data);
 
-                            RowSelectedItem = CoSoThucAns.FirstOrDefault(x => x.Id == csta.Id);
+                            RowSelectedItem = null;
+                            CoSoThucAnSelectedItem = null;
+                            ThucAnChanNuoiselectedItem = null;
+                            ToChucCaNhanSelectedItem = null;
+
+
+                            NewArea = "";
+
                         }
                     }  else
                     {
@@ -435,6 +439,13 @@ namespace QuanLyGiong_ThucAnChanNuoi.ViewModel
             foreach (var item in data)
             {
                 CoSoThucAns.Add(item);
+            }
+
+
+            CoSoThucAnSelect.Clear();
+            foreach (var item in data)
+            {
+                CoSoThucAnSelect.Add(item);
             }
         }
 
